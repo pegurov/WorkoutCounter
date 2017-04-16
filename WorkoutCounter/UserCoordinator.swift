@@ -1,23 +1,20 @@
 import UIKit
 import CoreData
 
-final class UsersCoordinator: Coordinator {
+final class UserCoordinator: Coordinator {
 
-    var onFlowFinished: ((_ users: [User]) -> Void)?
-    private var selectedUsers = [User]()
+    var onFlowFinished: ((_ userIds: [NSManagedObjectID]) -> Void)?
+    var selectedUserIds = [NSManagedObjectID]()
     
-    private let storyboard: UIStoryboard = .users
+    private let storyboard: UIStoryboard = .user
     private var coreDataStack: CoreDataStack
     private var rootViewController: UIViewController?
     
-    private enum SegueIds: String {
-        case create
-    }
-    
-    init(coreDataStack: CoreDataStack) {
+    init(coreDataStack: CoreDataStack,
+         selectedUserIds: [NSManagedObjectID]) {
         
-        _ = UsersViewController()
         self.coreDataStack = coreDataStack
+        self.selectedUserIds = selectedUserIds
     }
     
     // MARK: - Coordinator -
@@ -48,35 +45,39 @@ final class UsersCoordinator: Coordinator {
         )
         controller.onPrepareForSegue = { [weak self] segue, sender, object in
             
-            if segue.identifier == SegueIds.create.rawValue {
+            if segue.identifier == SegueId.create.rawValue {
                 
                 let navVC = segue.destination as! UINavigationController
-                let userCreateVC = navVC.viewControllers.first as! UserCreateViewController
-                self?.configureCreateUserController(userCreateVC)
+                let createVC = navVC.viewControllers.first as! UserCreateViewController
+                self?.configureCreateController(createVC)
             }
         }
         controller.onInsertNewObject = { [weak self, weak controller] in
             
             controller?.performSegue(
-                withIdentifier: SegueIds.create.rawValue,
+                withIdentifier: SegueId.create.rawValue,
                 sender: self
             )
         }
-        controller.onObjectSelected = { [weak self] user in
-            self?.selectedUsers.append(user)
-        }
-        controller.onObjectDeselected = { [weak self] user in
-            self?.selectedUsers.removeWhere { $0 == user }
+        
+        // Selection / deselection
+        controller.selectedUserIds = selectedUserIds
+        controller.onObjectSelected = { [weak self, weak controller] user in
+            
+            if (self?.selectedUserIds.removeWhere{ $0 == user.objectID } == nil) {
+                self?.selectedUserIds.append(user.objectID)
+            }
+            controller?.selectedUserIds = self?.selectedUserIds ?? []
         }
     }
     
     @objc private func usersViewControllerDoneAction(
         _ sender: UIBarButtonItem) {
         
-        onFlowFinished?(selectedUsers)
+        onFlowFinished?(selectedUserIds)
     }
     
-    private func configureCreateUserController(_ controller: UserCreateViewController) {
+    private func configureCreateController(_ controller: UserCreateViewController) {
         
         controller.onFinish = { [weak self, weak controller] userName in
             

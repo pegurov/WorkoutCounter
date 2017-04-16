@@ -19,11 +19,19 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
     }
     
     var onObjectSelected: ((_ object: T) -> Void)?
-    var onObjectDeselected: ((_ object: T) -> Void)?
+    var selectedObject: T?
     
 // CORE DATA STACK
     var managedObjectContext: NSManagedObjectContext!
     var sortDescriptor: NSSortDescriptor?
+    var predicate: NSPredicate? {
+        didSet {
+            
+            fetchedResultsController.fetchRequest.predicate = predicate
+            try! fetchedResultsController.performFetch()
+            tableView.reloadData()
+        }
+    }
     
     var _fetchedResultsController: NSFetchedResultsController<T>? = nil
     var fetchedResultsController: NSFetchedResultsController<T> {
@@ -31,15 +39,13 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
             return _fetchedResultsController!
         }
         
-        let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
-        
-        // Set the batch size to a suitable number.
-        fetchRequest.fetchBatchSize = 20
+        let fetchRequest: NSFetchRequest<T> = T.fetchRequest().copy() as! NSFetchRequest<T>
         
         // Edit the sort key as appropriate.
         if let sortDescriptor = sortDescriptor {
             fetchRequest.sortDescriptors = [sortDescriptor]
         }
+        fetchRequest.predicate = predicate
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
@@ -47,7 +53,7 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
             fetchRequest: fetchRequest,
             managedObjectContext: self.managedObjectContext,
             sectionNameKeyPath: nil,
-            cacheName: "Master"
+            cacheName: nil
         )
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
@@ -67,14 +73,7 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
     var onPrepareForSegue: ((_ segue: UIStoryboardSegue, _ sender: Any?, _ object: T?) -> Void)?
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == SegueIds.embedTable.rawValue {
-            
-            let tableController = segue.destination as! UITableViewController
-            tableView = tableController.tableView
-        } else {
-            onPrepareForSegue?(segue, sender, nil)
-        }
+        onPrepareForSegue?(segue, sender, selectedObject)
     }
 
 // UIViewController
@@ -83,6 +82,7 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
 
 //        navigationItem.leftBarButtonItem = editButtonItem
 
+        // TODO: SET THIS FROM COORDINATOR
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
         navigationItem.rightBarButtonItem = addButton
     }
@@ -135,7 +135,7 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
         if editingStyle == .delete {
             let context = fetchedResultsController.managedObjectContext
             context.delete(fetchedResultsController.object(at: indexPath))
-                
+            
             do {
                 try context.save()
             } catch {
@@ -151,14 +151,9 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath) {
         
-        onObjectSelected?(fetchedResultsController.object(at: indexPath))
-    }
-    
-    override func tableView(
-        _ tableView: UITableView,
-        didDeselectRowAt indexPath: IndexPath) {
-        
-        onObjectDeselected?(fetchedResultsController.object(at: indexPath))
+        selectedObject = fetchedResultsController.object(at: indexPath)
+        onObjectSelected?(selectedObject!)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 // MARK: - Fetched results controller
@@ -178,7 +173,13 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
         }
     }
 
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+        didChange anObject: Any,
+        at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath?) {
+        
         switch type {
             case .insert:
                 tableView.insertRows(at: [newIndexPath!], with: .fade)

@@ -2,20 +2,18 @@ import UIKit
 
 extension UIStoryboard {
     
-    static var users: UIStoryboard {
-        return UIStoryboard(name: "Users", bundle: Bundle.main)
-    }
+    static let user = UIStoryboard(name: "User", bundle: Bundle.main)
+    static let workout = UIStoryboard(name: "Workout", bundle: Bundle.main)
 }
 
 extension Array {
     
     @discardableResult
-    mutating func removeWhere(_ condition:((Element) -> Bool)) -> Bool {
+    mutating func removeWhere(_ condition:((Element) -> Bool)) -> Element? {
         
         if let index = index(where: condition) {
-            remove(at: index)
-            return true
+            return remove(at: index)
         }
-        return false
+        return nil
     }
 }

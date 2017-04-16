@@ -10,9 +10,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        startGenericControllers()
+        
         coreDataStack = CoreDataStackImp()
         
-        startingCoordinator = UsersCoordinator(coreDataStack: coreDataStack)
+        startingCoordinator = WorkoutCoordinator(coreDataStack: coreDataStack)
         window = UIWindow()
         window?.rootViewController = startingCoordinator?.start()
         window?.makeKeyAndVisible()
@@ -21,5 +23,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         coreDataStack.saveContext()
+    }
+    
+    private func startGenericControllers() {
+        
+        // this is needed so that these controller can 
+        // be used via storyboard
+        _ = UsersViewController()
+        _ = WorkoutsViewController()
     }
 }
