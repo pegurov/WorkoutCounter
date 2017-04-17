@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */; };
+		C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBF1EA40D8400751707 /* SessionCell.swift */; };
 		C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373D1EA219B40047C95F /* UserCoordinator.swift */; };
 		C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */; };
 		C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37411EA250E30047C95F /* UserCreateViewController.swift */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
+		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
 		C47D373D1EA219B40047C95F /* UserCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
 		C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackImp.swift; sourceTree = "<group>"; };
 		C47D37411EA250E30047C95F /* UserCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCreateViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				C47D375A1EA2A6A80047C95F /* WorkoutsViewController.swift */,
 				C47D375E1EA2A7AD0047C95F /* WorkoutCreateViewController.swift */,
 				C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */,
+				C44EDBBF1EA40D8400751707 /* SessionCell.swift */,
 			);
 			name = Workouts;
 			path = ..;
@@ -240,6 +243,7 @@
 				C47D375D1EA2A6C20047C95F /* WorkoutCell.swift in Sources */,
 				C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */,
 				C47D375B1EA2A6A80047C95F /* WorkoutsViewController.swift in Sources */,
+				C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */,
 				D5566DA21E9BB34E00503C91 /* WorkoutCounter.xcdatamodeld in Sources */,
 				D5566D9F1E9BB34E00503C91 /* AppDelegate.swift in Sources */,
 				C47D375F1EA2A7AD0047C95F /* WorkoutCreateViewController.swift in Sources */,
@@ -378,10 +382,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 5HMWD4A8B3;
 				INFOPLIST_FILE = WorkoutCounter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = pegurov.WorkoutCounter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -391,10 +397,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 5HMWD4A8B3;
 				INFOPLIST_FILE = WorkoutCounter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = pegurov.WorkoutCounter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

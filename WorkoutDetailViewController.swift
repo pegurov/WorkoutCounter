@@ -1,35 +1,5 @@
 import UIKit
 
-final class SessionCell: UITableViewCell, ConfigurableCell {
-    
-    typealias T = Session
-    static let identifier: String = "SessionCell"
-    
-    func configure(with object: Session) {
-        textLabel?.text = object.user!.name ?? "" +
-                          "\(object.active ? "" : " - закончил")"
-        detailTextLabel?.text = object.setsDescription
-    }
-}
-
-private extension Session {
-    
-    var setsDescription: String {
-        guard let sets = sets?.array as? [Set],
-            !sets.isEmpty else { return "Пока нет подходов" }
-        
-        var description = ""
-        var totalCount: Int16 = 0
-        sets.enumerated().forEach { index, set in
-            
-            description += (index == 0 ? "" : "+") + "\(set.count)"
-            totalCount += set.count
-        }
-        description += "=\(totalCount)"
-        return description
-    }
-}
-
 final class WorkoutDetailViewController:
     UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -57,8 +27,45 @@ final class WorkoutDetailViewController:
     
     // User actions
     @IBAction func addSetToCurrentSessionTap(_ sender: UIButton) {
-        guard let _ = currentSession else { return }
+        guard let currentSession = currentSession,
+            currentSession.active else { return }
         
+        let alertController = UIAlertController(
+            title: "Повторений", message: nil, preferredStyle: .alert
+        )
+        
+        let saveAction = UIAlertAction(
+            title: "Сохранить", style: .default, handler: { [weak self] alert -> Void in
+            
+            let textField = alertController.textFields![0] as UITextField
+            if let text = textField.text, !text.isEmpty {
+                self?.addSetToCurrentSessionFromString(text)
+            }
+        })
+        
+        let cancelAction = UIAlertAction(
+            title: "Отмена", style: .cancel, handler: { action -> Void in
+        })
+        
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Повторений"
+            textField.keyboardType = .numberPad
+        }
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func addSetToCurrentSessionFromString(_ string: String) {
+        
+        let newSet = Set(context: coreDataStack.managedObjectContext)
+        newSet.count = Int16(string) ?? 0
+        currentSession?.addToSets(newSet)
+        coreDataStack.saveContext()
+        tableView.reloadData()
+        
+        advanceToNextSession()
     }
     
     @IBAction func skipCurrentSessionTap(_ sender: UIButton) {
@@ -81,7 +88,6 @@ final class WorkoutDetailViewController:
         
         let currentAndAfter = sessions.suffix(from: indexOfCurrent)
         let beforeCurrent = sessions.prefix(upTo: indexOfCurrent)
-        self.currentSession = nil
         let newOrder = currentAndAfter + beforeCurrent
         for session in newOrder.dropFirst() {
             if session.active {
@@ -124,5 +130,48 @@ final class WorkoutDetailViewController:
         } else {
             cell.contentView.backgroundColor = .white
         }
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath) {
+        
+        let session = sessions[indexPath.row]
+        if session.active && session == currentSession { return }
+        
+        let alertController = UIAlertController(
+            title: "Действия", message: nil, preferredStyle: .actionSheet
+        )
+        if !session.active {
+            let action = UIAlertAction(
+                title: "Активировать",
+                style: .default,
+                handler: { [weak self] alert -> Void in
+                    
+                    session.active = true
+                    self?.coreDataStack.saveContext()
+                    self?.tableView.reloadData()
+            })
+            alertController.addAction(action)
+        }
+        if session != currentSession {
+            let action = UIAlertAction(
+                title: "Сделать текущим",
+                style: .default,
+                handler: { [weak self] alert -> Void in
+                    
+                    session.active = true
+                    self?.currentSession = session
+                    self?.coreDataStack.saveContext()
+                    self?.tableView.reloadData()
+            })
+            alertController.addAction(action)
+        }
+        let cancelAction = UIAlertAction(
+            title: "Отмена", style: .cancel, handler: { action -> Void in
+        })
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }

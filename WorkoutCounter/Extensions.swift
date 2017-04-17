@@ -17,3 +17,21 @@ extension Array {
         return nil
     }
 }
+
+extension Session {
+    
+    var setsDescription: String {
+        guard let sets = sets?.array as? [Set],
+            !sets.isEmpty else { return "Пока нет подходов" }
+        
+        var description = ""
+        var totalCount: Int16 = 0
+        sets.enumerated().forEach { index, set in
+            
+            description += (index == 0 ? "" : "+") + "\(set.count)"
+            totalCount += set.count
+        }
+        description += "=\(totalCount)"
+        return description
+    }
+}
