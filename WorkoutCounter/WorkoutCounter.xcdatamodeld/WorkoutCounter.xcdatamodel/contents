@@ -8,6 +8,7 @@
     </entity>
     <entity name="Set" representedClassName="Set" syncable="YES" codeGenerationType="class">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Session" inverseName="sets" inverseEntity="Session" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
@@ -24,7 +25,7 @@
         <userInfo/>
     </entity>
     <elements>
-        <element name="Set" positionX="270" positionY="207" width="128" height="75"/>
+        <element name="Set" positionX="270" positionY="207" width="128" height="90"/>
         <element name="User" positionX="261" positionY="198" width="128" height="75"/>
         <element name="Workout" positionX="261" positionY="189" width="128" height="105"/>
         <element name="Session" positionX="270" positionY="225" width="128" height="105"/>

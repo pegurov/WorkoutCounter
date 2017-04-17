@@ -61,6 +61,7 @@ final class WorkoutDetailViewController:
         
         let newSet = Set(context: coreDataStack.managedObjectContext)
         newSet.count = Int16(string) ?? 0
+        newSet.time = NSDate()
         currentSession?.addToSets(newSet)
         coreDataStack.saveContext()
         tableView.reloadData()
