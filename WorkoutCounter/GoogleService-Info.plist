@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>40458851860-tk4n9jpsjevacjmkachav0nutd79jok0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.40458851860-tk4n9jpsjevacjmkachav0nutd79jok0</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA92e4V8OBEuOnT1FcKCUxW0M-8JYt8-jY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>40458851860</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>pegurov.WorkoutCounter</string>
+	<key>PROJECT_ID</key>
+	<string>workoutcounter-1e219</string>
+	<key>STORAGE_BUCKET</key>
+	<string>workoutcounter-1e219.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:40458851860:ios:10c2cef5e270791e</string>
+	<key>DATABASE_URL</key>
+	<string>https://workoutcounter-1e219.firebaseio.com</string>
+</dict>
+</plist>
