@@ -11,6 +11,7 @@
 		C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */; };
 		C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBF1EA40D8400751707 /* SessionCell.swift */; };
 		C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */; };
+		C44EDBC61EA6A97B00751707 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */; };
 		C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373D1EA219B40047C95F /* UserCoordinator.swift */; };
 		C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */; };
 		C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37411EA250E30047C95F /* UserCreateViewController.swift */; };
@@ -40,6 +41,8 @@
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
 		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
 		C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C44EDBC31EA68A2300751707 /* WorkoutCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCounter.entitlements; sourceTree = "<group>"; };
+		C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		C47D373D1EA219B40047C95F /* UserCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
 		C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackImp.swift; sourceTree = "<group>"; };
 		C47D37411EA250E30047C95F /* UserCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCreateViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +86,14 @@
 				889342C72B06F02F20ED1AB3 /* Pods-WorkoutCounter.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C44EDBC41EA6A94D00751707 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */,
+			);
+			name = Firebase;
 			sourceTree = "<group>";
 		};
 		C47D37431EA27A7B0047C95F /* Users */ = {
@@ -180,8 +191,10 @@
 		D5566D9D1E9BB34E00503C91 /* WorkoutCounter */ = {
 			isa = PBXGroup;
 			children = (
+				C44EDBC31EA68A2300751707 /* WorkoutCounter.entitlements */,
 				C47D37621EA336C80047C95F /* Cells */,
 				C47D374F1EA2A0640047C95F /* CoreData */,
+				C44EDBC41EA6A94D00751707 /* Firebase */,
 				C47D37461EA29F420047C95F /* Common */,
 				C47D37511EA2A5360047C95F /* Workouts */,
 				C47D37431EA27A7B0047C95F /* Users */,
@@ -228,6 +241,11 @@
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = 5HMWD4A8B3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -330,6 +348,7 @@
 				C47D374E1EA2A04D0047C95F /* CoreDataStack.swift in Sources */,
 				C47D37551EA2A5F40047C95F /* WorkoutCoordinator.swift in Sources */,
 				C47D374C1EA29FF40047C95F /* Extensions.swift in Sources */,
+				C44EDBC61EA6A97B00751707 /* FirebaseManager.swift in Sources */,
 				C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */,
 				C47D374A1EA29FB30047C95F /* UserCell.swift in Sources */,
 				D5566DA41E9BB34E00503C91 /* CoreDataListViewController.swift in Sources */,
@@ -460,6 +479,7 @@
 			baseConfigurationReference = 65E5B487E943284966FC1CAE /* Pods-WorkoutCounter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WorkoutCounter/WorkoutCounter.entitlements;
 				DEVELOPMENT_TEAM = 5HMWD4A8B3;
 				INFOPLIST_FILE = WorkoutCounter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -476,6 +496,7 @@
 			baseConfigurationReference = 889342C72B06F02F20ED1AB3 /* Pods-WorkoutCounter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WorkoutCounter/WorkoutCounter.entitlements;
 				DEVELOPMENT_TEAM = 5HMWD4A8B3;
 				INFOPLIST_FILE = WorkoutCounter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

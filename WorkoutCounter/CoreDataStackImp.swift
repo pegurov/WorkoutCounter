@@ -48,6 +48,16 @@ class CoreDataStackImp: CoreDataStack {
             }
         }
     }
+    
+    func fetchAll<T: NSFetchRequestResult>(entityName: String) -> [T]? {
+        
+        let fetchRequest = NSFetchRequest<T>(entityName: entityName)
+        let _result = try? managedObjectContext.execute(fetchRequest)
+        if let result = _result as? NSAsynchronousFetchResult<T> {
+            return result.finalResult
+        }
+        return nil
+    }
 }
 
 

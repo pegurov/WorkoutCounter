@@ -7,5 +7,7 @@ target 'WorkoutCounter' do
 
   # Pods for WorkoutCounter
   pod 'Firebase/Core'
+  pod 'Firebase/Database'
+  pod 'FirebaseUI'
   
 end
