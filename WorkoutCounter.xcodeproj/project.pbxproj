@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15B86A176683AADAD0D8E3D3 /* Pods_WorkoutCounter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A0C79D0F6366630A3EF4964 /* Pods_WorkoutCounter.framework */; };
 		C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */; };
 		C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBF1EA40D8400751707 /* SessionCell.swift */; };
+		C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */; };
+		C44EDBC61EA6A97B00751707 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */; };
 		C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373D1EA219B40047C95F /* UserCoordinator.swift */; };
 		C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */; };
 		C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37411EA250E30047C95F /* UserCreateViewController.swift */; };
@@ -33,8 +36,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A0C79D0F6366630A3EF4964 /* Pods_WorkoutCounter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WorkoutCounter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		65E5B487E943284966FC1CAE /* Pods-WorkoutCounter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorkoutCounter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WorkoutCounter/Pods-WorkoutCounter.debug.xcconfig"; sourceTree = "<group>"; };
+		889342C72B06F02F20ED1AB3 /* Pods-WorkoutCounter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorkoutCounter.release.xcconfig"; path = "Pods/Target Support Files/Pods-WorkoutCounter/Pods-WorkoutCounter.release.xcconfig"; sourceTree = "<group>"; };
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
 		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
+		C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C44EDBC31EA68A2300751707 /* WorkoutCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCounter.entitlements; sourceTree = "<group>"; };
+		C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		C47D373D1EA219B40047C95F /* UserCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
 		C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackImp.swift; sourceTree = "<group>"; };
 		C47D37411EA250E30047C95F /* UserCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCreateViewController.swift; sourceTree = "<group>"; };
@@ -65,12 +74,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15B86A176683AADAD0D8E3D3 /* Pods_WorkoutCounter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A335B14F6C53DCD1AD6BEC62 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				65E5B487E943284966FC1CAE /* Pods-WorkoutCounter.debug.xcconfig */,
+				889342C72B06F02F20ED1AB3 /* Pods-WorkoutCounter.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C44EDBC41EA6A94D00751707 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */,
+			);
+			name = Firebase;
+			sourceTree = "<group>";
+		};
 		C47D37431EA27A7B0047C95F /* Users */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +132,7 @@
 		C47D37501EA2A4DB0047C95F /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */,
 				D5566DAA1E9BB34E00503C91 /* Assets.xcassets */,
 				D5566DAC1E9BB34E00503C91 /* LaunchScreen.storyboard */,
 				D5566DAF1E9BB34E00503C91 /* Info.plist */,
@@ -137,11 +165,21 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		CDEDF467CC6F01B1D761F91C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3A0C79D0F6366630A3EF4964 /* Pods_WorkoutCounter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D5566D921E9BB34E00503C91 = {
 			isa = PBXGroup;
 			children = (
 				D5566D9D1E9BB34E00503C91 /* WorkoutCounter */,
 				D5566D9C1E9BB34E00503C91 /* Products */,
+				A335B14F6C53DCD1AD6BEC62 /* Pods */,
+				CDEDF467CC6F01B1D761F91C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,8 +194,10 @@
 		D5566D9D1E9BB34E00503C91 /* WorkoutCounter */ = {
 			isa = PBXGroup;
 			children = (
+				C44EDBC31EA68A2300751707 /* WorkoutCounter.entitlements */,
 				C47D37621EA336C80047C95F /* Cells */,
 				C47D374F1EA2A0640047C95F /* CoreData */,
+				C44EDBC41EA6A94D00751707 /* Firebase */,
 				C47D37461EA29F420047C95F /* Common */,
 				C47D37511EA2A5360047C95F /* Workouts */,
 				C47D37431EA27A7B0047C95F /* Users */,
@@ -174,9 +214,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D5566DB21E9BB34E00503C91 /* Build configuration list for PBXNativeTarget "WorkoutCounter" */;
 			buildPhases = (
+				880C4491D8340B759377AC15 /* [CP] Check Pods Manifest.lock */,
 				D5566D971E9BB34E00503C91 /* Sources */,
 				D5566D981E9BB34E00503C91 /* Frameworks */,
 				D5566D991E9BB34E00503C91 /* Resources */,
+				B062B7225F3A5A3764ED0081 /* [CP] Embed Pods Frameworks */,
+				50FA825B92559AA6BA91E3F6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -201,6 +244,11 @@
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = 5HMWD4A8B3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -232,10 +280,59 @@
 				D5566DAB1E9BB34E00503C91 /* Assets.xcassets in Resources */,
 				D5566DA91E9BB34E00503C91 /* User.storyboard in Resources */,
 				C47D37611EA3366B0047C95F /* UserCell.xib in Resources */,
+				C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		50FA825B92559AA6BA91E3F6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WorkoutCounter/Pods-WorkoutCounter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		880C4491D8340B759377AC15 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B062B7225F3A5A3764ED0081 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WorkoutCounter/Pods-WorkoutCounter-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D5566D971E9BB34E00503C91 /* Sources */ = {
@@ -254,6 +351,7 @@
 				C47D374E1EA2A04D0047C95F /* CoreDataStack.swift in Sources */,
 				C47D37551EA2A5F40047C95F /* WorkoutCoordinator.swift in Sources */,
 				C47D374C1EA29FF40047C95F /* Extensions.swift in Sources */,
+				C44EDBC61EA6A97B00751707 /* FirebaseManager.swift in Sources */,
 				C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */,
 				D5079C391EA616800097FD2C /* WorkoutResultViewController.swift in Sources */,
 				C47D374A1EA29FB30047C95F /* UserCell.swift in Sources */,
@@ -382,8 +480,10 @@
 		};
 		D5566DB31E9BB34E00503C91 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65E5B487E943284966FC1CAE /* Pods-WorkoutCounter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WorkoutCounter/WorkoutCounter.entitlements;
 				DEVELOPMENT_TEAM = 5HMWD4A8B3;
 				INFOPLIST_FILE = WorkoutCounter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -397,8 +497,10 @@
 		};
 		D5566DB41E9BB34E00503C91 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 889342C72B06F02F20ED1AB3 /* Pods-WorkoutCounter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WorkoutCounter/WorkoutCounter.entitlements;
 				DEVELOPMENT_TEAM = 5HMWD4A8B3;
 				INFOPLIST_FILE = WorkoutCounter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
