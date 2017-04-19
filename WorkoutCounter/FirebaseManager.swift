@@ -18,20 +18,35 @@ final class FirebaseManager {
             entityName: "User",
             keys: ["name"]
         )
-        
         synchronizeKeysFor(
             entityName: "Workout",
             keys: ["date", "title"]
         )
-        
         synchronizeKeysFor(
             entityName: "Session",
             keys: ["active"]
         )
-        
         synchronizeKeysFor(
             entityName: "Set",
             keys: ["count", "time"]
+        )
+        
+        
+        synchronizeRelationships(
+            entityName: "User",
+            relationships: ["sessions"]
+        )
+        synchronizeRelationships(
+            entityName: "Session",
+            relationships: ["sets", "user", "workout"]
+        )
+        synchronizeRelationships(
+            entityName: "Set",
+            relationships: ["session"]
+        )
+        synchronizeRelationships(
+            entityName: "Workout",
+            relationships: ["sessions", "users"]
         )
     }
     
@@ -53,7 +68,7 @@ final class FirebaseManager {
                 }
                 // sync keys
                 keys.forEach { key in
-                    fbEntity.setValue([key: object.transformedValue(forKey: key)])
+                    fbEntity.child(key).setValue(object.transformedValue(forKey: key))
                 }
             } else {
                 assert(false, "Object has no remote id!")
@@ -80,9 +95,14 @@ final class FirebaseManager {
                 }
                 // sync relationships
                 relationships.forEach { relationship in
-                    
-                    if let set = object.value(forKey: relationship) as? NSSet {
+                
+                    if let relationshipManagedObject = object.value(forKey: relationship) as? NSManagedObject,
+                        let remoteId = relationshipManagedObject.value(forKey: "remoteId") as? String {
                         
+                        fbEntity.child(relationship).setValue(remoteId)
+                    } else {
+                        
+                        let set = object.mutableOrderedSetValue(forKey: relationship)
                         var relationshipIds: [String] = []
                         set.forEach {
                             if let relationshipObject = $0 as? NSManagedObject,
@@ -93,13 +113,7 @@ final class FirebaseManager {
                                 assert(false, "Relationship in set has no remoteId")
                             }
                         }
-                        fbEntity.setValue([relationship: relationshipIds])
-                    } else if let relationshipObject = object.value(forKey: relationship) as? NSManagedObject,
-                        let remoteId = relationshipObject.value(forKey: "remoteId") as? String {
-                        
-                        fbEntity.setValue([relationship: remoteId])
-                    } else{
-                        assert(false, "Relationship is not a set and has no remoteId")
+                        fbEntity.child(relationship).setValue(relationshipIds)
                     }
                 }
             } else {
