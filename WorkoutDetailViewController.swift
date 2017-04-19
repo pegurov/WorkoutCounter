@@ -175,4 +175,11 @@ final class WorkoutDetailViewController:
         
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    // MARK: - NAVIGATION
+    var onPrepareForSegue: ((_ segue: UIStoryboardSegue, _ sender: Any?, _ object: Workout) -> Void)?
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        onPrepareForSegue?(segue, sender, workout)
+    }
 }

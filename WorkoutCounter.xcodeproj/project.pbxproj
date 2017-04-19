@@ -23,6 +23,7 @@
 		C47D375D1EA2A6C20047C95F /* WorkoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D375C1EA2A6C20047C95F /* WorkoutCell.swift */; };
 		C47D375F1EA2A7AD0047C95F /* WorkoutCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D375E1EA2A7AD0047C95F /* WorkoutCreateViewController.swift */; };
 		C47D37611EA3366B0047C95F /* UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C47D37601EA3366B0047C95F /* UserCell.xib */; };
+		D5079C391EA616800097FD2C /* WorkoutResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5079C381EA616800097FD2C /* WorkoutResultViewController.swift */; };
 		D5566D9F1E9BB34E00503C91 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5566D9E1E9BB34E00503C91 /* AppDelegate.swift */; };
 		D5566DA21E9BB34E00503C91 /* WorkoutCounter.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D5566DA01E9BB34E00503C91 /* WorkoutCounter.xcdatamodeld */; };
 		D5566DA41E9BB34E00503C91 /* CoreDataListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5566DA31E9BB34E00503C91 /* CoreDataListViewController.swift */; };
@@ -48,6 +49,7 @@
 		C47D375C1EA2A6C20047C95F /* WorkoutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutCell.swift; sourceTree = "<group>"; };
 		C47D375E1EA2A7AD0047C95F /* WorkoutCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutCreateViewController.swift; sourceTree = "<group>"; };
 		C47D37601EA3366B0047C95F /* UserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCell.xib; sourceTree = "<group>"; };
+		D5079C381EA616800097FD2C /* WorkoutResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutResultViewController.swift; sourceTree = "<group>"; };
 		D5566D9B1E9BB34E00503C91 /* WorkoutCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5566D9E1E9BB34E00503C91 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D5566DA11E9BB34E00503C91 /* WorkoutCounter.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WorkoutCounter.xcdatamodel; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				C47D375E1EA2A7AD0047C95F /* WorkoutCreateViewController.swift */,
 				C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */,
 				C44EDBBF1EA40D8400751707 /* SessionCell.swift */,
+				D5079C381EA616800097FD2C /* WorkoutResultViewController.swift */,
 			);
 			name = Workouts;
 			path = ..;
@@ -252,6 +255,7 @@
 				C47D37551EA2A5F40047C95F /* WorkoutCoordinator.swift in Sources */,
 				C47D374C1EA29FF40047C95F /* Extensions.swift in Sources */,
 				C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */,
+				D5079C391EA616800097FD2C /* WorkoutResultViewController.swift in Sources */,
 				C47D374A1EA29FB30047C95F /* UserCell.swift in Sources */,
 				D5566DA41E9BB34E00503C91 /* CoreDataListViewController.swift in Sources */,
 				C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */,

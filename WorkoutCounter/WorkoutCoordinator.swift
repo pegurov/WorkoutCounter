@@ -141,6 +141,14 @@ final class WorkoutCoordinator: Coordinator {
         
         controller.workout = object
         controller.coreDataStack = coreDataStack
+        controller.onPrepareForSegue = { segue, sender, object in
+            
+            if segue.identifier == SegueId.result.rawValue {
+                
+                let destination = segue.destination as! WorkoutResultViewController
+                destination.workout = object
+            }
+        }
     }
     
     // MARK: - Starting users add scenario

@@ -161,7 +161,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="HZA-JA-AAn">
-                        <barButtonItem key="rightBarButtonItem" title="Результат" id="aYw-fk-JcP"/>
+                        <barButtonItem key="rightBarButtonItem" title="Результат" id="aYw-fk-JcP">
+                            <connections>
+                                <segue destination="iR8-P8-8Rl" kind="show" identifier="result" id="xNI-RV-dRx"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="labelTitle" destination="sjp-Nd-tWn" id="nHO-xu-Q8U"/>
@@ -173,7 +177,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NJm-un-4Ei" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1372" y="-200.14992503748127"/>
+            <point key="canvasLocation" x="1308" y="-200"/>
+        </scene>
+        <!--Результат-->
+        <scene sceneID="u0a-JW-Ogw">
+            <objects>
+                <viewController title="Результат" id="iR8-P8-8Rl" customClass="WorkoutResultViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OG4-pj-FHE"/>
+                        <viewControllerLayoutGuide type="bottom" id="dfP-oM-N81"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gro-yO-csN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cak-LN-AjA">
+                                <rect key="frame" x="16" y="64" width="343" height="583"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dfP-oM-N81" firstAttribute="top" secondItem="cak-LN-AjA" secondAttribute="bottom" constant="20" id="0XL-fF-lqC"/>
+                            <constraint firstItem="cak-LN-AjA" firstAttribute="leading" secondItem="gro-yO-csN" secondAttribute="leading" constant="16" id="Pfi-m0-aq1"/>
+                            <constraint firstAttribute="trailing" secondItem="cak-LN-AjA" secondAttribute="trailing" constant="16" id="bmm-2w-VxG"/>
+                            <constraint firstItem="cak-LN-AjA" firstAttribute="top" secondItem="OG4-pj-FHE" secondAttribute="bottom" id="y3g-hL-y5b"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textField" destination="cak-LN-AjA" id="hTy-lG-sw7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3f4-VQ-hxJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2033" y="-200"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="26s-NS-3QO">
