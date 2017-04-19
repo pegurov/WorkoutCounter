@@ -4,6 +4,9 @@ extension UIStoryboard {
     
     static let user = UIStoryboard(name: "User", bundle: Bundle.main)
     static let workout = UIStoryboard(name: "Workout", bundle: Bundle.main)
+    static let tabbar = UIStoryboard(name: "Tabbar", bundle: Bundle.main)
+    static let profile = UIStoryboard(name: "Profile", bundle: Bundle.main)
+    static let auth = UIStoryboard(name: "Auth", bundle: Bundle.main)
 }
 
 extension Array {

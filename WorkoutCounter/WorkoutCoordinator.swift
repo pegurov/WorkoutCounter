@@ -4,7 +4,7 @@ final class WorkoutCoordinator: Coordinator {
     
     private let storyboard: UIStoryboard = .workout
     private var coreDataStack: CoreDataStack
-    private var rootViewController: UIViewController?
+    private var rootViewController: UIViewController!
     
     private weak var listController: WorkoutsViewController?
     private weak var createController: WorkoutCreateViewController?

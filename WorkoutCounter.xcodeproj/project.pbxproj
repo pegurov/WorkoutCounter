@@ -12,6 +12,14 @@
 		C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBF1EA40D8400751707 /* SessionCell.swift */; };
 		C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */; };
 		C44EDBC61EA6A97B00751707 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */; };
+		C44EDBCC1EA7DB4400751707 /* Tabbar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBCB1EA7DB4400751707 /* Tabbar.storyboard */; };
+		C44EDBCE1EA7DCC900751707 /* TabbarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBCD1EA7DCC900751707 /* TabbarCoordinator.swift */; };
+		C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBD01EA7DDA200751707 /* Profile.storyboard */; };
+		C44EDBD31EA7DDC000751707 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBD21EA7DDC000751707 /* ProfileCoordinator.swift */; };
+		C44EDBD51EA7DE3100751707 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBD41EA7DE3100751707 /* ProfileViewController.swift */; };
+		C44EDBDB1EA7DF8800751707 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBDA1EA7DF8800751707 /* ApplicationCoordinator.swift */; };
+		C44EDBDD1EA7E07600751707 /* AuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBDC1EA7E07600751707 /* AuthProvider.swift */; };
+		C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBDE1EA7E12200751707 /* AuthCoordinator.swift */; };
 		C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373D1EA219B40047C95F /* UserCoordinator.swift */; };
 		C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */; };
 		C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37411EA250E30047C95F /* UserCreateViewController.swift */; };
@@ -44,6 +52,14 @@
 		C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C44EDBC31EA68A2300751707 /* WorkoutCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCounter.entitlements; sourceTree = "<group>"; };
 		C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		C44EDBCB1EA7DB4400751707 /* Tabbar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Tabbar.storyboard; sourceTree = "<group>"; };
+		C44EDBCD1EA7DCC900751707 /* TabbarCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarCoordinator.swift; sourceTree = "<group>"; };
+		C44EDBD01EA7DDA200751707 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		C44EDBD21EA7DDC000751707 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
+		C44EDBD41EA7DE3100751707 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C44EDBDA1EA7DF8800751707 /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
+		C44EDBDC1EA7E07600751707 /* AuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthProvider.swift; sourceTree = "<group>"; };
+		C44EDBDE1EA7E12200751707 /* AuthCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		C47D373D1EA219B40047C95F /* UserCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
 		C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackImp.swift; sourceTree = "<group>"; };
 		C47D37411EA250E30047C95F /* UserCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCreateViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +114,42 @@
 			name = Firebase;
 			sourceTree = "<group>";
 		};
+		C44EDBCA1EA7DB2500751707 /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				C44EDBCB1EA7DB4400751707 /* Tabbar.storyboard */,
+				C44EDBCD1EA7DCC900751707 /* TabbarCoordinator.swift */,
+			);
+			name = Tabbar;
+			sourceTree = "<group>";
+		};
+		C44EDBCF1EA7DD7C00751707 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C44EDBD01EA7DDA200751707 /* Profile.storyboard */,
+				C44EDBD21EA7DDC000751707 /* ProfileCoordinator.swift */,
+				C44EDBD41EA7DE3100751707 /* ProfileViewController.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		C44EDBD81EA7DF5D00751707 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				C44EDBDE1EA7E12200751707 /* AuthCoordinator.swift */,
+			);
+			name = Auth;
+			sourceTree = "<group>";
+		};
+		C44EDBD91EA7DF6E00751707 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C44EDBDA1EA7DF8800751707 /* ApplicationCoordinator.swift */,
+			);
+			name = Application;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		C47D37431EA27A7B0047C95F /* Users */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +166,7 @@
 			children = (
 				C47D37471EA29F5F0047C95F /* Coordinator.swift */,
 				C47D374B1EA29FF40047C95F /* Extensions.swift */,
+				C44EDBDC1EA7E07600751707 /* AuthProvider.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -199,6 +252,10 @@
 				C47D374F1EA2A0640047C95F /* CoreData */,
 				C44EDBC41EA6A94D00751707 /* Firebase */,
 				C47D37461EA29F420047C95F /* Common */,
+				C44EDBD91EA7DF6E00751707 /* Application */,
+				C44EDBD81EA7DF5D00751707 /* Auth */,
+				C44EDBCA1EA7DB2500751707 /* Tabbar */,
+				C44EDBCF1EA7DD7C00751707 /* Profile */,
 				C47D37511EA2A5360047C95F /* Workouts */,
 				C47D37431EA27A7B0047C95F /* Users */,
 				C47D37501EA2A4DB0047C95F /* Supporting files */,
@@ -277,9 +334,11 @@
 			files = (
 				C47D37571EA2A60A0047C95F /* Workout.storyboard in Resources */,
 				D5566DAE1E9BB34E00503C91 /* LaunchScreen.storyboard in Resources */,
+				C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */,
 				D5566DAB1E9BB34E00503C91 /* Assets.xcassets in Resources */,
 				D5566DA91E9BB34E00503C91 /* User.storyboard in Resources */,
 				C47D37611EA3366B0047C95F /* UserCell.xib in Resources */,
+				C44EDBCC1EA7DB4400751707 /* Tabbar.storyboard in Resources */,
 				C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,23 +399,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				C47D37481EA29F5F0047C95F /* Coordinator.swift in Sources */,
+				C44EDBD31EA7DDC000751707 /* ProfileCoordinator.swift in Sources */,
 				C47D375D1EA2A6C20047C95F /* WorkoutCell.swift in Sources */,
 				C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */,
 				C47D375B1EA2A6A80047C95F /* WorkoutsViewController.swift in Sources */,
+				C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */,
 				C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */,
+				C44EDBD51EA7DE3100751707 /* ProfileViewController.swift in Sources */,
 				D5566DA21E9BB34E00503C91 /* WorkoutCounter.xcdatamodeld in Sources */,
 				D5566D9F1E9BB34E00503C91 /* AppDelegate.swift in Sources */,
 				C47D375F1EA2A7AD0047C95F /* WorkoutCreateViewController.swift in Sources */,
 				C47D37451EA288AF0047C95F /* UsersViewController.swift in Sources */,
 				C47D374E1EA2A04D0047C95F /* CoreDataStack.swift in Sources */,
+				C44EDBDB1EA7DF8800751707 /* ApplicationCoordinator.swift in Sources */,
 				C47D37551EA2A5F40047C95F /* WorkoutCoordinator.swift in Sources */,
 				C47D374C1EA29FF40047C95F /* Extensions.swift in Sources */,
 				C44EDBC61EA6A97B00751707 /* FirebaseManager.swift in Sources */,
 				C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */,
 				D5079C391EA616800097FD2C /* WorkoutResultViewController.swift in Sources */,
+				C44EDBDD1EA7E07600751707 /* AuthProvider.swift in Sources */,
 				C47D374A1EA29FB30047C95F /* UserCell.swift in Sources */,
 				D5566DA41E9BB34E00503C91 /* CoreDataListViewController.swift in Sources */,
 				C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */,
+				C44EDBCE1EA7DCC900751707 /* TabbarCoordinator.swift in Sources */,
 				C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

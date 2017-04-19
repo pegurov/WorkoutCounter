@@ -1,34 +1,30 @@
 import UIKit
 import CoreData
 import Firebase
-import FirebaseAuthUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var startingCoordinator: Coordinator!
+    var appCoordinator: ApplicationCoordinator!
     var coreDataStack: CoreDataStack!
-    var handle: FirebaseAuth.FIRAuthStateDidChangeListenerHandle?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        startGenericControllers()
-        
-        coreDataStack = CoreDataStackImp()
-        
-        startingCoordinator = WorkoutCoordinator(coreDataStack: coreDataStack)
-        window = UIWindow()
-        window?.rootViewController = startingCoordinator?.start()
-        window?.makeKeyAndVisible()
-        
         FIRApp.configure()
-        handle = FIRAuth.auth()?.addStateDidChangeListener() { (auth, user) in
-            print("changed auth state! \(auth), \(user)")
-        }
-        
+        startGenericControllers()
+        coreDataStack = CoreDataStackImp()
         FirebaseManager.sharedInstance.coreDataStack = coreDataStack
         FirebaseManager.sharedInstance.start()
+        
+        window = UIWindow()
+        appCoordinator = ApplicationCoordinator(
+            authProvider: FirebaseAuthProvider(),
+            coreDataStack: coreDataStack,
+            window: window!
+        )
+        window?.makeKeyAndVisible()
+        appCoordinator.start()
         return true
     }
 

@@ -2,6 +2,7 @@ import Foundation
 import Firebase
 import FirebaseStorage
 import CoreData
+import FirebaseAuthUI
 
 final class FirebaseManager {
     
@@ -54,7 +55,9 @@ final class FirebaseManager {
         entityName: String,
         keys: [String]) {
         
-        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(entityName: entityName)
+        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(
+            entityName: entityName
+        )
         objects?.forEach { object in
             
             if let remoteId = object.value(forKey: "remoteId") as? String? {
@@ -68,7 +71,8 @@ final class FirebaseManager {
                 }
                 // sync keys
                 keys.forEach { key in
-                    fbEntity.child(key).setValue(object.transformedValue(forKey: key))
+                    let transformedValue = object.transformedValue(forKey: key)
+                    fbEntity.child(key).setValue(transformedValue)
                 }
             } else {
                 assert(false, "Object has no remote id!")
@@ -81,7 +85,9 @@ final class FirebaseManager {
         entityName: String,
         relationships: [String]) {
         
-        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(entityName: entityName)
+        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(
+            entityName: entityName
+        )
         objects?.forEach { object in
             
             if let remoteId = object.value(forKey: "remoteId") as? String? {
