@@ -1,35 +1,18 @@
 import UIKit
 import CoreData
 
-final class UserCoordinator: Coordinator {
+final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
 
+    // MARK: - Output -
     var onFlowFinished: ((_ userIds: [NSManagedObjectID]) -> Void)?
+    
+    // MARK: - Input -
     var selectedUserIds = [NSManagedObjectID]()
-    
-    private let storyboard: UIStoryboard = .user
-    private var coreDataStack: CoreDataStack
-    private var rootViewController: UIViewController?
-    
-    init(coreDataStack: CoreDataStack,
-         selectedUserIds: [NSManagedObjectID]) {
-        
-        self.coreDataStack = coreDataStack
-        self.selectedUserIds = selectedUserIds
-    }
-    
+   
     // MARK: - Coordinator -
-    func start() -> UIViewController {
-        
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        let usersViewController = navigationController.viewControllers.first as! UsersViewController
-        configureUsersController(usersViewController)
-        rootViewController = navigationController
-        return navigationController
-    }
-    
-    // MARK: - Private implementation
-    private func configureUsersController(_ controller: UsersViewController) {
-        
+    override func configureRootViewController(
+        _ controller: UsersViewController) {
+
         let readyItem = UIBarButtonItem(
             title: "Готово",
             style: .done,
@@ -61,13 +44,13 @@ final class UserCoordinator: Coordinator {
         }
         
         // Selection / deselection
-        controller.selectedUserIds = selectedUserIds
+        controller.selectedIds = selectedUserIds
         controller.onObjectSelected = { [weak self, weak controller] user in
             
             if (self?.selectedUserIds.removeWhere{ $0 == user.objectID } == nil) {
                 self?.selectedUserIds.append(user.objectID)
             }
-            controller?.selectedUserIds = self?.selectedUserIds ?? []
+            controller?.selectedIds = self?.selectedUserIds ?? []
         }
     }
     

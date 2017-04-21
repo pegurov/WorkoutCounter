@@ -20,6 +20,10 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
     
     var onObjectSelected: ((_ object: T) -> Void)?
     var selectedObject: T?
+    var selectedIds: [NSManagedObjectID] = [] {
+        didSet { tableView?.reloadData() }
+    }
+    var deletingEnabled = true
     
 // CORE DATA STACK
     var managedObjectContext: NSManagedObjectContext!
@@ -82,13 +86,11 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
 
 //        navigationItem.leftBarButtonItem = editButtonItem
 
-        // TODO: SET THIS FROM COORDINATOR
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
         navigationItem.rightBarButtonItem = addButton
     }
 
     var onInsertNewObject: (() -> Void)?
-    
     func insertNewObject(_ sender: Any) {
         onInsertNewObject?()
     }
@@ -113,6 +115,11 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
         ) as! C
         let object = fetchedResultsController.object(at: indexPath)
         configureCell(cell, withObject: object)
+        if selectedIds.contains(where: { $0 == object.objectID }) {
+            cell.contentView.backgroundColor = .yellow
+        } else {
+            cell.contentView.backgroundColor = .white
+        }
         return cell
     }
 
@@ -123,8 +130,8 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
     override func tableView(
         _ tableView: UITableView,
         canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+        
+        return deletingEnabled
     }
 
     override func tableView(

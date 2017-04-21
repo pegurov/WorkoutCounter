@@ -18,11 +18,18 @@
 		C44EDBDB1EA7DF8800751707 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBDA1EA7DF8800751707 /* ApplicationCoordinator.swift */; };
 		C44EDBDD1EA7E07600751707 /* AuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBDC1EA7E07600751707 /* AuthProvider.swift */; };
 		C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBDE1EA7E12200751707 /* AuthCoordinator.swift */; };
+		C462F9281EAA91390094962C /* WorkoutTypeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9271EAA91390094962C /* WorkoutTypeCoordinator.swift */; };
+		C462F92A1EAA91CE0094962C /* WorkoutType.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C462F9291EAA91CE0094962C /* WorkoutType.storyboard */; };
+		C462F92C1EAA94DE0094962C /* WorkoutTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F92B1EAA94DE0094962C /* WorkoutTypesViewController.swift */; };
+		C462F92E1EAA95140094962C /* WorkoutTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F92D1EAA95140094962C /* WorkoutTypeCell.swift */; };
+		C462F9311EAA993B0094962C /* WorkoutCreate.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C462F9301EAA993B0094962C /* WorkoutCreate.storyboard */; };
+		C462F9331EAA99770094962C /* WorkoutCreateCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9321EAA99770094962C /* WorkoutCreateCoordinator.swift */; };
+		C462F9351EAA9E280094962C /* StoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */; };
+		C462F9371EAA9E540094962C /* SegueId.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9361EAA9E540094962C /* SegueId.swift */; };
 		C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373D1EA219B40047C95F /* UserCoordinator.swift */; };
 		C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */; };
 		C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37411EA250E30047C95F /* UserCreateViewController.swift */; };
 		C47D37451EA288AF0047C95F /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37441EA288AF0047C95F /* UsersViewController.swift */; };
-		C47D37481EA29F5F0047C95F /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37471EA29F5F0047C95F /* Coordinator.swift */; };
 		C47D374A1EA29FB30047C95F /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37491EA29FB30047C95F /* UserCell.swift */; };
 		C47D374C1EA29FF40047C95F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D374B1EA29FF40047C95F /* Extensions.swift */; };
 		C47D374E1EA2A04D0047C95F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D374D1EA2A04D0047C95F /* CoreDataStack.swift */; };
@@ -50,19 +57,24 @@
 		C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C44EDBC31EA68A2300751707 /* WorkoutCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCounter.entitlements; sourceTree = "<group>"; };
 		C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
-		C44EDBCB1EA7DB4400751707 /* Tabbar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Tabbar.storyboard; sourceTree = "<group>"; };
-		C44EDBCD1EA7DCC900751707 /* TabbarCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarCoordinator.swift; sourceTree = "<group>"; };
 		C44EDBD01EA7DDA200751707 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		C44EDBD21EA7DDC000751707 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		C44EDBD41EA7DE3100751707 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C44EDBDA1EA7DF8800751707 /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		C44EDBDC1EA7E07600751707 /* AuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthProvider.swift; sourceTree = "<group>"; };
 		C44EDBDE1EA7E12200751707 /* AuthCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
+		C462F9271EAA91390094962C /* WorkoutTypeCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypeCoordinator.swift; sourceTree = "<group>"; };
+		C462F9291EAA91CE0094962C /* WorkoutType.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = WorkoutType.storyboard; sourceTree = "<group>"; };
+		C462F92B1EAA94DE0094962C /* WorkoutTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypesViewController.swift; sourceTree = "<group>"; };
+		C462F92D1EAA95140094962C /* WorkoutTypeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypeCell.swift; sourceTree = "<group>"; };
+		C462F9301EAA993B0094962C /* WorkoutCreate.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = WorkoutCreate.storyboard; path = WorkoutCounter/WorkoutCreate.storyboard; sourceTree = "<group>"; };
+		C462F9321EAA99770094962C /* WorkoutCreateCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutCreateCoordinator.swift; path = WorkoutCounter/WorkoutCreateCoordinator.swift; sourceTree = "<group>"; };
+		C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardCoordinator.swift; sourceTree = "<group>"; };
+		C462F9361EAA9E540094962C /* SegueId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueId.swift; sourceTree = "<group>"; };
 		C47D373D1EA219B40047C95F /* UserCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
 		C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackImp.swift; sourceTree = "<group>"; };
 		C47D37411EA250E30047C95F /* UserCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCreateViewController.swift; sourceTree = "<group>"; };
 		C47D37441EA288AF0047C95F /* UsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
-		C47D37471EA29F5F0047C95F /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		C47D37491EA29FB30047C95F /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		C47D374B1EA29FF40047C95F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C47D374D1EA2A04D0047C95F /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -112,15 +124,6 @@
 			name = Firebase;
 			sourceTree = "<group>";
 		};
-		C44EDBCA1EA7DB2500751707 /* Tabbar - NOT IN TARGET */ = {
-			isa = PBXGroup;
-			children = (
-				C44EDBCB1EA7DB4400751707 /* Tabbar.storyboard */,
-				C44EDBCD1EA7DCC900751707 /* TabbarCoordinator.swift */,
-			);
-			name = "Tabbar - NOT IN TARGET";
-			sourceTree = "<group>";
-		};
 		C44EDBCF1EA7DD7C00751707 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +151,28 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		C462F9241EAA90A20094962C /* Workout type */ = {
+			isa = PBXGroup;
+			children = (
+				C462F9291EAA91CE0094962C /* WorkoutType.storyboard */,
+				C462F9271EAA91390094962C /* WorkoutTypeCoordinator.swift */,
+				C462F92B1EAA94DE0094962C /* WorkoutTypesViewController.swift */,
+				C462F92D1EAA95140094962C /* WorkoutTypeCell.swift */,
+			);
+			name = "Workout type";
+			sourceTree = "<group>";
+		};
+		C462F92F1EAA99280094962C /* Workout create */ = {
+			isa = PBXGroup;
+			children = (
+				C462F9301EAA993B0094962C /* WorkoutCreate.storyboard */,
+				C462F9321EAA99770094962C /* WorkoutCreateCoordinator.swift */,
+				C47D375E1EA2A7AD0047C95F /* WorkoutCreateViewController.swift */,
+			);
+			name = "Workout create";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		C47D37431EA27A7B0047C95F /* Users */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,9 +187,10 @@
 		C47D37461EA29F420047C95F /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				C47D37471EA29F5F0047C95F /* Coordinator.swift */,
 				C47D374B1EA29FF40047C95F /* Extensions.swift */,
 				C44EDBDC1EA7E07600751707 /* AuthProvider.swift */,
+				C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */,
+				C462F9361EAA9E540094962C /* SegueId.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -198,7 +224,6 @@
 				C47D37541EA2A5F40047C95F /* WorkoutCoordinator.swift */,
 				C47D375C1EA2A6C20047C95F /* WorkoutCell.swift */,
 				C47D375A1EA2A6A80047C95F /* WorkoutsViewController.swift */,
-				C47D375E1EA2A7AD0047C95F /* WorkoutCreateViewController.swift */,
 				C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */,
 				C44EDBBF1EA40D8400751707 /* SessionCell.swift */,
 				D5079C381EA616800097FD2C /* WorkoutResultViewController.swift */,
@@ -252,10 +277,11 @@
 				C47D37461EA29F420047C95F /* Common */,
 				C44EDBD91EA7DF6E00751707 /* Application */,
 				C44EDBD81EA7DF5D00751707 /* Auth */,
-				C44EDBCA1EA7DB2500751707 /* Tabbar - NOT IN TARGET */,
 				C44EDBCF1EA7DD7C00751707 /* Profile */,
-				C47D37511EA2A5360047C95F /* Workouts */,
+				C462F92F1EAA99280094962C /* Workout create */,
+				C462F9241EAA90A20094962C /* Workout type */,
 				C47D37431EA27A7B0047C95F /* Users */,
+				C47D37511EA2A5360047C95F /* Workouts */,
 				C47D37501EA2A4DB0047C95F /* Supporting files */,
 				D5566D9E1E9BB34E00503C91 /* AppDelegate.swift */,
 			);
@@ -331,7 +357,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C47D37571EA2A60A0047C95F /* Workout.storyboard in Resources */,
+				C462F9311EAA993B0094962C /* WorkoutCreate.storyboard in Resources */,
 				D5566DAE1E9BB34E00503C91 /* LaunchScreen.storyboard in Resources */,
+				C462F92A1EAA91CE0094962C /* WorkoutType.storyboard in Resources */,
 				C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */,
 				D5566DAB1E9BB34E00503C91 /* Assets.xcassets in Resources */,
 				D5566DA91E9BB34E00503C91 /* User.storyboard in Resources */,
@@ -395,15 +423,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C47D37481EA29F5F0047C95F /* Coordinator.swift in Sources */,
+				C462F9281EAA91390094962C /* WorkoutTypeCoordinator.swift in Sources */,
 				C44EDBD31EA7DDC000751707 /* ProfileCoordinator.swift in Sources */,
 				C47D375D1EA2A6C20047C95F /* WorkoutCell.swift in Sources */,
+				C462F9331EAA99770094962C /* WorkoutCreateCoordinator.swift in Sources */,
 				C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */,
 				C47D375B1EA2A6A80047C95F /* WorkoutsViewController.swift in Sources */,
+				C462F9351EAA9E280094962C /* StoryboardCoordinator.swift in Sources */,
 				C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */,
 				C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */,
 				C44EDBD51EA7DE3100751707 /* ProfileViewController.swift in Sources */,
 				D5566DA21E9BB34E00503C91 /* WorkoutCounter.xcdatamodeld in Sources */,
+				C462F92C1EAA94DE0094962C /* WorkoutTypesViewController.swift in Sources */,
+				C462F92E1EAA95140094962C /* WorkoutTypeCell.swift in Sources */,
+				C462F9371EAA9E540094962C /* SegueId.swift in Sources */,
 				D5566D9F1E9BB34E00503C91 /* AppDelegate.swift in Sources */,
 				C47D375F1EA2A7AD0047C95F /* WorkoutCreateViewController.swift in Sources */,
 				C47D37451EA288AF0047C95F /* UsersViewController.swift in Sources */,

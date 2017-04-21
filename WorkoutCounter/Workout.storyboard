@@ -50,7 +50,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Тренировки" id="NvO-aM-rCs"/>
                     <connections>
-                        <segue destination="W9X-WE-AyT" kind="show" identifier="create" id="CCd-Fe-2kp"/>
                         <segue destination="vRg-fu-IwA" kind="show" identifier="detail" id="FL9-o4-xkg"/>
                     </connections>
                 </tableViewController>
@@ -215,137 +214,10 @@
             <point key="canvasLocation" x="2033" y="-200"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="26s-NS-3QO">
-            <objects>
-                <navigationController id="W9X-WE-AyT" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zuu-Hm-vPb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="yBr-GU-5Z9" kind="relationship" relationship="rootViewController" id="hbr-b3-lut"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="V1j-Xb-ftk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1308" y="582"/>
-        </scene>
-        <!--Новая-->
-        <scene sceneID="6Ff-Ui-4pV">
-            <objects>
-                <viewController id="yBr-GU-5Z9" customClass="WorkoutCreateViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Lqn-cw-Qwl"/>
-                        <viewControllerLayoutGuide type="bottom" id="bYF-ag-zvG"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="4aM-f2-X3t">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Тип тренировки" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DtU-C8-dgn">
-                                <rect key="frame" x="16" y="87" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Участники" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6i-kS-Vym">
-                                <rect key="frame" x="16" y="141" width="84" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZa-sI-rvw">
-                                <rect key="frame" x="170" y="136" width="189" height="30"/>
-                                <state key="normal" title="Добавить / Редактировать"/>
-                                <connections>
-                                    <action selector="addButtonTap:" destination="yBr-GU-5Z9" eventType="touchUpInside" id="gWo-FK-W7t"/>
-                                </connections>
-                            </button>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NGW-g9-svk">
-                                <rect key="frame" x="0.0" y="176" width="375" height="491"/>
-                                <connections>
-                                    <segue destination="p5m-Kr-McF" kind="embed" identifier="embed" id="nYw-NC-KZN"/>
-                                </connections>
-                            </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M2B-C3-Sx3">
-                                <rect key="frame" x="0.0" y="175.5" width="375" height="0.5"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="0.5" id="N1T-qZ-lBB"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="DtU-C8-dgn" firstAttribute="top" secondItem="Lqn-cw-Qwl" secondAttribute="bottom" constant="23" id="G0O-pH-oH3"/>
-                            <constraint firstAttribute="trailing" secondItem="DtU-C8-dgn" secondAttribute="trailing" constant="16" id="GsH-Tg-COf"/>
-                            <constraint firstItem="EZa-sI-rvw" firstAttribute="centerY" secondItem="y6i-kS-Vym" secondAttribute="centerY" id="JGp-Rz-IOo"/>
-                            <constraint firstItem="M2B-C3-Sx3" firstAttribute="leading" secondItem="4aM-f2-X3t" secondAttribute="leading" id="KsU-ky-d3o"/>
-                            <constraint firstItem="y6i-kS-Vym" firstAttribute="leading" secondItem="4aM-f2-X3t" secondAttribute="leading" constant="16" id="M8L-wz-go0"/>
-                            <constraint firstAttribute="trailing" secondItem="M2B-C3-Sx3" secondAttribute="trailing" id="NIr-SI-pWn"/>
-                            <constraint firstAttribute="trailing" secondItem="EZa-sI-rvw" secondAttribute="trailing" constant="16" id="Qjr-Jh-JbB"/>
-                            <constraint firstItem="NGW-g9-svk" firstAttribute="top" secondItem="M2B-C3-Sx3" secondAttribute="bottom" id="b6x-gl-3A8"/>
-                            <constraint firstItem="NGW-g9-svk" firstAttribute="leading" secondItem="4aM-f2-X3t" secondAttribute="leading" id="c0d-X3-mGK"/>
-                            <constraint firstItem="NGW-g9-svk" firstAttribute="top" secondItem="EZa-sI-rvw" secondAttribute="bottom" constant="10" id="cgh-SK-8dd"/>
-                            <constraint firstItem="bYF-ag-zvG" firstAttribute="top" secondItem="NGW-g9-svk" secondAttribute="bottom" id="j16-uz-PUb"/>
-                            <constraint firstItem="DtU-C8-dgn" firstAttribute="leading" secondItem="4aM-f2-X3t" secondAttribute="leading" constant="16" id="j7P-Oq-nfe"/>
-                            <constraint firstItem="y6i-kS-Vym" firstAttribute="top" secondItem="DtU-C8-dgn" secondAttribute="bottom" constant="24" id="lHg-9u-JMT"/>
-                            <constraint firstAttribute="trailing" secondItem="NGW-g9-svk" secondAttribute="trailing" id="nRd-CO-jYD"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Новая" id="LvZ-AO-Xvb">
-                        <barButtonItem key="leftBarButtonItem" title="Отмена" id="ue0-dm-yw3">
-                            <connections>
-                                <action selector="cancelTap:" destination="yBr-GU-5Z9" id="8Wb-w7-o8l"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Готово" id="cAX-MG-NBy">
-                            <connections>
-                                <action selector="readyTap:" destination="yBr-GU-5Z9" id="IWv-eN-sRQ"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="textFieldTitle" destination="DtU-C8-dgn" id="9a2-1O-GXe"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ukn-Sk-FI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2033" y="582"/>
-        </scene>
-        <!--Users View Controller-->
-        <scene sceneID="n5i-tN-WXg">
-            <objects>
-                <tableViewController id="p5m-Kr-McF" customClass="UsersViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="p4n-3z-dGG">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="491"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qAF-Sw-kiE">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qAF-Sw-kiE" id="xLL-un-RtI">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="p5m-Kr-McF" id="4OE-Z9-dY2"/>
-                            <outlet property="delegate" destination="p5m-Kr-McF" id="VEN-Y7-VMc"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zJh-5X-ReI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2033" y="1207"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="1E1-jQ-A2L">
             <objects>
                 <navigationController id="N3m-So-9qj" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wib-qM-Oby">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="wib-qM-Oby">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

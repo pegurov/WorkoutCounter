@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 enum SegueId: String {
     
@@ -6,8 +6,4 @@ enum SegueId: String {
     case embed
     case detail
     case result
-}
-
-protocol Coordinator: class {
-    func start() -> UIViewController
 }

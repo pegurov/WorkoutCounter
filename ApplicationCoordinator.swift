@@ -30,16 +30,19 @@ final class ApplicationCoordinator {
     private func checkAuth() {
         
         if authProvider.authorized {
+            
             workoutCoordinator = WorkoutCoordinator(
+                storyboard: .workout,
                 coreDataStack: coreDataStack
             )
             workoutCoordinator?.onLogout = { [weak self] in
                 self?.authProvider.logout()
             }
-            window.rootViewController = workoutCoordinator?.start()
+            window.rootViewController = workoutCoordinator?.navigationController
         } else {
+            
             authCoordinator = AuthCoordinator()
-            window.rootViewController = authCoordinator?.start()
+            window.rootViewController = authCoordinator?.navigationController
         }
     }
 }
