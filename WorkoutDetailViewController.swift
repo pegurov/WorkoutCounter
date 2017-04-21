@@ -17,7 +17,7 @@ final class WorkoutDetailViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        labelTitle.text = workout?.title
+        labelTitle.text = workout?.type?.title
         currentSession = sessions.first
         buttons.forEach {
             $0.layer.borderColor = UIColor.black.cgColor
@@ -141,7 +141,7 @@ final class WorkoutDetailViewController:
         if session.active && session == currentSession { return }
         
         let alertController = UIAlertController(
-            title: "Действия", message: nil, preferredStyle: .actionSheet
+            title: "Действия", message: nil, preferredStyle: .alert
         )
         if !session.active {
             let action = UIAlertAction(

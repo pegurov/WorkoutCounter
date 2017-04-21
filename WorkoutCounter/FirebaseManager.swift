@@ -7,7 +7,7 @@ import FirebaseAuthUI
 final class FirebaseManager {
     
     static let sharedInstance = FirebaseManager()
-    var coreDataStack: CoreDataStack?
+    var coreDataStack: CoreDataStack!
     
     var ref: FIRDatabaseReference!
     
@@ -15,9 +15,15 @@ final class FirebaseManager {
         
         ref = FIRDatabase.database().reference()
         
+        fix()
+        
         synchronizeKeysFor(
             entityName: "User",
             keys: ["name"]
+        )
+        synchronizeKeysFor(
+            entityName: "WorkoutType",
+            keys: ["title"]
         )
         synchronizeKeysFor(
             entityName: "Workout",
@@ -32,23 +38,33 @@ final class FirebaseManager {
             keys: ["count", "time"]
         )
         
-        
         synchronizeRelationships(
             entityName: "User",
             relationships: ["sessions"]
         )
         synchronizeRelationships(
             entityName: "Session",
-            relationships: ["sets", "user", "workout"]
+            relationships: ["sets", "user", "workout", "createdBy"]
         )
         synchronizeRelationships(
             entityName: "Set",
-            relationships: ["session"]
+            relationships: ["session", "createdBy"]
         )
         synchronizeRelationships(
             entityName: "Workout",
-            relationships: ["sessions", "users"]
+            relationships: ["sessions", "users", "createdBy", "type"]
         )
+        synchronizeRelationships(
+            entityName: "WorkoutType",
+            relationships: ["workouts"]
+        )
+    }
+    
+    func fix() {
+        
+        // again, patch all entities created by!
+        
+        coreDataStack.saveContext()
     }
     
     func synchronizeKeysFor(
@@ -102,7 +118,10 @@ final class FirebaseManager {
                 // sync relationships
                 relationships.forEach { relationship in
                 
-                    if let relationshipManagedObject = object.value(forKey: relationship) as? NSManagedObject,
+                    if (object.value(forKey: relationship) == nil) {
+                        assert(false, "relationship should not be nil!")
+                    }
+                    else if let relationshipManagedObject = object.value(forKey: relationship) as? NSManagedObject,
                         let remoteId = relationshipManagedObject.value(forKey: "remoteId") as? String {
                         
                         fbEntity.child(relationship).setValue(remoteId)

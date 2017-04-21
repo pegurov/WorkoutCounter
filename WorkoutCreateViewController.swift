@@ -24,13 +24,12 @@ final class WorkoutCreateViewController: UIViewController {
         }
     }
     
-    // TODO embed core data list controller with a special predicate (store only
-    // selected users ids
-    
     // MARK: - NAVIGATION
     var onPrepareForSegue: ((_ segue: UIStoryboardSegue, _ sender: Any?) -> Void)?
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         onPrepareForSegue?(segue, sender)
+        
     }
 }

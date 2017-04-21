@@ -5,7 +5,7 @@ final class ApplicationCoordinator {
     
     private var authProvider: AuthProvider
     private var coreDataStack: CoreDataStack
-    private var tabbarCoordinator: TabbarCoordinator?
+    private var workoutCoordinator: WorkoutCoordinator?
     private var authCoordinator: AuthCoordinator?
     private weak var window: UIWindow!
 
@@ -30,11 +30,13 @@ final class ApplicationCoordinator {
     private func checkAuth() {
         
         if authProvider.authorized {
-            tabbarCoordinator = TabbarCoordinator(coreDataStack: coreDataStack)
-            tabbarCoordinator?.onLogout = { [weak self] in
+            workoutCoordinator = WorkoutCoordinator(
+                coreDataStack: coreDataStack
+            )
+            workoutCoordinator?.onLogout = { [weak self] in
                 self?.authProvider.logout()
             }
-            window.rootViewController = tabbarCoordinator?.start()
+            window.rootViewController = workoutCoordinator?.start()
         } else {
             authCoordinator = AuthCoordinator()
             window.rootViewController = authCoordinator?.start()

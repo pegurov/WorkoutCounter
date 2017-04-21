@@ -2,15 +2,17 @@ import UIKit
 
 final class WorkoutCoordinator: Coordinator {
     
+    var onLogout: (() -> Void)?
     private let storyboard: UIStoryboard = .workout
     private var coreDataStack: CoreDataStack
-    private var rootViewController: UIViewController!
+    private var rootViewController: UINavigationController!
     
     private weak var listController: WorkoutsViewController?
     private weak var createController: WorkoutCreateViewController?
     private weak var usersInCreateController: UsersViewController?
     
     private var selectUsersCoordinator: UserCoordinator?
+    private var profileCoordinator: ProfileCoordinator?
     
     init(coreDataStack: CoreDataStack) {
         self.coreDataStack = coreDataStack
@@ -57,14 +59,31 @@ final class WorkoutCoordinator: Coordinator {
                 sender: self
             )
         }
-        controller.onObjectSelected = { [weak self] workout in
+        controller.onObjectSelected = { [weak controller] workout in
             
-            controller.performSegue(
+            controller?.performSegue(
                 withIdentifier: SegueId.detail.rawValue,
                 sender: nil
             )
         }
+        controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "Профиль",
+            style: .plain,
+            target: self,
+            action: #selector(profileTap)
+        )
         listController = controller
+    }
+    
+    @objc
+    private func profileTap() {
+        
+        profileCoordinator = ProfileCoordinator()
+        profileCoordinator!.onLogout = onLogout
+        rootViewController.pushViewController(
+            profileCoordinator!.start(),
+            animated: true
+        )
     }
     
     private func configureCreateController(
@@ -131,7 +150,7 @@ final class WorkoutCoordinator: Coordinator {
             ascending: false
         )
         controller.predicate = NSPredicate(format: "(self IN %@)", [])
-        controller.deleteMode = .none
+        controller.deletingEnabled = false
         usersInCreateController = controller
     }
     

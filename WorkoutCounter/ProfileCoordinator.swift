@@ -9,12 +9,10 @@ final class ProfileCoordinator: Coordinator {
     // MARK: - Coordinator -
     func start() -> UIViewController {
         
-        let navigation =
-            storyboard.instantiateInitialViewController() as! UINavigationController
-        let profileVC = navigation.topViewController as! ProfileViewController
+        let profileVC = storyboard.instantiateInitialViewController() as! ProfileViewController
         configureProfile(profileVC)
-        rootViewController = navigation
-        return navigation
+        rootViewController = profileVC
+        return profileVC
     }
     
     private func configureProfile(_ controller: ProfileViewController) {

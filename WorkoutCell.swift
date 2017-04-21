@@ -15,7 +15,7 @@ final class WorkoutCell: UITableViewCell, ConfigurableCell {
     
     func configure(with object: Workout) {
         
-        textLabel?.text = object.title
+        textLabel?.text = object.type?.title
         if let workoutDate = object.date {
             let dateString = WorkoutCell.formatter.string(
                 from: workoutDate as Date

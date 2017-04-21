@@ -1,6 +1,7 @@
 import UIKit
 
-final class TabbarCoordinator: Coordinator {
+// TODO: REMOVED FROM TARGET
+private final class TabbarCoordinator: Coordinator {
     
     var onLogout: (() -> Void)?
     private let storyboard: UIStoryboard = .tabbar
@@ -21,7 +22,7 @@ final class TabbarCoordinator: Coordinator {
     
     func start() -> UIViewController {
         
-        self.profileCoordinator.onLogout = onLogout
+        profileCoordinator.onLogout = onLogout
         let tabbarController =
             storyboard.instantiateInitialViewController() as! UITabBarController
         tabbarController.viewControllers = [
