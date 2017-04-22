@@ -9,5 +9,6 @@ target 'WorkoutCounter' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'FirebaseUI'
+  pod 'ObjectMapper', '~> 2.2'
   
 end

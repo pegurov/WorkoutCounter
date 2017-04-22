@@ -9,13 +9,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var appCoordinator: ApplicationCoordinator!
     var coreDataStack: CoreDataStack!
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         FIRApp.configure()
         startGenericControllers()
         coreDataStack = CoreDataStackImp()
-        FirebaseManager.sharedInstance.coreDataStack = coreDataStack
-        FirebaseManager.sharedInstance.start()
+        FirebaseManager.startWith(coreDataStack: coreDataStack)
+        
+        FirebaseManager.sharedInstance.loadAllWorkoutTypes()
         
         window = UIWindow()
         appCoordinator = ApplicationCoordinator(

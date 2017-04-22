@@ -6,14 +6,41 @@ import FirebaseAuthUI
 
 final class FirebaseManager {
     
-    static let sharedInstance = FirebaseManager()
-    var coreDataStack: CoreDataStack!
+    private(set) static var sharedInstance: FirebaseManager!
     
-    var ref: FIRDatabaseReference!
-    
-    func start() {
+    static func startWith(
+        coreDataStack: CoreDataStack) {
         
-        ref = FIRDatabase.database().reference()
+        sharedInstance = FirebaseManager()
+        sharedInstance.coreDataStack = coreDataStack
+        sharedInstance.ref = FIRDatabase.database().reference()
+    }
+    
+    private var coreDataStack: CoreDataStack!
+    private var ref: FIRDatabaseReference!
+    
+    func loadAllWorkoutTypes() {
+        
+        _ = ref.child("WorkoutType").observeSingleEvent(
+            of: FIRDataEventType.value, with: { snapshot in
+            
+                let allTypes = snapshot.value as? [AnyHashable : Any] ?? [:]
+                
+                print("all types\n\(allTypes)")
+        })
+        
+    }
+    
+    func updateDatabase(
+        entityType: String,
+        withServerValues: [AnyHashable : Any]) {
+        
+        
+    }
+    
+    func patch() {
+        
+        return
         
         fix()
         
