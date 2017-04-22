@@ -19,16 +19,35 @@ final class FirebaseManager {
     private var coreDataStack: CoreDataStack!
     private var ref: FIRDatabaseReference!
     
-    func loadAllWorkoutTypes() {
+    func loadAllEntitiesOf(type: AnyClass) {
         
-        _ = ref.child("WorkoutType").observeSingleEvent(
-            of: FIRDataEventType.value, with: { snapshot in
+        
+        guard let type = type as? NSManagedObject.Type else {
+            assert(false, "Type should be an NSManagedObject subtype")
+            return
+        }
+        
+        ref.child(NSStringFromClass(type)).observeSingleEvent(
+            of: FIRDataEventType.value,
+            with: { [weak self] snapshot in
             
-                let allTypes = snapshot.value as? [AnyHashable : Any] ?? [:]
+                let allTypes = snapshot.value as? [String : Any] ?? [:]
                 
-                print("all types\n\(allTypes)")
+                for remoteId in allTypes.keys {
+                    guard let dict = allTypes[remoteId] as? [String : Any],
+                        let strongSelf = self else {
+                        continue
+                    }
+                    
+                    let newObject = type.init(
+                        context: strongSelf.coreDataStack.managedObjectContext
+                    )
+//                    newObject.patchWith(
+//                        remoteId: remoteId,
+//                        json: dict
+//                    )
+                }
         })
-        
     }
     
     func updateDatabase(
@@ -90,7 +109,6 @@ final class FirebaseManager {
     func fix() {
         
         // again, patch all entities created by!
-        
         coreDataStack.saveContext()
     }
     
@@ -98,9 +116,7 @@ final class FirebaseManager {
         entityName: String,
         keys: [String]) {
         
-        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(
-            entityName: entityName
-        )
+        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(entityName: entityName)
         objects?.forEach { object in
             
             if let remoteId = object.value(forKey: "remoteId") as? String? {
@@ -128,9 +144,7 @@ final class FirebaseManager {
         entityName: String,
         relationships: [String]) {
         
-        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(
-            entityName: entityName
-        )
+        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(entityName: entityName)
         objects?.forEach { object in
             
             if let remoteId = object.value(forKey: "remoteId") as? String? {
@@ -155,17 +169,16 @@ final class FirebaseManager {
                     } else {
                         
                         let set = object.mutableOrderedSetValue(forKey: relationship)
-                        var relationshipIds: [String] = []
                         set.forEach {
+                            
                             if let relationshipObject = $0 as? NSManagedObject,
                                 let remoteId = relationshipObject.value(forKey: "remoteId") as? String {
                                 
-                                relationshipIds.append(remoteId)
+                                fbEntity.child(relationship).child(remoteId).setValue(true)
                             } else {
                                 assert(false, "Relationship in set has no remoteId")
                             }
                         }
-                        fbEntity.child(relationship).setValue(relationshipIds)
                     }
                 }
             } else {

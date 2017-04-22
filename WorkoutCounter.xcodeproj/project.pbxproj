@@ -26,6 +26,8 @@
 		C462F9331EAA99770094962C /* WorkoutCreateCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9321EAA99770094962C /* WorkoutCreateCoordinator.swift */; };
 		C462F9351EAA9E280094962C /* StoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */; };
 		C462F9371EAA9E540094962C /* SegueId.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9361EAA9E540094962C /* SegueId.swift */; };
+		C462F9391EAB7B910094962C /* NSManagedObjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9381EAB7B910094962C /* NSManagedObjectExtensions.swift */; };
+		C462F93D1EAB9FD50094962C /* NSObject+PropertiesInspection.m in Sources */ = {isa = PBXBuildFile; fileRef = C462F93C1EAB9FD50094962C /* NSObject+PropertiesInspection.m */; };
 		C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373D1EA219B40047C95F /* UserCoordinator.swift */; };
 		C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */; };
 		C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37411EA250E30047C95F /* UserCreateViewController.swift */; };
@@ -71,6 +73,10 @@
 		C462F9321EAA99770094962C /* WorkoutCreateCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutCreateCoordinator.swift; path = WorkoutCounter/WorkoutCreateCoordinator.swift; sourceTree = "<group>"; };
 		C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardCoordinator.swift; sourceTree = "<group>"; };
 		C462F9361EAA9E540094962C /* SegueId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueId.swift; sourceTree = "<group>"; };
+		C462F9381EAB7B910094962C /* NSManagedObjectExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObjectExtensions.swift; sourceTree = "<group>"; };
+		C462F93A1EAB9FD50094962C /* WorkoutCounter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WorkoutCounter-Bridging-Header.h"; sourceTree = "<group>"; };
+		C462F93B1EAB9FD50094962C /* NSObject+PropertiesInspection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PropertiesInspection.h"; sourceTree = "<group>"; };
+		C462F93C1EAB9FD50094962C /* NSObject+PropertiesInspection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PropertiesInspection.m"; sourceTree = "<group>"; };
 		C47D373D1EA219B40047C95F /* UserCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
 		C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackImp.swift; sourceTree = "<group>"; };
 		C47D37411EA250E30047C95F /* UserCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCreateViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +126,9 @@
 			isa = PBXGroup;
 			children = (
 				C44EDBC51EA6A97B00751707 /* FirebaseManager.swift */,
+				C462F9381EAB7B910094962C /* NSManagedObjectExtensions.swift */,
+				C462F93B1EAB9FD50094962C /* NSObject+PropertiesInspection.h */,
+				C462F93C1EAB9FD50094962C /* NSObject+PropertiesInspection.m */,
 			);
 			name = Firebase;
 			sourceTree = "<group>";
@@ -209,6 +218,7 @@
 		C47D37501EA2A4DB0047C95F /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				C462F93A1EAB9FD50094962C /* WorkoutCounter-Bridging-Header.h */,
 				C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */,
 				D5566DAA1E9BB34E00503C91 /* Assets.xcassets */,
 				D5566DAC1E9BB34E00503C91 /* LaunchScreen.storyboard */,
@@ -324,6 +334,7 @@
 					D5566D9A1E9BB34E00503C91 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = 5HMWD4A8B3;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -432,6 +443,7 @@
 				C462F9351EAA9E280094962C /* StoryboardCoordinator.swift in Sources */,
 				C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */,
 				C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */,
+				C462F9391EAB7B910094962C /* NSManagedObjectExtensions.swift in Sources */,
 				C44EDBD51EA7DE3100751707 /* ProfileViewController.swift in Sources */,
 				D5566DA21E9BB34E00503C91 /* WorkoutCounter.xcdatamodeld in Sources */,
 				C462F92C1EAA94DE0094962C /* WorkoutTypesViewController.swift in Sources */,
@@ -449,6 +461,7 @@
 				D5079C391EA616800097FD2C /* WorkoutResultViewController.swift in Sources */,
 				C44EDBDD1EA7E07600751707 /* AuthProvider.swift in Sources */,
 				C47D374A1EA29FB30047C95F /* UserCell.swift in Sources */,
+				C462F93D1EAB9FD50094962C /* NSObject+PropertiesInspection.m in Sources */,
 				D5566DA41E9BB34E00503C91 /* CoreDataListViewController.swift in Sources */,
 				C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */,
 				C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */,
@@ -577,6 +590,7 @@
 			baseConfigurationReference = 65E5B487E943284966FC1CAE /* Pods-WorkoutCounter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WorkoutCounter/WorkoutCounter.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5HMWD4A8B3;
@@ -586,6 +600,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = pegurov.WorkoutCounter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WorkoutCounter/WorkoutCounter-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -596,6 +612,7 @@
 			baseConfigurationReference = 889342C72B06F02F20ED1AB3 /* Pods-WorkoutCounter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WorkoutCounter/WorkoutCounter.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5HMWD4A8B3;
@@ -605,6 +622,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = pegurov.WorkoutCounter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WorkoutCounter/WorkoutCounter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
