@@ -14,13 +14,17 @@ final class FirebaseManager {
         sharedInstance = FirebaseManager()
         sharedInstance.coreDataStack = coreDataStack
         sharedInstance.ref = FIRDatabase.database().reference()
+        sharedInstance.operationQueue = OperationQueue()
+        sharedInstance.operationQueue.maxConcurrentOperationCount = 100
     }
     
     private var coreDataStack: CoreDataStack!
     private var ref: FIRDatabaseReference!
+    private var operationQueue: OperationQueue!
     
-    func loadAllEntitiesOf(type: AnyClass) {
-        
+    func loadAllEntitiesOf(
+        type: AnyClass,
+        resolvingRelationships: RelationshipNode?) {
         
         guard let type = type as? NSManagedObject.Type else {
             assert(false, "Type should be an NSManagedObject subtype")
@@ -32,6 +36,7 @@ final class FirebaseManager {
             with: { [weak self] snapshot in
             
                 let allTypes = snapshot.value as? [String : Any] ?? [:]
+                var relationshipStubs: [RelationshipStub] = []
                 
                 for remoteId in allTypes.keys {
                     guard let dict = allTypes[remoteId] as? [String : Any],
@@ -42,12 +47,54 @@ final class FirebaseManager {
                     let newObject = type.init(
                         context: strongSelf.coreDataStack.managedObjectContext
                     )
-//                    newObject.patchWith(
-//                        remoteId: remoteId,
-//                        json: dict
-//                    )
+                    let stubs = newObject.patchKeysWith(
+                        remoteId: remoteId,
+                        json: dict,
+                        resolving: resolvingRelationships
+                    )
+                    relationshipStubs.append(contentsOf: stubs)
+                }
+                
+                // resolve the stubs
+                if relationshipStubs.isEmpty {
+                    self?.coreDataStack.saveContext()
+                } else {
+                    let requests = self?.processStubs(relationshipStubs) ?? []
+                    self?.executeStubRequests(requests)
                 }
         })
+    }
+    
+    func processStubs(_ stubs: [RelationshipStub]) -> [RelationshipStubsRequest] {
+        
+        var groupedStubs: [String: [RelationshipStub]] = [:]
+        stubs.forEach { stub in
+            
+            if let entityName = stub.toEntityName {
+                
+                var existingStubs = groupedStubs[entityName] ?? []
+                existingStubs.append(stub)
+                groupedStubs[entityName] = existingStubs
+            }
+        }
+        return groupedStubs.map {
+            return RelationshipStubsRequest( stubs: $0.value, entityName: $0.key)
+        }
+    }
+    
+    func executeStubRequests(_ requests: [RelationshipStubsRequest]) {
+
+        requests.forEach { request in
+            
+            let operation = RelationshipRequestOperation(
+                request: request) { snaps in
+                    
+                    // process operation result
+                    print("\(snaps)")
+                    
+            }
+            operationQueue.addOperation(operation)
+        }
     }
     
     func updateDatabase(
@@ -80,7 +127,7 @@ final class FirebaseManager {
             keys: ["active"]
         )
         synchronizeKeysFor(
-            entityName: "Set",
+            entityName: "SessionSet",
             keys: ["count", "time"]
         )
         
@@ -93,7 +140,7 @@ final class FirebaseManager {
             relationships: ["sets", "user", "workout", "createdBy"]
         )
         synchronizeRelationships(
-            entityName: "Set",
+            entityName: "SessionSet",
             relationships: ["session", "createdBy"]
         )
         synchronizeRelationships(

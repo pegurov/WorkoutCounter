@@ -16,7 +16,7 @@ extension Workout {
             
             session.sets?.forEach { set in
                 
-                let set = set as! Set
+                let set = set as! SessionSet
                 result.append("\(set.count)\t")
             }
             result.append("\n")

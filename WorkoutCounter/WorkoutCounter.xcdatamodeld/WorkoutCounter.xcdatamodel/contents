@@ -4,11 +4,11 @@
         <attribute name="active" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="remoteId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="createdSessions" inverseEntity="User" syncable="YES"/>
-        <relationship name="sets" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Set" inverseName="session" inverseEntity="Set" syncable="YES"/>
+        <relationship name="sets" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="SessionSet" inverseName="session" inverseEntity="SessionSet" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="sessions" inverseEntity="User" syncable="YES"/>
         <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workout" inverseName="sessions" inverseEntity="Workout" syncable="YES"/>
     </entity>
-    <entity name="Set" representedClassName="Set" syncable="YES" codeGenerationType="class">
+    <entity name="SessionSet" representedClassName="SessionSet" syncable="YES" codeGenerationType="class">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="remoteId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -19,7 +19,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="remoteId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="createdSessions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Session" inverseName="createdBy" inverseEntity="Session" syncable="YES"/>
-        <relationship name="createdSets" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Set" inverseName="createdBy" inverseEntity="Set" syncable="YES"/>
+        <relationship name="createdSets" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="SessionSet" inverseName="createdBy" inverseEntity="SessionSet" syncable="YES"/>
         <relationship name="createdWorkouts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Workout" syncable="YES"/>
         <relationship name="createdWorkoutTypes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Workout" inverseName="createdBy" inverseEntity="Workout" syncable="YES"/>
         <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Session" inverseName="user" inverseEntity="Session" syncable="YES"/>
@@ -44,7 +44,7 @@
     </entity>
     <elements>
         <element name="Session" positionX="270" positionY="225" width="128" height="135"/>
-        <element name="Set" positionX="270" positionY="207" width="128" height="120"/>
+        <element name="SessionSet" positionX="270" positionY="207" width="128" height="120"/>
         <element name="User" positionX="261" positionY="198" width="128" height="150"/>
         <element name="Workout" positionX="261" positionY="189" width="128" height="150"/>
         <element name="WorkoutType" positionX="270" positionY="261" width="128" height="105"/>

@@ -18,5 +18,14 @@ final class WorkoutTypeCoordinator:
             ascending: true
         )
         controller.deletingEnabled = false
+        controller.onInsertNewObject = { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            let newType = WorkoutType(
+                context: strongSelf.coreDataStack.managedObjectContext
+            )
+            newType.title = "дрочка"
+            self?.coreDataStack.saveContext()
+        }
     }
 }

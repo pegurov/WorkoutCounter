@@ -28,6 +28,8 @@
 		C462F9371EAA9E540094962C /* SegueId.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9361EAA9E540094962C /* SegueId.swift */; };
 		C462F9391EAB7B910094962C /* NSManagedObjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9381EAB7B910094962C /* NSManagedObjectExtensions.swift */; };
 		C462F93D1EAB9FD50094962C /* NSObject+PropertiesInspection.m in Sources */ = {isa = PBXBuildFile; fileRef = C462F93C1EAB9FD50094962C /* NSObject+PropertiesInspection.m */; };
+		C462F93F1EABE4050094962C /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F93E1EABE4050094962C /* AsynchronousOperation.swift */; };
+		C462F9411EABE9C80094962C /* RelationshipRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9401EABE9C80094962C /* RelationshipRequestOperation.swift */; };
 		C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373D1EA219B40047C95F /* UserCoordinator.swift */; };
 		C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */; };
 		C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37411EA250E30047C95F /* UserCreateViewController.swift */; };
@@ -77,6 +79,8 @@
 		C462F93A1EAB9FD50094962C /* WorkoutCounter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WorkoutCounter-Bridging-Header.h"; sourceTree = "<group>"; };
 		C462F93B1EAB9FD50094962C /* NSObject+PropertiesInspection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PropertiesInspection.h"; sourceTree = "<group>"; };
 		C462F93C1EAB9FD50094962C /* NSObject+PropertiesInspection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PropertiesInspection.m"; sourceTree = "<group>"; };
+		C462F93E1EABE4050094962C /* AsynchronousOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
+		C462F9401EABE9C80094962C /* RelationshipRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationshipRequestOperation.swift; sourceTree = "<group>"; };
 		C47D373D1EA219B40047C95F /* UserCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
 		C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackImp.swift; sourceTree = "<group>"; };
 		C47D37411EA250E30047C95F /* UserCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCreateViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +133,8 @@
 				C462F9381EAB7B910094962C /* NSManagedObjectExtensions.swift */,
 				C462F93B1EAB9FD50094962C /* NSObject+PropertiesInspection.h */,
 				C462F93C1EAB9FD50094962C /* NSObject+PropertiesInspection.m */,
+				C462F93E1EABE4050094962C /* AsynchronousOperation.swift */,
+				C462F9401EABE9C80094962C /* RelationshipRequestOperation.swift */,
 			);
 			name = Firebase;
 			sourceTree = "<group>";
@@ -439,6 +445,7 @@
 				C47D375D1EA2A6C20047C95F /* WorkoutCell.swift in Sources */,
 				C462F9331EAA99770094962C /* WorkoutCreateCoordinator.swift in Sources */,
 				C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */,
+				C462F9411EABE9C80094962C /* RelationshipRequestOperation.swift in Sources */,
 				C47D375B1EA2A6A80047C95F /* WorkoutsViewController.swift in Sources */,
 				C462F9351EAA9E280094962C /* StoryboardCoordinator.swift in Sources */,
 				C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */,
@@ -453,6 +460,7 @@
 				C47D375F1EA2A7AD0047C95F /* WorkoutCreateViewController.swift in Sources */,
 				C47D37451EA288AF0047C95F /* UsersViewController.swift in Sources */,
 				C47D374E1EA2A04D0047C95F /* CoreDataStack.swift in Sources */,
+				C462F93F1EABE4050094962C /* AsynchronousOperation.swift in Sources */,
 				C44EDBDB1EA7DF8800751707 /* ApplicationCoordinator.swift in Sources */,
 				C47D37551EA2A5F40047C95F /* WorkoutCoordinator.swift in Sources */,
 				C47D374C1EA29FF40047C95F /* Extensions.swift in Sources */,

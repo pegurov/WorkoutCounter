@@ -59,7 +59,7 @@ final class WorkoutDetailViewController:
     
     private func addSetToCurrentSessionFromString(_ string: String) {
         
-        let newSet = Set(context: coreDataStack.managedObjectContext)
+        let newSet = SessionSet(context: coreDataStack.managedObjectContext)
         newSet.count = Int16(string) ?? 0
         newSet.time = NSDate()
         currentSession?.addToSets(newSet)

@@ -30,7 +30,7 @@ extension Array {
 extension Session {
     
     var setsDescription: String {
-        guard let sets = sets?.array as? [Set],
+        guard let sets = sets?.array as? [SessionSet],
             !sets.isEmpty else { return "Пока нет подходов" }
         
         var description = ""

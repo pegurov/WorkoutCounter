@@ -17,8 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         startGenericControllers()
         coreDataStack = CoreDataStackImp()
         FirebaseManager.startWith(coreDataStack: coreDataStack)
-//        FirebaseManager.sharedInstance.loadAllEntitiesOf(type: Workout.self)
-        FirebaseManager.sharedInstance.patch()
+        
+        let node = RelationshipNode(
+            children: ["createdBy": RelationshipNode(),
+                       "type": RelationshipNode()]
+        )
+        FirebaseManager.sharedInstance.loadAllEntitiesOf(
+            type: Workout.self,
+            resolvingRelationships: node
+        )
         
         window = UIWindow()
         appCoordinator = ApplicationCoordinator(
