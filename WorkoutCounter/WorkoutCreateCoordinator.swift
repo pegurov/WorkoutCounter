@@ -37,18 +37,9 @@ class WorkoutCreateCoordinator:
                 let type = strongSelf.selectedType,
                 !strongSelf.selectedUsers.isEmpty {
                 
-                let context = strongSelf.coreDataStack.managedObjectContext
-                let newWorkout = Workout(context: context)
-                newWorkout.date = NSDate()
-                newWorkout.type = type
-                let sessions: [Session] = strongSelf.selectedUsers.map {
-                    let newSession = Session(context: context)
-                    newSession.user = $0
-                    return newSession
-                }
-                newWorkout.sessions = NSOrderedSet(array: sessions)
-                strongSelf.coreDataStack.saveContext()
-                
+                let newWorkout = FirebaseManager.sharedInstance.makeWorkout(
+                    withType: type, users: strongSelf.selectedUsers
+                )
                 self?.onFinish?(newWorkout)
             }
         }

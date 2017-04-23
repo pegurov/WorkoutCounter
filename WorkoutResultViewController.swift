@@ -11,7 +11,7 @@ extension Workout {
             
             let session = session as! Session
             result += formatter.string(from: date! as Date) + "\t"
-            result += (title ?? "") + "\t"
+            result += (type?.title ?? "") + "\t"
             result += (session.user!.name ?? "") + "\t\t\t\t"
             
             session.sets?.forEach { set in

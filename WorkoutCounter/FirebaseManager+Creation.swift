@@ -17,7 +17,10 @@ extension FirebaseManager {
             insertInto: coreDataStack.managedObjectContext
         )
         newObject.title = title
-        syncManagedObject(newObject)
+// TODO: Created by        
+        syncKeysOfManagedObject(of: newObject)
+        syncRelationships(of: newObject)
+        coreDataStack.saveContext()
         return newObject
     }
     
@@ -33,12 +36,47 @@ extension FirebaseManager {
             insertInto: coreDataStack.managedObjectContext
         )
         newObject.name = name
-        syncManagedObject(newObject)
+// TODO: Created by
+        syncKeysOfManagedObject(of: newObject)
+        syncRelationships(of: newObject)
+        coreDataStack.saveContext()
         return newObject
     }
     
-    func syncManagedObject(
-        _ object: NSManagedObject) {
+    @discardableResult
+    func makeWorkout(
+        withType type: WorkoutType,
+        users: [User]) -> Workout {
+        
+        let entityDescription = NSEntityDescription.entity(
+            forEntityName: "Workout",
+            in: coreDataStack.managedObjectContext
+        )
+        let newObject = Workout(
+            entity: entityDescription!,
+            insertInto: coreDataStack.managedObjectContext
+        )
+        newObject.type = type
+        newObject.date = NSDate()
+// TODO: Created by
+        syncKeysOfManagedObject(of: newObject)
+        
+        let sessions: [Session] = users.map {
+            let newSession = Session(context: coreDataStack.managedObjectContext)
+            syncKeysOfManagedObject(of: newSession)
+            newSession.user = $0
+            return newSession
+        }
+        newObject.sessions = NSOrderedSet(array: sessions)
+        syncRelationships(of: newObject)
+        sessions.forEach {
+            syncRelationships(of: $0)
+        }
+        coreDataStack.saveContext()
+        return newObject
+    }
+    
+    func syncKeysOfManagedObject(of object: NSManagedObject) {
         
         let description = object.entity
         let fbEntity: FIRDatabaseReference
@@ -61,6 +99,20 @@ extension FirebaseManager {
                 fbEntity.child(key).setValue(value)
             }
         }
+        
+    }
+    
+    func syncRelationships(of object: NSManagedObject) {
+        
+        let description = object.entity
+        let fbEntity: FIRDatabaseReference
+        if let remoteId = object.value(forKey: "remoteId") as? String {
+            fbEntity = ref.child(description.name!).child(remoteId)
+        } else {
+            fbEntity = ref.child(description.name!).childByAutoId()
+            object.setValue(fbEntity.key, forKey: "remoteId")
+        }
+        
         // sync relationships
         description.relationshipsByName.forEach { key, relationship in
             
