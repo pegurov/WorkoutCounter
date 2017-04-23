@@ -11,6 +11,7 @@
 		C4270E391EACBA8E00F11809 /* FirebaseManager+Creation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4270E381EACBA8E00F11809 /* FirebaseManager+Creation.swift */; };
 		C4270E3D1EACE94600F11809 /* ActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4270E3C1EACE94600F11809 /* ActivityView.xib */; };
 		C4270E3F1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */; };
+		C4270E431EAD3AE300F11809 /* SessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4270E421EAD3AE300F11809 /* SessionsViewController.swift */; };
 		C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */; };
 		C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBF1EA40D8400751707 /* SessionCell.swift */; };
 		C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */; };
@@ -59,6 +60,7 @@
 		C4270E381EACBA8E00F11809 /* FirebaseManager+Creation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FirebaseManager+Creation.swift"; sourceTree = "<group>"; };
 		C4270E3C1EACE94600F11809 /* ActivityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityView.xib; sourceTree = "<group>"; };
 		C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypeCreateViewController.swift; sourceTree = "<group>"; };
+		C4270E421EAD3AE300F11809 /* SessionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsViewController.swift; sourceTree = "<group>"; };
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
 		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
 		C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 				C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */,
 				C44EDBBF1EA40D8400751707 /* SessionCell.swift */,
 				D5079C381EA616800097FD2C /* WorkoutResultViewController.swift */,
+				C4270E421EAD3AE300F11809 /* SessionsViewController.swift */,
 			);
 			name = Workouts;
 			path = ..;
@@ -449,6 +452,7 @@
 				C44EDBD31EA7DDC000751707 /* ProfileCoordinator.swift in Sources */,
 				C47D375D1EA2A6C20047C95F /* WorkoutCell.swift in Sources */,
 				C462F9331EAA99770094962C /* WorkoutCreateCoordinator.swift in Sources */,
+				C4270E431EAD3AE300F11809 /* SessionsViewController.swift in Sources */,
 				C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */,
 				C47D375B1EA2A6A80047C95F /* WorkoutsViewController.swift in Sources */,
 				C462F9351EAA9E280094962C /* StoryboardCoordinator.swift in Sources */,

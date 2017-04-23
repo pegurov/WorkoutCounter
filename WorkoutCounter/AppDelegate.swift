@@ -35,9 +35,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func startGenericControllers() {
         
-        // this is needed so that these controller can 
+        // this is needed so that these controllers can
         // be used via storyboard
         _ = UsersViewController()
         _ = WorkoutsViewController()
+        _ = SessionsViewController()
     }
 }

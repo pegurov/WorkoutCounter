@@ -68,6 +68,7 @@ extension FirebaseManager {
             return newSession
         }
         newObject.sessions = NSOrderedSet(array: sessions)
+        newObject.activeSession = sessions.first
         syncRelationships(of: newObject)
         sessions.forEach {
             syncRelationships(of: $0)

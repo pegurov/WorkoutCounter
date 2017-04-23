@@ -4,7 +4,7 @@ import CoreData
 final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
 
     // MARK: - Output -
-    var onFlowFinished: ((_ userIds: [NSManagedObjectID]) -> Void)?
+    var onUserIdsUpdated: ((_ userIds: [NSManagedObjectID]) -> Void)?
     
     // MARK: - Input -
     var selectedUserIds = [NSManagedObjectID]() {
@@ -36,12 +36,12 @@ final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
                 sender: self
             )
         }
-        controller.onObjectSelected = { [weak self, weak controller] user in
+        controller.onObjectSelected = { [weak self] user in
             
             if (self?.selectedUserIds.removeWhere{ $0 == user.objectID } == nil) {
                 self?.selectedUserIds.append(user.objectID)
             }
-            controller?.selectedIds = self?.selectedUserIds ?? []
+            self?.onUserIdsUpdated?(self?.selectedUserIds ?? [])
         }
     }
     

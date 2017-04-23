@@ -58,16 +58,10 @@ class WorkoutCreateCoordinator:
             startInNavigation: false
         )
         selectUsersCoordinator?.selectedUserIds = existingUserIds
-        selectUsersCoordinator?.onFlowFinished = {
-            [weak self, weak controller] userIds in
-            guard let controller = controller else { return }
+        selectUsersCoordinator?.onUserIdsUpdated = { [weak controller] userIds in
             
-            controller.usersViewController?.predicate = NSPredicate(
+            controller?.usersViewController?.predicate = NSPredicate(
                 format: "(self IN %@)", userIds
-            )
-            self?.navigationController?.popToViewController(
-                controller,
-                animated: true
             )
         }
         navigationController?.pushViewController(
