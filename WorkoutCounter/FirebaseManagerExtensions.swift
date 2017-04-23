@@ -12,13 +12,29 @@ extension FirebaseManager {
             forEntityName: "WorkoutType",
             in: coreDataStack.managedObjectContext
         )
-        let newWorkoutType = WorkoutType(
+        let newObject = WorkoutType(
             entity: entityDescription!,
             insertInto: coreDataStack.managedObjectContext
         )
-        newWorkoutType.title = title
-        syncManagedObject(newWorkoutType)
-        return newWorkoutType
+        newObject.title = title
+        syncManagedObject(newObject)
+        return newObject
+    }
+    
+    @discardableResult
+    func makeUser(withName name: String) -> User {
+        
+        let entityDescription = NSEntityDescription.entity(
+            forEntityName: "User",
+            in: coreDataStack.managedObjectContext
+        )
+        let newObject = User(
+            entity: entityDescription!,
+            insertInto: coreDataStack.managedObjectContext
+        )
+        newObject.name = name
+        syncManagedObject(newObject)
+        return newObject
     }
     
     func syncManagedObject(
@@ -41,7 +57,7 @@ extension FirebaseManager {
                 if let date = value as? NSDate {
                     fbEntity.child(key).setValue(date.timeIntervalSince1970)
                 }
-            } else {
+            } else if key != "remoteId" {
                 fbEntity.child(key).setValue(value)
             }
         }

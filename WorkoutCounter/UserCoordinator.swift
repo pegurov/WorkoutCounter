@@ -47,14 +47,10 @@ final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
     
     private func configureCreateController(_ controller: UserCreateViewController) {
         
-        controller.onFinish = { [weak self, weak controller] userName in
+        controller.onFinish = { [weak controller] userName in
             
-            if let strongSelf = self, let userName = userName {
-                
-                let context = strongSelf.coreDataStack.managedObjectContext
-                let newUser = User(context: context)
-                newUser.name = userName
-                strongSelf.coreDataStack.saveContext()
+            if let userName = userName {
+                FirebaseManager.sharedInstance.makeUser(withName: userName)
             }
             
             controller?.presentingViewController?.dismiss(
