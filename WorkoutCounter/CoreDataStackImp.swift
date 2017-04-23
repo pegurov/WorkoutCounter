@@ -51,13 +51,26 @@ class CoreDataStackImp: CoreDataStack {
     
     func fetchAll<T: NSFetchRequestResult>(entityName: String) -> [T]? {
         
+        return fetch(
+            entityName: entityName,
+            predicate: nil
+        )
+    }
+    
+    func fetch<T: NSFetchRequestResult>(
+        entityName: String,
+        predicate: NSPredicate?) -> [T]? {
+        
         let fetchRequest = NSFetchRequest<T>(entityName: entityName)
+        fetchRequest.predicate = predicate
         let _result = try? managedObjectContext.execute(fetchRequest)
         if let result = _result as? NSAsynchronousFetchResult<T> {
             return result.finalResult
         }
         return nil
     }
+    
+    func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
+        persistentContainer.performBackgroundTask(block)
+    }
 }
-
-

@@ -2,7 +2,6 @@ import Foundation
 import Firebase
 import FirebaseStorage
 import CoreData
-import FirebaseAuthUI
 
 final class FirebaseManager {
     
@@ -14,236 +13,373 @@ final class FirebaseManager {
         sharedInstance = FirebaseManager()
         sharedInstance.coreDataStack = coreDataStack
         sharedInstance.ref = FIRDatabase.database().reference()
-        sharedInstance.operationQueue = OperationQueue()
-        sharedInstance.operationQueue.maxConcurrentOperationCount = 100
     }
     
-    private var coreDataStack: CoreDataStack!
-    private var ref: FIRDatabaseReference!
-    private var operationQueue: OperationQueue!
+    private(set) var coreDataStack: CoreDataStack!
+    private(set) var ref: FIRDatabaseReference!
     
-    func loadAllEntitiesOf(
-        type: AnyClass,
-        resolvingRelationships: RelationshipNode?) {
+    func loadRequest(
+        _ request: ObjectsRequest,
+        completion: (() -> Void)? = nil) {
         
-        guard let type = type as? NSManagedObject.Type else {
-            assert(false, "Type should be an NSManagedObject subtype")
-            return
+        switch request.mode {
+        case .all:
+            loadAllObjects(
+                request: request,
+                completion: { [weak self] loadedObjects in
+                    
+                    let result = self?.processLoadedObjects(loadedObjects)
+                    self?.coreDataStack.saveContext()
+                    completion?()
+            })
+        case .ids(let ids):
+            loadObjectsByIds(
+                ids,
+                entityName: request.entityName,
+                node: request.node,
+                completion: { [weak self] loadedObjects in
+                    
+                    self?.processLoadedObjects(loadedObjects)
+                    self?.coreDataStack.saveContext()
+                    completion?()
+            })
         }
+    }
+    
+    // MARK: - Loading objects -
+    private func loadAllObjects(
+        request: ObjectsRequest,
+        completion: @escaping ([EntityStub]) -> Void) {
         
-        ref.child(NSStringFromClass(type)).observeSingleEvent(
+        ref.child(request.entityName).observeSingleEvent(
             of: FIRDataEventType.value,
             with: { [weak self] snapshot in
-            
-                let allTypes = snapshot.value as? [String : Any] ?? [:]
-                var relationshipStubs: [RelationshipStub] = []
                 
-                for remoteId in allTypes.keys {
-                    guard let dict = allTypes[remoteId] as? [String : Any],
+                let response = snapshot.value as? [String : Any] ?? [:]
+                var entityStubs: [EntityStub] = []
+                
+                for remoteId in response.keys {
+                    guard let json = response[remoteId] as? [String : Any],
                         let strongSelf = self else {
-                        continue
+                            continue
                     }
-                    
-                    let newObject = type.init(
-                        context: strongSelf.coreDataStack.managedObjectContext
-                    )
-                    let stubs = newObject.patchKeysWith(
+
+                    let entityStub = EntityStub(
+                        context: strongSelf.coreDataStack.managedObjectContext,
+                        entityName: request.entityName,
                         remoteId: remoteId,
-                        json: dict,
-                        resolving: resolvingRelationships
+                        json: json,
+                        node: request.node
                     )
-                    relationshipStubs.append(contentsOf: stubs)
+                    entityStubs.append(entityStub)
                 }
-                
-                // resolve the stubs
-                if relationshipStubs.isEmpty {
-                    self?.coreDataStack.saveContext()
-                } else {
-                    let requests = self?.processStubs(relationshipStubs) ?? []
-                    self?.executeStubRequests(requests)
-                }
+                self?.resolveEntityStubs(
+                    entityStubs,
+                    completion: {
+                        completion(entityStubs)
+                })
         })
     }
     
-    func processStubs(_ stubs: [RelationshipStub]) -> [RelationshipStubsRequest] {
+    private func resolveEntityStubs(
+        _ entityStubs: [EntityStub],
+        completion: @escaping () -> Void) {
         
-        var groupedStubs: [String: [RelationshipStub]] = [:]
-        stubs.forEach { stub in
-            
-            if let entityName = stub.toEntityName {
+        if entityStubs.isEmpty {
+            completion()
+        } else {
+        
+            var counter: NSNumber = NSNumber(integerLiteral: 0)
+            entityStubs.forEach {
                 
-                var existingStubs = groupedStubs[entityName] ?? []
-                existingStubs.append(stub)
-                groupedStubs[entityName] = existingStubs
+                counter = NSNumber(integerLiteral: counter.intValue + 1)
+                self.resolveEntityStub($0, completion: {
+                    
+                    counter = NSNumber(integerLiteral: counter.intValue - 1)
+                    if counter.intValue == 0 {
+                        completion()
+                    }
+                })
             }
-        }
-        return groupedStubs.map {
-            return RelationshipStubsRequest( stubs: $0.value, entityName: $0.key)
         }
     }
     
-    func executeStubRequests(_ requests: [RelationshipStubsRequest]) {
-
+    private func resolveEntityStub(
+        _ entityStub: EntityStub,
+        completion: @escaping () -> Void) {
+        
+        resolveRelationshipStubs(
+            entityStub.relationshipStubs,
+            completion: completion
+        )
+    }
+    
+    private func resolveRelationshipStubs(
+        _ relationships: [RelationshipStub],
+        completion: @escaping () -> Void) {
+        
+        if relationships.isEmpty {
+            completion()
+        } else {
+            
+            var counter: NSNumber = NSNumber(integerLiteral: 0)
+            relationships.forEach {
+                
+                counter = NSNumber(integerLiteral: counter.intValue + 1)
+                self.resolveRelationshipStub($0, completion: {
+                    
+                    counter = NSNumber(integerLiteral: counter.intValue - 1)
+                    if counter.intValue == 0 {
+                        completion()
+                    }
+                })
+            }
+        }
+    }
+    
+    private func resolveRelationshipStub(
+        _ relationship: RelationshipStub,
+        completion: @escaping () -> Void) {
+        
+        switch relationship.mode {
+        case let .toOne(id):
+            if let id = id {
+                
+                loadObjectById(
+                    id,
+                    entityName: relationship.toEntityName,
+                    node: relationship.node,
+                    completion: { loadedObject in
+                 
+                        if let loadedObject = loadedObject {
+                            relationship.entityStubs = [loadedObject]
+                        } else {
+                            relationship.entityStubs = []
+                        }
+                        completion()
+                })
+            } else {
+                completion()
+            }
+        case let .toMany(ids):
+            
+            loadObjectsByIds(
+                ids,
+                entityName: relationship.toEntityName,
+                node: relationship.node,
+                completion: { loadedObjects in
+             
+                    relationship.entityStubs = loadedObjects
+                    completion()
+            })
+        }
+    }
+    
+    private func loadObjectsByIds(
+        _ ids: [String],
+        entityName: String,
+        node: ObjectGraphNode,
+        completion: @escaping ([EntityStub]) -> Void) {
+        
+        if ids.isEmpty {
+            completion([])
+        } else {
+            
+            var counter: NSNumber = NSNumber(integerLiteral: 0)
+            var loaded: [EntityStub] = []
+            ids.forEach {
+                
+                counter = NSNumber(integerLiteral: counter.intValue + 1)
+                self.loadObjectById(
+                    $0,
+                    entityName: entityName,
+                    node: node,
+                    completion: { loadedObject in
+                    
+                        if let loadedObject = loadedObject {
+                            loaded.append(loadedObject)
+                        }
+                        counter = NSNumber(integerLiteral: counter.intValue - 1)
+                        if counter.intValue == 0 {
+                            completion(loaded)
+                        }
+                })
+            }
+        }
+    }
+    
+    private func loadObjectById(
+        _ id: String,
+        entityName: String,
+        node: ObjectGraphNode,
+        completion: @escaping (EntityStub?) -> Void) {
+     
+        ref.child(entityName).child(id).observeSingleEvent(
+            of: FIRDataEventType.value,
+            with: { [weak self] snapshot in
+                
+                guard let json = snapshot.value as? [String : Any],
+                    let strongSelf = self else {
+                        
+                        completion(nil)
+                        return
+                }
+                
+                let entityStub = EntityStub(
+                    context: strongSelf.coreDataStack.managedObjectContext,
+                    entityName: entityName,
+                    remoteId: id,
+                    json: json,
+                    node: node
+                )
+                self?.resolveEntityStub(
+                    entityStub,
+                    completion: {
+                
+                        completion(entityStub)
+                })
+        })
+    }
+    
+    // MARK: - Processing loaded objects
+    @discardableResult
+    private func processLoadedObjects(
+        _ objects: [EntityStub]) -> [NSManagedObject] {
+        
+        let requests = relationshipRequestsFrom(objects: objects)
+        let existingObjects = fetch(
+            objects: objects,
+            requests: requests
+        )
+        return objects.map {
+            self.processLoadedObject(
+                $0,
+                existingObjects: existingObjects
+            )
+        }
+    }
+    
+    private func relationshipRequestsFrom(
+        objects: [EntityStub]) -> [RelationshipStubsRequest] {
+        
+        var requests = [String: RelationshipStubsRequest]()
+        objects.forEach { object in
+            object.relationshipStubs.forEach { relationshipStub in
+                
+                let request = requests[relationshipStub.toEntityName] ??
+                    RelationshipStubsRequest(entityName: relationshipStub.toEntityName)
+                request.stubs.append(relationshipStub)
+                requests[relationshipStub.toEntityName] = request
+            }
+        }
+        return Array(requests.values)
+    }
+    
+    private func fetch(
+        objects: [EntityStub],
+        requests: [RelationshipStubsRequest]) -> [String: NSManagedObject] {
+     
+        var result = [String: NSManagedObject]()
+        
+        if objects.count > 0 {
+            
+            let remoteIds = objects.map { $0.remoteId }
+            let predicate = NSPredicate(format: "(remoteId IN %@)", remoteIds)
+            let fetchResult: [NSManagedObject]? = coreDataStack.fetch(
+                entityName: objects.first!.entityName,
+                predicate: predicate
+            )
+            fetchResult?.forEach {
+                if let remoteId = $0.value(forKey: "remoteId") as? String {
+                    result[remoteId] = $0
+                }
+            }
+        }
+        
         requests.forEach { request in
             
-            let operation = RelationshipRequestOperation(
-                request: request) { snaps in
-                    
-                    // process operation result
-                    print("\(snaps)")
-                    
+            let remoteIds = Array(request.remoteIds)
+            let predicate = NSPredicate(format: "(remoteId IN %@)", remoteIds)
+            let fetchResult: [NSManagedObject]? = coreDataStack.fetch(
+                entityName: request.entityName,
+                predicate: predicate
+            )
+            fetchResult?.forEach {
+                if let remoteId = $0.value(forKey: "remoteId") as? String {
+                    result[remoteId] = $0
+                }
             }
-            operationQueue.addOperation(operation)
         }
+        return result
     }
     
-    func updateDatabase(
-        entityType: String,
-        withServerValues: [AnyHashable : Any]) {
+    func processLoadedObject(
+        _ objectStub: EntityStub,
+        existingObjects: [String: NSManagedObject]) -> NSManagedObject {
         
+        var managedObject: NSManagedObject! = existingObjects[objectStub.remoteId]
+        if managedObject == nil {
+            let entityDescription = NSEntityDescription.entity(
+                forEntityName: objectStub.entityName,
+                in: coreDataStack.managedObjectContext
+            )
+            managedObject = NSManagedObject(
+                entity: entityDescription!,
+                insertInto: coreDataStack.managedObjectContext
+            )
+        }
         
-    }
-    
-    func patch() {
-        
-        return
-        
-        fix()
-        
-        synchronizeKeysFor(
-            entityName: "User",
-            keys: ["name"]
-        )
-        synchronizeKeysFor(
-            entityName: "WorkoutType",
-            keys: ["title"]
-        )
-        synchronizeKeysFor(
-            entityName: "Workout",
-            keys: ["date", "title"]
-        )
-        synchronizeKeysFor(
-            entityName: "Session",
-            keys: ["active"]
-        )
-        synchronizeKeysFor(
-            entityName: "SessionSet",
-            keys: ["count", "time"]
-        )
-        
-        synchronizeRelationships(
-            entityName: "User",
-            relationships: ["sessions"]
-        )
-        synchronizeRelationships(
-            entityName: "Session",
-            relationships: ["sets", "user", "workout", "createdBy"]
-        )
-        synchronizeRelationships(
-            entityName: "SessionSet",
-            relationships: ["session", "createdBy"]
-        )
-        synchronizeRelationships(
-            entityName: "Workout",
-            relationships: ["sessions", "users", "createdBy", "type"]
-        )
-        synchronizeRelationships(
-            entityName: "WorkoutType",
-            relationships: ["workouts"]
-        )
-    }
-    
-    func fix() {
-        
-        // again, patch all entities created by!
-        coreDataStack.saveContext()
-    }
-    
-    func synchronizeKeysFor(
-        entityName: String,
-        keys: [String]) {
-        
-        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(entityName: entityName)
-        objects?.forEach { object in
+        // 1. process relationships
+        objectStub.relationshipStubs.forEach { relationshipStub in
             
-            if let remoteId = object.value(forKey: "remoteId") as? String? {
+            let objects = self.processLoadedObjects(relationshipStub.entityStubs)
+            switch relationshipStub.mode {
+            case .toOne:
+                if let relationshipObject = objects.first {
+                    managedObject?.setValue(
+                        relationshipObject,
+                        forKey: relationshipStub.fromKey
+                    )
+                }
+            case .toMany:
                 
-                let fbEntity: FIRDatabaseReference
-                if let remoteId = remoteId {
-                    fbEntity = ref.child(entityName).child(remoteId)
-                } else {
-                    fbEntity = ref.child(entityName).childByAutoId()
-                    object.setValue(fbEntity.key, forKey: "remoteId")
-                }
-                // sync keys
-                keys.forEach { key in
-                    let transformedValue = object.transformedValue(forKey: key)
-                    fbEntity.child(key).setValue(transformedValue)
-                }
-            } else {
-                assert(false, "Object has no remote id!")
+                managedObject?.setValue(
+                    NSOrderedSet(array: objects),
+                    forKey: relationshipStub.fromKey
+                )
             }
         }
-        coreDataStack?.saveContext()
-    }
-    
-    func synchronizeRelationships(
-        entityName: String,
-        relationships: [String]) {
         
-        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(entityName: entityName)
-        objects?.forEach { object in
-            
-            if let remoteId = object.value(forKey: "remoteId") as? String? {
-                
-                let fbEntity: FIRDatabaseReference
-                if let remoteId = remoteId {
-                    fbEntity = ref.child(entityName).child(remoteId)
-                } else {
-                    assert(false, "Entity should have a remoteId by now")
-                    fbEntity = ref.child(entityName).childByAutoId()
-                }
-                // sync relationships
-                relationships.forEach { relationship in
-                
-                    if (object.value(forKey: relationship) == nil) {
-                        assert(false, "relationship should not be nil!")
-                    }
-                    else if let relationshipManagedObject = object.value(forKey: relationship) as? NSManagedObject,
-                        let remoteId = relationshipManagedObject.value(forKey: "remoteId") as? String {
-                        
-                        fbEntity.child(relationship).setValue(remoteId)
-                    } else {
-                        
-                        let set = object.mutableOrderedSetValue(forKey: relationship)
-                        set.forEach {
-                            
-                            if let relationshipObject = $0 as? NSManagedObject,
-                                let remoteId = relationshipObject.value(forKey: "remoteId") as? String {
-                                
-                                fbEntity.child(relationship).child(remoteId).setValue(true)
-                            } else {
-                                assert(false, "Relationship in set has no remoteId")
-                            }
-                        }
-                    }
-                }
-            } else {
-                assert(false, "Object has no remote id!")
-            }
-        }
-        coreDataStack?.saveContext()
+        // 2. process keys
+        managedObject.patchKeysWith(
+            remoteId: objectStub.remoteId,
+            json: objectStub.json
+        )
+        
+        return managedObject
     }
 }
 
 extension NSManagedObject {
     
-    func transformedValue(forKey key: String) -> Any? {
+    func patchKeysWith(
+        remoteId: String,
+        json: [String: Any]) {
         
-        let realValue = value(forKey: key)
-        if let date = realValue as? NSDate {
-            return NSNumber(value: date.timeIntervalSince1970)
+        for key in json.keys {
+            
+            if entity.relationshipsByName[key] != nil {
+                // relationship, skip
+            } else if entity.attributesByName[key]?.attributeType == .dateAttributeType {
+                if let double = json[key] as? Double {
+                    setValue(Date(timeIntervalSince1970: double), forKey: key)
+                } else {
+                    assert(false, "Date which is not a double")
+                }
+            } else {
+                setValue(json[key], forKey: key)
+            }
         }
-        return realValue
+        setValue(remoteId, forKey: "remoteId")
     }
 }

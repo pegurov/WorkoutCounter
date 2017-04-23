@@ -23,7 +23,7 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
     var selectedIds: [NSManagedObjectID] = [] {
         didSet { tableView?.reloadData() }
     }
-    var deletingEnabled = true
+    var deletingEnabled = false
     
 // CORE DATA STACK
     var managedObjectContext: NSManagedObjectContext!

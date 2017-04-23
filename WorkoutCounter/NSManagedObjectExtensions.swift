@@ -1,125 +1,168 @@
 import CoreData
-import ObjectiveC
 
-// Represents a node in the relationships tree
-struct RelationshipNode {
-    let children: [String: RelationshipNode]
-}
-
-extension RelationshipNode {
+// Represents a request for objects
+final class ObjectsRequest {
     
-    init() {
-        self.init(children: [:])
+    enum Mode {
+        case all
+        case ids([String])
     }
-}
-
-// contains stubs pointing to one type of Entity
-final class RelationshipStubsRequest {
+    
+    let entityName: String
+    let mode: Mode
+    let node: ObjectGraphNode
     
     init(
-        stubs: [RelationshipStub],
-        entityName: String) {
+        entityName: String,
+        mode: Mode = .all,
+        node: ObjectGraphNode = ObjectGraphNode()) {
         
-        self.stubs = stubs
         self.entityName = entityName
+        self.mode = mode
+        self.node = node
     }
+}
+
+// Represents a node in the objects graph
+final class ObjectGraphNode {
     
-    let stubs: [RelationshipStub]
-    let entityName: String
-    
-    var remoteIds: Set<String> {
-        return Set(stubs.flatMap{ stub -> [String] in
-            
-            switch stub.mode {
-            case .toOne(let id):
-                return [id]
-            case .toMany(let ids):
-                return ids
+    enum Mode {
+        case root
+        case leaf(String)
+        
+        static func ==( _ lhs: Mode, rhs: Mode) -> Bool {
+            switch (lhs, rhs) {
+            case (.root, .root):
+                return true
+            case (.leaf(let lhsKey), .leaf(let rhsKey)):
+                return lhsKey == rhsKey
+            default:
+                return false
             }
-        })
+        }
+    }
+    let mode: Mode
+    let children: [ObjectGraphNode]
+    
+    init(mode: Mode = .root,
+         children: [ObjectGraphNode] = []) {
+        
+        self.mode = mode
+        self.children = children
     }
 }
 
 // A stub that represents a need to download additonal data
 final class RelationshipStub {
     
-    enum RelationshipStubMode {
-        case toOne(String)
+    enum Mode {
+        case toOne(String?)
         case toMany([String])
     }
     
+    let toEntityName: String
+    let fromKey: String
+    let mode: Mode
+    let node: ObjectGraphNode
+    var entityStubs: [EntityStub] = []
+
     init(
-        from: NSManagedObject,
+        toEntityName: String,
         fromKey: String,
-        mode: RelationshipStubMode,
-        node: RelationshipNode) {
+        mode: Mode,
+        node: ObjectGraphNode) {
         
-        self.from = from
+        self.toEntityName = toEntityName
         self.fromKey = fromKey
         self.mode = mode
         self.node = node
     }
+}
+
+// contains stubs pointing to one type of Entity
+final class RelationshipStubsRequest {
     
-    let from: NSManagedObject
-    let fromKey: String
-    let mode: RelationshipStubMode
-    let node: RelationshipNode
+    var stubs: [RelationshipStub] = []
+    let entityName: String
+    var remoteIds: Set<String> {
+        return Set(stubs.flatMap{ stub -> [String] in
+            
+            switch stub.mode {
+            case .toOne(let id):
+                if let id = id {
+                    return [id]
+                } else {
+                    return []
+                }
+            case .toMany(let ids):
+                return ids
+            }
+        })
+    }
     
-    var toEntityName: String? {
-        let relationshipDescription = from.entity.relationshipsByName[fromKey]
-        return relationshipDescription?.destinationEntity?.name
+    init(
+        entityName: String) {
+        
+        self.entityName = entityName
     }
 }
 
-extension NSManagedObject {
+// A stub that represents entity
+final class EntityStub {
     
-    @discardableResult
-    func patchKeysWith(
+    let entityName: String
+    let remoteId: String
+    let json: [String: Any]
+    var relationshipStubs: [RelationshipStub] = []
+    
+    init(
+        context: NSManagedObjectContext,
+        entityName: String,
         remoteId: String,
         json: [String: Any],
-        resolving rootNode: RelationshipNode?) -> [RelationshipStub] {
+        node: ObjectGraphNode) {
         
-        var relationshipStubs: [RelationshipStub] = []
+    // save properties
+        self.entityName = entityName
+        self.remoteId = remoteId
+        self.json = json
         
-        for key in json.keys {
-// TODO: This can be refactored using just entity description
-            if let _ = self.class(ofPropertyNamed: key) as? NSOrderedSet.Type,
-                let toIds = json[key] as? [String: Any] {
-        // to many relationship
-                if let node = rootNode?.children[key] {
-                    let newStub = RelationshipStub(
-                        from: self,
-                        fromKey: key,
-                        mode: .toMany(Array(toIds.keys)),
-                        node: node
-                    )
-                    relationshipStubs.append(newStub)
-                }
-            } else if let _ = self.class(ofPropertyNamed: key) as? NSManagedObject.Type,
-                let toId = json[key] as? String {
-        // to one relationship
-                if let node = rootNode?.children[key] {
-                    let newStub = RelationshipStub(
-                        from: self,
-                        fromKey: key,
-                        mode: .toOne(toId),
-                        node: node
-                    )
-                    relationshipStubs.append(newStub)
-                }
-            } else if let _ = self.class(ofPropertyNamed: key) as? NSDate.Type {
-        // date
-                if let double = json[key] as? Double {
-                    setValue(Date(timeIntervalSince1970: double), forKey: key)
+        guard let entityDescription = NSEntityDescription.entity(
+            forEntityName: entityName,
+            in: context
+        ) else {
+            assert(false, "Unable to get entity description!")
+            return
+        }
+        
+    // fill relationship stubs
+        var stubs: [RelationshipStub] = []
+        node.children.forEach { childNode in
+            
+            if let relationship = entityDescription.relationshipsByName.first(where: { key, desc in
+                childNode.mode == .leaf(key)
+            }) {
+                let mode: RelationshipStub.Mode
+                if relationship.value.isToMany {
+                    
+                    if let keys = (json[relationship.key] as? [String: Any])?.keys {
+                        mode = .toMany(Array(keys))
+                    } else {
+                        mode = .toMany([])
+                    }
                 } else {
-                    assert(false, "Date which is not a double")
+                    mode = .toOne(json[relationship.key] as? String)
                 }
-            } else {
-        // something else
-                setValue(json[key], forKey: key)
+                
+                let newStub = RelationshipStub(
+                    toEntityName: relationship.value.destinationEntity!.name!,
+                    fromKey: relationship.key,
+                    mode: mode,
+                    node: childNode
+                )
+                stubs.append(newStub)
             }
         }
-        setValue(remoteId, forKey: "remoteId")
-        return relationshipStubs
-    }    
+        relationshipStubs = stubs
+    }
 }

@@ -1,7 +1,6 @@
-import Foundation
-import Firebase
-import FirebaseStorage
+// REMOVED FROM TARGET
 
+/*
 final class RelationshipRequestOperation: AsynchronousOperation {
 
     let request: RelationshipStubsRequest
@@ -16,7 +15,7 @@ final class RelationshipRequestOperation: AsynchronousOperation {
     }
     
     override func execute() {
-        
+    
         var counter: NSNumber = NSNumber(integerLiteral: 0)
         var result: [String: Any] = [:]
         
@@ -39,3 +38,4 @@ final class RelationshipRequestOperation: AsynchronousOperation {
         }
     }
 }
+*/

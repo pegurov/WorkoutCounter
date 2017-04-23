@@ -1,5 +1,7 @@
 import Foundation
 
+// TODO: REMOVED FROM TARGET
+
 /// An abstract class that makes building simple asynchronous operations easy.
 /// Subclasses must implement `execute()` to perform any work and call
 /// `finish()` when they are done. All `NSOperation` work will be handled

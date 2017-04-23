@@ -1,6 +1,8 @@
 #import "NSObject+PropertiesInspection.h"
 #import <objc/runtime.h>
 
+
+// TODO: - removed from target
 @implementation NSObject (PropertiesInspection)
 
 - (Class)classOfPropertyNamed:(NSString *)propertyName {

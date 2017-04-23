@@ -18,14 +18,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         coreDataStack = CoreDataStackImp()
         FirebaseManager.startWith(coreDataStack: coreDataStack)
         
-        let node = RelationshipNode(
-            children: ["createdBy": RelationshipNode(),
-                       "type": RelationshipNode()]
+        let node = ObjectGraphNode(
+            children: [
+//                ObjectGraphNode(mode: .leaf("type")),
+//                ObjectGraphNode(mode: .leaf("createdBy"))
+            ]
         )
-        FirebaseManager.sharedInstance.loadAllEntitiesOf(
-            type: Workout.self,
-            resolvingRelationships: node
+        let request = ObjectsRequest(
+            entityName: "WorkoutType",
+            mode: .all,
+            node: node
         )
+        FirebaseManager.sharedInstance.loadRequest(request, completion: {
+            print("loaded request!!")
+        })
         
         window = UIWindow()
         appCoordinator = ApplicationCoordinator(

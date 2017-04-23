@@ -33,7 +33,6 @@
         <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="createdWorkoutTypes" inverseEntity="User" syncable="YES"/>
         <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Session" inverseName="workout" inverseEntity="Session" syncable="YES"/>
         <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutType" inverseName="workouts" inverseEntity="WorkoutType" syncable="YES"/>
-        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="User" syncable="YES"/>
         <userInfo/>
     </entity>
     <entity name="WorkoutType" representedClassName="WorkoutType" syncable="YES" codeGenerationType="class">
@@ -46,7 +45,7 @@
         <element name="Session" positionX="270" positionY="225" width="128" height="135"/>
         <element name="SessionSet" positionX="270" positionY="207" width="128" height="120"/>
         <element name="User" positionX="261" positionY="198" width="128" height="150"/>
-        <element name="Workout" positionX="261" positionY="189" width="128" height="150"/>
+        <element name="Workout" positionX="261" positionY="189" width="128" height="135"/>
         <element name="WorkoutType" positionX="270" positionY="261" width="128" height="105"/>
     </elements>
 </model>
