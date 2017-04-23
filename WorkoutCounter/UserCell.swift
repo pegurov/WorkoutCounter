@@ -15,11 +15,8 @@ final class UserCell: UITableViewCell, ConfigurableCell {
     
     func configure(with object: User) {
         textLabel?.text = object.name
-        if let lastSession = object.sessions?.lastObject as? Session,
-            let lastWorkoutDate = lastSession.workout?.date {
-            
-            let dateString = UserCell.formatter.string(from: lastWorkoutDate as Date)
-            detailTextLabel?.text = "Занимался \(dateString)"
+        if let sessionsCount = object.sessions?.count {
+            detailTextLabel?.text = "Тренировок: \(sessionsCount)"
         } else {
             detailTextLabel?.text = "Еще не занимался"
         }

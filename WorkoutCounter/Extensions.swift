@@ -15,6 +15,20 @@ extension UIStoryboard {
     }
 }
 
+extension UIViewController {
+    
+    func startActivityIndicator() {
+        
+        let nib = Bundle.main.loadNibNamed("ActivityView", owner: nil, options: nil)
+        let view = nib?.first as? UIView
+        navigationItem.titleView = view
+    }
+    
+    func stopActivityIndicator() {
+        navigationItem.titleView = nil
+    }
+}
+
 extension Array {
     
     @discardableResult

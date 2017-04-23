@@ -20,7 +20,7 @@ final class FirebaseManager {
     
     func loadRequest(
         _ request: ObjectsRequest,
-        completion: (() -> Void)? = nil) {
+        completion: (([NSManagedObject]) -> Void)? = nil) {
         
         switch request.mode {
         case .all:
@@ -30,7 +30,7 @@ final class FirebaseManager {
                     
                     let result = self?.processLoadedObjects(loadedObjects)
                     self?.coreDataStack.saveContext()
-                    completion?()
+                    completion?(result ?? [])
             })
         case .ids(let ids):
             loadObjectsByIds(
@@ -39,9 +39,9 @@ final class FirebaseManager {
                 node: request.node,
                 completion: { [weak self] loadedObjects in
                     
-                    self?.processLoadedObjects(loadedObjects)
+                    let result = self?.processLoadedObjects(loadedObjects)
                     self?.coreDataStack.saveContext()
-                    completion?()
+                    completion?(result ?? [])
             })
         }
     }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		15B86A176683AADAD0D8E3D3 /* Pods_WorkoutCounter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A0C79D0F6366630A3EF4964 /* Pods_WorkoutCounter.framework */; };
 		C4270E391EACBA8E00F11809 /* FirebaseManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4270E381EACBA8E00F11809 /* FirebaseManagerExtensions.swift */; };
+		C4270E3D1EACE94600F11809 /* ActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4270E3C1EACE94600F11809 /* ActivityView.xib */; };
 		C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */; };
 		C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBF1EA40D8400751707 /* SessionCell.swift */; };
 		C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */; };
@@ -55,6 +56,7 @@
 		65E5B487E943284966FC1CAE /* Pods-WorkoutCounter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorkoutCounter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WorkoutCounter/Pods-WorkoutCounter.debug.xcconfig"; sourceTree = "<group>"; };
 		889342C72B06F02F20ED1AB3 /* Pods-WorkoutCounter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorkoutCounter.release.xcconfig"; path = "Pods/Target Support Files/Pods-WorkoutCounter/Pods-WorkoutCounter.release.xcconfig"; sourceTree = "<group>"; };
 		C4270E381EACBA8E00F11809 /* FirebaseManagerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseManagerExtensions.swift; sourceTree = "<group>"; };
+		C4270E3C1EACE94600F11809 /* ActivityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityView.xib; sourceTree = "<group>"; };
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
 		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
 		C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -136,6 +138,14 @@
 			name = Trash;
 			sourceTree = "<group>";
 		};
+		C4270E3B1EACE92700F11809 /* Activity view */ = {
+			isa = PBXGroup;
+			children = (
+				C4270E3C1EACE94600F11809 /* ActivityView.xib */,
+			);
+			name = "Activity view";
+			sourceTree = "<group>";
+		};
 		C44EDBC41EA6A94D00751707 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +220,7 @@
 		C47D37461EA29F420047C95F /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				C4270E3B1EACE92700F11809 /* Activity view */,
 				C47D374B1EA29FF40047C95F /* Extensions.swift */,
 				C44EDBDC1EA7E07600751707 /* AuthProvider.swift */,
 				C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */,
@@ -384,6 +395,7 @@
 				C47D37571EA2A60A0047C95F /* Workout.storyboard in Resources */,
 				C462F9311EAA993B0094962C /* WorkoutCreate.storyboard in Resources */,
 				D5566DAE1E9BB34E00503C91 /* LaunchScreen.storyboard in Resources */,
+				C4270E3D1EACE94600F11809 /* ActivityView.xib in Resources */,
 				C462F92A1EAA91CE0094962C /* WorkoutType.storyboard in Resources */,
 				C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */,
 				D5566DAB1E9BB34E00503C91 /* Assets.xcassets in Resources */,
