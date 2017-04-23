@@ -28,9 +28,19 @@ final class FirebaseManager {
                 request: request,
                 completion: { [weak self] loadedObjects in
                     
-                    let result = self?.processLoadedObjects(loadedObjects)
+                    let result = self?.processLoadedObjects(loadedObjects) ?? []
+                    if let first = result.first {
+                        let all: [NSManagedObject]? = self?.coreDataStack.fetchAll(
+                            entityName: first.entity.name!
+                        )
+                        all?.forEach {
+                            if !result.contains($0) {
+                                self?.coreDataStack.managedObjectContext.delete($0)
+                            }
+                        }
+                    }
                     self?.coreDataStack.saveContext()
-                    completion?(result ?? [])
+                    completion?(result)
             })
         case .ids(let ids):
             loadObjectsByIds(
@@ -355,7 +365,6 @@ final class FirebaseManager {
             remoteId: objectStub.remoteId,
             json: objectStub.json
         )
-        
         return managedObject
     }
 }

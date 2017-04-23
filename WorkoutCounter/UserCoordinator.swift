@@ -7,20 +7,14 @@ final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
     var onFlowFinished: ((_ userIds: [NSManagedObjectID]) -> Void)?
     
     // MARK: - Input -
-    var selectedUserIds = [NSManagedObjectID]()
+    var selectedUserIds = [NSManagedObjectID]() {
+        didSet { rootViewController.selectedIds = selectedUserIds }
+    }
    
     // MARK: - Coordinator -
     override func configureRootViewController(
         _ controller: UsersViewController) {
 
-        let readyItem = UIBarButtonItem(
-            title: "Готово",
-            style: .done,
-            target: self,
-            action: #selector(usersViewControllerDoneAction(_:))
-        )
-        controller.navigationItem.leftBarButtonItem = readyItem
-            
         controller.managedObjectContext = coreDataStack.managedObjectContext
         controller.sortDescriptor = NSSortDescriptor(
             key: "name",
@@ -42,9 +36,6 @@ final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
                 sender: self
             )
         }
-        
-        // Selection / deselection
-        controller.selectedIds = selectedUserIds
         controller.onObjectSelected = { [weak self, weak controller] user in
             
             if (self?.selectedUserIds.removeWhere{ $0 == user.objectID } == nil) {
@@ -52,12 +43,6 @@ final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
             }
             controller?.selectedIds = self?.selectedUserIds ?? []
         }
-    }
-    
-    @objc private func usersViewControllerDoneAction(
-        _ sender: UIBarButtonItem) {
-        
-        onFlowFinished?(selectedUserIds)
     }
     
     private func configureCreateController(_ controller: UserCreateViewController) {

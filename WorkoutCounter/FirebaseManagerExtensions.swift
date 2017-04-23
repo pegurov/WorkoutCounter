@@ -5,146 +5,66 @@ import CoreData
 
 extension FirebaseManager {
     
-    func patch() {
+    @discardableResult
+    func makeWorkoutType(withTitle title: String) -> WorkoutType {
         
-        return
-            
-            fix()
-        
-        synchronizeKeysFor(
-            entityName: "User",
-            keys: ["name"]
+        let entityDescription = NSEntityDescription.entity(
+            forEntityName: "WorkoutType",
+            in: coreDataStack.managedObjectContext
         )
-        synchronizeKeysFor(
-            entityName: "WorkoutType",
-            keys: ["title"]
+        let newWorkoutType = WorkoutType(
+            entity: entityDescription!,
+            insertInto: coreDataStack.managedObjectContext
         )
-        synchronizeKeysFor(
-            entityName: "Workout",
-            keys: ["date", "title"]
-        )
-        synchronizeKeysFor(
-            entityName: "Session",
-            keys: ["active"]
-        )
-        synchronizeKeysFor(
-            entityName: "SessionSet",
-            keys: ["count", "time"]
-        )
-        
-        synchronizeRelationships(
-            entityName: "User",
-            relationships: ["sessions"]
-        )
-        synchronizeRelationships(
-            entityName: "Session",
-            relationships: ["sets", "user", "workout", "createdBy"]
-        )
-        synchronizeRelationships(
-            entityName: "SessionSet",
-            relationships: ["session", "createdBy"]
-        )
-        synchronizeRelationships(
-            entityName: "Workout",
-            relationships: ["sessions", "users", "createdBy", "type"]
-        )
-        synchronizeRelationships(
-            entityName: "WorkoutType",
-            relationships: ["workouts"]
-        )
+        newWorkoutType.title = title
+        syncManagedObject(newWorkoutType)
+        return newWorkoutType
     }
     
-    func fix() {
+    func syncManagedObject(
+        _ object: NSManagedObject) {
         
-        // again, patch all entities created by!
-        coreDataStack.saveContext()
-    }
-    
-    func synchronizeKeysFor(
-        entityName: String,
-        keys: [String]) {
-        
-        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(entityName: entityName)
-        objects?.forEach { object in
-            
-            if let remoteId = object.value(forKey: "remoteId") as? String? {
-                
-                let fbEntity: FIRDatabaseReference
-                if let remoteId = remoteId {
-                    fbEntity = ref.child(entityName).child(remoteId)
-                } else {
-                    fbEntity = ref.child(entityName).childByAutoId()
-                    object.setValue(fbEntity.key, forKey: "remoteId")
-                }
-                // sync keys
-                keys.forEach { key in
-                    let transformedValue = object.transformedValue(forKey: key)
-                    fbEntity.child(key).setValue(transformedValue)
-                }
-            } else {
-                assert(false, "Object has no remote id!")
-            }
+        let description = object.entity
+        let fbEntity: FIRDatabaseReference
+        if let remoteId = object.value(forKey: "remoteId") as? String {
+            fbEntity = ref.child(description.name!).child(remoteId)
+        } else {
+            fbEntity = ref.child(description.name!).childByAutoId()
+            object.setValue(fbEntity.key, forKey: "remoteId")
         }
-        coreDataStack?.saveContext()
-    }
-    
-    func synchronizeRelationships(
-        entityName: String,
-        relationships: [String]) {
-        
-        let objects: [NSManagedObject]? = coreDataStack?.fetchAll(entityName: entityName)
-        objects?.forEach { object in
-            
-            if let remoteId = object.value(forKey: "remoteId") as? String? {
-                
-                let fbEntity: FIRDatabaseReference
-                if let remoteId = remoteId {
-                    fbEntity = ref.child(entityName).child(remoteId)
-                } else {
-                    assert(false, "Entity should have a remoteId by now")
-                    fbEntity = ref.child(entityName).childByAutoId()
-                }
-                // sync relationships
-                relationships.forEach { relationship in
-                    
-                    if (object.value(forKey: relationship) == nil) {
-                        assert(false, "relationship should not be nil!")
-                    }
-                    else if let relationshipManagedObject = object.value(forKey: relationship) as? NSManagedObject,
-                        let remoteId = relationshipManagedObject.value(forKey: "remoteId") as? String {
-                        
-                        fbEntity.child(relationship).setValue(remoteId)
-                    } else {
-                        
-                        let set = object.mutableOrderedSetValue(forKey: relationship)
-                        set.forEach {
-                            
-                            if let relationshipObject = $0 as? NSManagedObject,
-                                let remoteId = relationshipObject.value(forKey: "remoteId") as? String {
-                                
-                                fbEntity.child(relationship).child(remoteId).setValue(true)
-                            } else {
-                                assert(false, "Relationship in set has no remoteId")
-                            }
-                        }
-                    }
-                }
-            } else {
-                assert(false, "Object has no remote id!")
-            }
-        }
-        coreDataStack?.saveContext()
-    }
-}
 
-extension NSManagedObject {
-    
-    func transformedValue(forKey key: String) -> Any? {
-        
-        let realValue = value(forKey: key)
-        if let date = realValue as? NSDate {
-            return NSNumber(value: date.timeIntervalSince1970)
+        // sync keys
+        description.attributesByName.forEach { key, attribute in
+            
+            let value = object.value(forKey: key)
+            if attribute.attributeType == .dateAttributeType {
+                if let date = value as? NSDate {
+                    fbEntity.child(key).setValue(date.timeIntervalSince1970)
+                }
+            } else {
+                fbEntity.child(key).setValue(value)
+            }
         }
-        return realValue
+        // sync relationships
+        description.relationshipsByName.forEach { key, relationship in
+            
+            let relationshipValue = object.value(forKey: key)
+            if relationship.isToMany {
+                
+                let set = object.mutableOrderedSetValue(forKey: key)
+                set.forEach {
+                    
+                    if let relationshipObject = $0 as? NSManagedObject,
+                        let remoteId = relationshipObject.value(forKey: "remoteId") as? String {
+                        
+                        fbEntity.child(key).child(remoteId).setValue(true)
+                    } else {
+                        assert(false, "Relationship in set has no remoteId")
+                    }
+                }
+            } else if let remoteId = relationshipValue as? String {
+                fbEntity.child(key).setValue(remoteId)
+            }
+        }
     }
 }

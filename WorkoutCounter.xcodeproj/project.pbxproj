@@ -10,6 +10,7 @@
 		15B86A176683AADAD0D8E3D3 /* Pods_WorkoutCounter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A0C79D0F6366630A3EF4964 /* Pods_WorkoutCounter.framework */; };
 		C4270E391EACBA8E00F11809 /* FirebaseManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4270E381EACBA8E00F11809 /* FirebaseManagerExtensions.swift */; };
 		C4270E3D1EACE94600F11809 /* ActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4270E3C1EACE94600F11809 /* ActivityView.xib */; };
+		C4270E3F1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */; };
 		C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */; };
 		C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBF1EA40D8400751707 /* SessionCell.swift */; };
 		C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */; };
@@ -57,6 +58,7 @@
 		889342C72B06F02F20ED1AB3 /* Pods-WorkoutCounter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WorkoutCounter.release.xcconfig"; path = "Pods/Target Support Files/Pods-WorkoutCounter/Pods-WorkoutCounter.release.xcconfig"; sourceTree = "<group>"; };
 		C4270E381EACBA8E00F11809 /* FirebaseManagerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseManagerExtensions.swift; sourceTree = "<group>"; };
 		C4270E3C1EACE94600F11809 /* ActivityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityView.xib; sourceTree = "<group>"; };
+		C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypeCreateViewController.swift; sourceTree = "<group>"; };
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
 		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
 		C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				C462F9271EAA91390094962C /* WorkoutTypeCoordinator.swift */,
 				C462F92B1EAA94DE0094962C /* WorkoutTypesViewController.swift */,
 				C462F92D1EAA95140094962C /* WorkoutTypeCell.swift */,
+				C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */,
 			);
 			name = "Workout type";
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				C462F92E1EAA95140094962C /* WorkoutTypeCell.swift in Sources */,
 				C462F9371EAA9E540094962C /* SegueId.swift in Sources */,
 				D5566D9F1E9BB34E00503C91 /* AppDelegate.swift in Sources */,
+				C4270E3F1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift in Sources */,
 				C47D375F1EA2A7AD0047C95F /* WorkoutCreateViewController.swift in Sources */,
 				C47D37451EA288AF0047C95F /* UsersViewController.swift in Sources */,
 				C47D374E1EA2A04D0047C95F /* CoreDataStack.swift in Sources */,

@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 final class WorkoutTypeCoordinator:
     StoryboardCoordinator<WorkoutTypesViewController> {
@@ -8,6 +9,11 @@ final class WorkoutTypeCoordinator:
         didSet { rootViewController.onObjectSelected = onFinish }
     }
 
+    // MARK: - Input -
+    var selectedTypeId = NSManagedObjectID() {
+        didSet { rootViewController.selectedIds = [selectedTypeId] }
+    }
+    
     // MARK: - StoryboardCoordinator -
     override func configureRootViewController(
         _ controller: WorkoutTypesViewController) {
@@ -18,14 +24,30 @@ final class WorkoutTypeCoordinator:
             ascending: true
         )
         controller.deletingEnabled = false
-        controller.onInsertNewObject = { [weak self] in
-            guard let strongSelf = self else { return }
-            
-            let newType = WorkoutType(
-                context: strongSelf.coreDataStack.managedObjectContext
+        controller.onInsertNewObject = { [weak controller] in
+            controller?.performSegue(
+                withIdentifier: SegueId.create.rawValue,
+                sender: nil
             )
-            newType.title = "дрочка"
-            self?.coreDataStack.saveContext()
+        }
+        controller.onPrepareForSegue = { [weak self] segue, _, _ in
+            if let createVC = segue.destination as? WorkoutTypeCreateViewController {
+                self?.configureCreateViewController(createVC)
+            }
+        }
+    }
+    
+    private func configureCreateViewController(
+        _ controller: WorkoutTypeCreateViewController) {
+        
+        controller.onFinish = { [weak self] title in
+            
+            if let title = title, !title.isEmpty {
+                let newType = FirebaseManager.sharedInstance.makeWorkoutType(
+                    withTitle: title
+                )
+                self?.onFinish?(newType)
+            }
         }
     }
 }

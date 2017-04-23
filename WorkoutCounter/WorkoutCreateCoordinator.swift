@@ -63,21 +63,25 @@ class WorkoutCreateCoordinator:
         let existingUserIds = selectedUsers.map { $0.objectID } 
         selectUsersCoordinator = SelectUsersCoordinator(
             storyboard: .user,
-            coreDataStack: coreDataStack
+            coreDataStack: coreDataStack,
+            startInNavigation: false
         )
         selectUsersCoordinator?.selectedUserIds = existingUserIds
         selectUsersCoordinator?.onFlowFinished = {
-            [weak controller, weak rootViewController] userIds in
+            [weak self, weak controller] userIds in
+            guard let controller = controller else { return }
             
-            rootViewController?.usersViewController?.predicate = NSPredicate(
+            controller.usersViewController?.predicate = NSPredicate(
                 format: "(self IN %@)", userIds
             )
-            controller?.dismiss(animated: true, completion: nil)
+            self?.navigationController?.popToViewController(
+                controller,
+                animated: true
+            )
         }
-        controller.present(
-            selectUsersCoordinator!.navigationController!,
-            animated: true,
-            completion: nil
+        navigationController?.pushViewController(
+            selectUsersCoordinator!.rootViewController,
+            animated: true
         )
     }
     
@@ -99,6 +103,9 @@ class WorkoutCreateCoordinator:
                 controller,
                 animated: true
             )
+        }
+        if let selectedType = selectedType {
+            selectTypeCoordinator?.selectedTypeId = selectedType.objectID
         }
         navigationController?.pushViewController(
             selectTypeCoordinator!.rootViewController,
