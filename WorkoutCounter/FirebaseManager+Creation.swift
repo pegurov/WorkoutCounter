@@ -89,13 +89,15 @@ extension FirebaseManager {
                             self.syncRelationships(of: newObject) {
                                
                                 let sessionsCounter = Counter()
-                                sessions.forEach {
+                                sessions.forEach { session in
                                     sessionsCounter.increment()
-                                    self.syncRelationships(of: $0) {
-                                        sessionsCounter.decrement()
-                                        if sessionsCounter.number == 0 {
-                                            
-                                            completion(newObject)
+                                    self.syncRelationships(of: session.user!) {
+                                        self.syncRelationships(of: session) {
+                                            sessionsCounter.decrement()
+                                            if sessionsCounter.number == 0 {
+                                                
+                                                completion(newObject)
+                                            }
                                         }
                                     }
                                 }

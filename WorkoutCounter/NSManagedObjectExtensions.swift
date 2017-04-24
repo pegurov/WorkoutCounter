@@ -139,7 +139,7 @@ final class EntityStub {
         var stubs: [RelationshipStub] = []
         node.children.forEach { childNode in
             
-            if let relationship = entityDescription.relationshipsByName.first(where: { key, desc in
+            if let relationship = entityDescription.relationshipsByName.first(where: { key, _ in
                 childNode.mode == .leaf(key)
             }) {
                 let mode: RelationshipStub.Mode
