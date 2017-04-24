@@ -2,8 +2,24 @@ import UIKit
 
 final class WorkoutDetailViewController: UIViewController {
     
-    var workout: Workout!
+    var workout: Workout! {
+        didSet {
+            if workout.activeSession == nil {
+                workout.activeSession = workout.sessions?.firstObject as? Session
+                coreDataStack.saveContext()
+                FirebaseManager.sharedInstance.syncRelationships(of: workout)
+                sessionsVC?.tableView.reloadData()
+            }
+            if let activeSessionId = workout.activeSession?.objectID {
+                sessionsVC?.selectedIds = [activeSessionId]
+            }
+        }
+    }
+    var sessions: [Session] {
+        return sessionsVC?.fetchedResultsController.fetchedObjects ?? []
+    }
     var coreDataStack: CoreDataStack!
+    weak var sessionsVC: SessionsViewController?
     
     @IBOutlet var buttons: [UIButton]!
     @IBOutlet weak var labelTitle: UILabel!
@@ -38,162 +54,150 @@ final class WorkoutDetailViewController: UIViewController {
             node: node
         )
         FirebaseManager.sharedInstance.loadRequest(request, completion: { [weak self] result in
-            
-            print("result")
+            if let workout = result.first as? Workout {
+                self?.workout = workout
+            }
             self?.stopActivityIndicator()
         })
     }
     
     // User actions
     @IBAction func addSetToCurrentSessionTap(_ sender: UIButton) {
-//        guard let currentSession = currentSession,
-//            currentSession.active else { return }
-//        
-//        let alertController = UIAlertController(
-//            title: "Повторений", message: nil, preferredStyle: .alert
-//        )
-//        
-//        let saveAction = UIAlertAction(
-//            title: "Сохранить", style: .default, handler: { [weak self] alert -> Void in
-//            
-//            let textField = alertController.textFields![0] as UITextField
-//            if let text = textField.text, !text.isEmpty {
-//                self?.addSetToCurrentSessionFromString(text)
-//            }
-//        })
-//        
-//        let cancelAction = UIAlertAction(
-//            title: "Отмена", style: .cancel, handler: { action -> Void in
-//        })
-//        
-//        alertController.addTextField { (textField : UITextField!) -> Void in
-//            textField.placeholder = "Повторений"
-//            textField.keyboardType = .numberPad
-//        }
-//        
-//        alertController.addAction(saveAction)
-//        alertController.addAction(cancelAction)
-//        self.present(alertController, animated: true, completion: nil)
+        guard let currentSession = workout.activeSession,
+            currentSession.active else { return }
+
+        let alertController = UIAlertController(
+            title: "Повторений", message: nil, preferredStyle: .alert
+        )
+        
+        let saveAction = UIAlertAction(
+            title: "Сохранить", style: .default, handler: { [weak self] alert -> Void in
+            
+            let textField = alertController.textFields![0] as UITextField
+            if let text = textField.text, !text.isEmpty {
+                self?.addSetToCurrentSessionFromString(text)
+            }
+        })
+        
+        let cancelAction = UIAlertAction(
+            title: "Отмена", style: .cancel, handler: { action -> Void in
+        })
+        
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Повторений"
+            textField.keyboardType = .numberPad
+        }
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     private func addSetToCurrentSessionFromString(_ string: String) {
         
-//        let newSet = WorkoutSet(context: coreDataStack.managedObjectContext)
-//        newSet.count = Int16(string) ?? 0
-//        newSet.time = NSDate()
-//        currentSession?.addToSets(newSet)
-//        coreDataStack.saveContext()
-//        tableView.reloadData()
-//        
-//        advanceToNextSession()
+        let newSet = FirebaseManager.sharedInstance.makeWorkoutSet(
+            count: Int16(string) ?? 0,
+            time: NSDate()
+        )
+        workout.activeSession?.addToSets(newSet)
+        coreDataStack.saveContext()
+        FirebaseManager.sharedInstance.syncRelationships(of: workout)
+        FirebaseManager.sharedInstance.syncRelationships(of: newSet)
+        sessionsVC?.tableView.reloadData()
+
+        advanceToNextSession()
     }
     
     @IBAction func skipCurrentSessionTap(_ sender: UIButton) {
-//        guard let _ = currentSession else { return }
-//        advanceToNextSession()
+        guard let _ = workout.activeSession else { return }
+        advanceToNextSession()
     }
     
     @IBAction func endCurrentSessionTap(_ sender: UIButton) {
-//        guard let currentSession = currentSession else { return }
-//        
-//        currentSession.active = false
-//        advanceToNextSession()
+        guard let currentSession = workout.activeSession else { return }
+
+        currentSession.active = false
+        coreDataStack.saveContext()
+        FirebaseManager.sharedInstance.syncKeysOfManagedObject(of: currentSession)
+        advanceToNextSession()
     }
 
     // Implementation
     
     private func advanceToNextSession() {
-//        guard let currentSession = currentSession,
-//            let indexOfCurrent = sessions.index(of: currentSession) else { return }
-//        
-//        let currentAndAfter = sessions.suffix(from: indexOfCurrent)
-//        let beforeCurrent = sessions.prefix(upTo: indexOfCurrent)
-//        let newOrder = currentAndAfter + beforeCurrent
-//        for session in newOrder.dropFirst() {
-//            if session.active {
-//                self.currentSession = session
-//                break
-//            }
-//        }
-//        tableView.reloadData()
+        guard let currentSession = workout.activeSession,
+            let indexOfCurrent = sessions.index(where: { $0.remoteId == currentSession.remoteId }) else { return }
+
+        let currentAndAfter = sessions.suffix(from: indexOfCurrent)
+        let beforeCurrent = sessions.prefix(upTo: indexOfCurrent)
+        let newOrder = currentAndAfter + beforeCurrent
+        for session in newOrder.dropFirst() {
+            if session.active {
+                workout.activeSession = session
+                if let activeSessionId = workout.activeSession?.objectID {
+                    sessionsVC?.selectedIds = [activeSessionId]
+                }
+                coreDataStack.saveContext()
+                FirebaseManager.sharedInstance.syncRelationships(of: workout)
+                break
+            }
+        }
+        sessionsVC?.tableView.reloadData()
     }
     
-    // Table view
-    
-//    func tableView(
-//        _ tableView: UITableView,
-//        numberOfRowsInSection section: Int) -> Int {
-//        
-//        return sessions.count
-//    }
-//
-//    func tableView(
-//        _ tableView: UITableView,
-//        cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        
-//        let cell = tableView.dequeueReusableCell(
-//            withIdentifier: SessionCell.identifier,
-//            for: indexPath
-//        ) as! SessionCell
-//        configureCell(cell, at: indexPath)
-//        return cell
-//    }
-//    
-//    private func configureCell(
-//        _ cell: SessionCell,
-//        at indexPath: IndexPath) {
-//        
-//        let session = sessions[indexPath.row]
-//        cell.configure(with: session)
-//        if session == currentSession {
-//            cell.contentView.backgroundColor = .yellow
-//        } else {
-//            cell.contentView.backgroundColor = .white
-//        }
-//    }
-//    
-//    func tableView(
-//        _ tableView: UITableView,
-//        didSelectRowAt indexPath: IndexPath) {
-//        
-//        let session = sessions[indexPath.row]
-//        if session.active && session == currentSession { return }
-//        
-//        let alertController = UIAlertController(
-//            title: "Действия", message: nil, preferredStyle: .alert
-//        )
-//        if !session.active {
-//            let action = UIAlertAction(
-//                title: "Активировать",
-//                style: .default,
-//                handler: { [weak self] alert -> Void in
-//                    
-//                    session.active = true
-//                    self?.coreDataStack.saveContext()
-//                    self?.tableView.reloadData()
-//            })
-//            alertController.addAction(action)
-//        }
-//        if session != currentSession {
-//            let action = UIAlertAction(
-//                title: "Сделать текущим",
-//                style: .default,
-//                handler: { [weak self] alert -> Void in
-//                    
-//                    session.active = true
-//                    self?.currentSession = session
-//                    self?.coreDataStack.saveContext()
-//                    self?.tableView.reloadData()
-//            })
-//            alertController.addAction(action)
-//        }
-//        let cancelAction = UIAlertAction(
-//            title: "Отмена", style: .cancel, handler: { action -> Void in
-//        })
-//        alertController.addAction(cancelAction)
-//        
-//        self.present(alertController, animated: true, completion: nil)
-//    }
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath) {
+
+        let session = sessions[indexPath.row]
+        if session.active && session == workout.activeSession { return }
+        
+        let alertController = UIAlertController(
+            title: "Действия", message: nil, preferredStyle: .alert
+        )
+        if !session.active {
+            let action = UIAlertAction(
+                title: "Активировать",
+                style: .default,
+                handler: { [weak self] alert -> Void in
+                    
+                    session.active = true
+                    self?.coreDataStack.saveContext()
+                    FirebaseManager.sharedInstance.syncKeysOfManagedObject(
+                        of: session
+                    )
+                    self?.sessionsVC?.tableView.reloadData()
+            })
+            alertController.addAction(action)
+        }
+        if session != workout.activeSession {
+            let action = UIAlertAction(
+                title: "Сделать текущим",
+                style: .default,
+                handler: { [weak self] alert -> Void in
+                    
+                    session.active = true
+                    self?.workout.activeSession = session
+                    self?.coreDataStack.saveContext()
+                    FirebaseManager.sharedInstance.syncKeysOfManagedObject(
+                        of: session
+                    )
+                    if let workout = self?.workout {
+                        FirebaseManager.sharedInstance.syncRelationships(
+                            of: workout
+                        )
+                    }
+                    self?.sessionsVC?.tableView.reloadData()
+            })
+            alertController.addAction(action)
+        }
+        let cancelAction = UIAlertAction(
+            title: "Отмена", style: .cancel, handler: { action -> Void in
+        })
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
     
     // MARK: - NAVIGATION
     var onPrepareForSegue: ((_ segue: UIStoryboardSegue, _ sender: Any?, _ object: Workout) -> Void)?
@@ -211,6 +215,13 @@ final class WorkoutDetailViewController: UIViewController {
                 format: "workout == %@",
                 workout.objectID
             )
+            embedded.onSelectedRow = { [weak self] tableView, indexPath in
+                self?.tableView(tableView, didSelectRowAt: indexPath)
+            }
+            if let activeSessionId =  workout.activeSession?.objectID {
+                embedded.selectedIds = [activeSessionId]
+            }
+            sessionsVC = embedded
         } else {
             onPrepareForSegue?(segue, sender, workout)
         }

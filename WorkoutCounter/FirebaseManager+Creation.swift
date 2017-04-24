@@ -77,6 +77,27 @@ extension FirebaseManager {
         return newObject
     }
     
+    @discardableResult
+    func makeWorkoutSet(
+        count: Int16,
+        time: NSDate) -> WorkoutSet {
+        
+        let entityDescription = NSEntityDescription.entity(
+            forEntityName: "WorkoutSet",
+            in: coreDataStack.managedObjectContext
+        )
+        let newObject = WorkoutSet(
+            entity: entityDescription!,
+            insertInto: coreDataStack.managedObjectContext
+        )
+        newObject.count = count
+        newObject.time = time
+// TODO: Created by
+        syncKeysOfManagedObject(of: newObject)
+        coreDataStack.saveContext()
+        return newObject
+    }
+    
     func syncKeysOfManagedObject(of object: NSManagedObject) {
         
         let description = object.entity

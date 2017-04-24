@@ -97,7 +97,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gMy-3u-UYx">
                                 <rect key="frame" x="0.0" y="537" width="187.5" height="65"/>
-                                <state key="normal" title="Пропустить"/>
+                                <state key="normal" title="Следующий"/>
                                 <connections>
                                     <action selector="skipCurrentSessionTap:" destination="vRg-fu-IwA" eventType="touchUpInside" id="3Sr-2V-PMJ"/>
                                 </connections>
@@ -232,7 +232,7 @@
         <scene sceneID="1E1-jQ-A2L">
             <objects>
                 <navigationController id="N3m-So-9qj" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="wib-qM-Oby">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wib-qM-Oby">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

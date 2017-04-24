@@ -65,8 +65,8 @@ final class WorkoutCoordinator: StoryboardCoordinator<WorkoutsViewController> {
         _ controller: WorkoutDetailViewController,
         object: Workout) {
         
-        controller.workout = object
         controller.coreDataStack = coreDataStack
+        controller.workout = object
         
 //        controller.onPrepareForSegue = { segue, sender, object in
 //

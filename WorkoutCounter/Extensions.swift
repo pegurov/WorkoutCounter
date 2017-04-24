@@ -49,7 +49,15 @@ extension Session {
         
         var description = ""
         var totalCount: Int16 = 0
-        sets.enumerated().forEach { index, set in
+        let sortedSets = sets.sorted { set1, set2 in
+            if let time1 = set1.time, let time2 = set2.time {
+                return time1.timeIntervalSince1970 < time2.timeIntervalSince1970
+            } else if let id1 = set1.remoteId, let id2 = set2.remoteId {
+                return id1 < id2
+            }
+            return true
+        }
+        sortedSets.enumerated().forEach { index, set in
             
             description += (index == 0 ? "" : "+") + "\(set.count)"
             totalCount += set.count
