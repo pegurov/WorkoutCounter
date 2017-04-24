@@ -5,8 +5,9 @@ import CoreData
 
 extension FirebaseManager {
     
-    @discardableResult
-    func makeWorkoutType(withTitle title: String) -> WorkoutType {
+    func makeWorkoutType(
+        withTitle title: String,
+        completion: @escaping ((WorkoutType) -> Void)) {
         
         let entityDescription = NSEntityDescription.entity(
             forEntityName: "WorkoutType",
@@ -17,15 +18,19 @@ extension FirebaseManager {
             insertInto: coreDataStack.managedObjectContext
         )
         newObject.title = title
-// TODO: Created by        
-        syncKeysOfManagedObject(of: newObject)
-        syncRelationships(of: newObject)
+// TODO: Created by
         coreDataStack.saveContext()
-        return newObject
+        
+        syncKeysOfManagedObject(of: newObject) {
+            self.syncRelationships(of: newObject) {
+                completion(newObject)
+            }
+        }
     }
     
-    @discardableResult
-    func makeUser(withName name: String) -> User {
+    func makeUser(
+        withName name: String,
+        completion: @escaping ((User) -> Void)) {
         
         let entityDescription = NSEntityDescription.entity(
             forEntityName: "User",
@@ -37,16 +42,19 @@ extension FirebaseManager {
         )
         newObject.name = name
 // TODO: Created by
-        syncKeysOfManagedObject(of: newObject)
-        syncRelationships(of: newObject)
         coreDataStack.saveContext()
-        return newObject
+        
+        syncKeysOfManagedObject(of: newObject) {
+            self.syncRelationships(of: newObject) {
+                completion(newObject)
+            }
+        }
     }
     
-    @discardableResult
     func makeWorkout(
         withType type: WorkoutType,
-        users: [User]) -> Workout {
+        users: [User],
+        completion: @escaping ((Workout) -> Void)) {
         
         let entityDescription = NSEntityDescription.entity(
             forEntityName: "Workout",
@@ -59,28 +67,50 @@ extension FirebaseManager {
         newObject.type = type
         newObject.date = NSDate()
 // TODO: Created by
-        syncKeysOfManagedObject(of: newObject)
         
         let sessions: [Session] = users.map {
             let newSession = Session(context: coreDataStack.managedObjectContext)
-            syncKeysOfManagedObject(of: newSession)
             newSession.user = $0
             return newSession
         }
         newObject.sessions = NSOrderedSet(array: sessions)
         newObject.activeSession = sessions.first
-        syncRelationships(of: newObject)
-        sessions.forEach {
-            syncRelationships(of: $0)
-        }
         coreDataStack.saveContext()
-        return newObject
+        
+        syncKeysOfManagedObject(of: newObject) {
+            self.syncRelationships(of: type) {
+                
+                let counter = Counter()
+                sessions.forEach {
+                    counter.increment()
+                    self.syncKeysOfManagedObject(of: $0) {
+                        counter.decrement()
+                        if counter.number == 0 {
+                            self.syncRelationships(of: newObject) {
+                               
+                                let sessionsCounter = Counter()
+                                sessions.forEach {
+                                    sessionsCounter.increment()
+                                    self.syncRelationships(of: $0) {
+                                        sessionsCounter.decrement()
+                                        if sessionsCounter.number == 0 {
+                                            
+                                            completion(newObject)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
-    @discardableResult
     func makeWorkoutSet(
         count: Int16,
-        time: NSDate) -> WorkoutSet {
+        time: NSDate,
+        completion: @escaping ((WorkoutSet) -> Void)) {
         
         let entityDescription = NSEntityDescription.entity(
             forEntityName: "WorkoutSet",
@@ -92,13 +122,19 @@ extension FirebaseManager {
         )
         newObject.count = count
         newObject.time = time
-// TODO: Created by
-        syncKeysOfManagedObject(of: newObject)
+        // TODO: Created by
         coreDataStack.saveContext()
-        return newObject
+        
+        syncKeysOfManagedObject(of: newObject) {
+            completion(newObject)
+        }
     }
     
-    func syncKeysOfManagedObject(of object: NSManagedObject) {
+    func syncKeysOfManagedObject(
+        of object: NSManagedObject,
+        completion: @escaping (() -> Void)) {
+        
+        let counter = Counter()
         
         let description = object.entity
         let fbEntity: FIRDatabaseReference
@@ -115,16 +151,36 @@ extension FirebaseManager {
             let value = object.value(forKey: key)
             if attribute.attributeType == .dateAttributeType {
                 if let date = value as? NSDate {
-                    fbEntity.child(key).setValue(date.timeIntervalSince1970)
+                    
+                    counter.increment()
+                    fbEntity.child(key).setValue(date.timeIntervalSince1970, withCompletionBlock: { _, _ in
+                        counter.decrement()
+                        if counter.number == 0 {
+                            completion()
+                        }
+                    })
                 }
             } else if key != "remoteId" {
-                fbEntity.child(key).setValue(value)
+                
+                counter.increment()
+                fbEntity.child(key).setValue(value, withCompletionBlock: { _, _ in
+                    counter.decrement()
+                    if counter.number == 0 {
+                        completion()
+                    }
+                })
             }
         }
-        
+        if counter.number == 0 {
+            completion()
+        }
     }
     
-    func syncRelationships(of object: NSManagedObject) {
+    func syncRelationships(
+        of object: NSManagedObject,
+        completion: @escaping (() -> Void)) {
+        
+        let counter = Counter()
         
         let description = object.entity
         let fbEntity: FIRDatabaseReference
@@ -146,15 +202,42 @@ extension FirebaseManager {
                     
                     if let relationshipObject = $0 as? NSManagedObject,
                         let remoteId = relationshipObject.value(forKey: "remoteId") as? String {
-                        
-                        fbEntity.child(key).child(remoteId).setValue(true)
+                        counter.increment()
+                        fbEntity.child(key).child(remoteId).setValue(true, withCompletionBlock: { _, _ in
+                            counter.decrement()
+                            if counter.number == 0 {
+                                completion()
+                            }
+                        })
                     } else {
                         assert(false, "Relationship in set has no remoteId")
                     }
                 }
-            } else if let remoteId = relationshipValue as? String {
-                fbEntity.child(key).setValue(remoteId)
+            } else if let remoteId = (relationshipValue as? NSManagedObject)?.value(forKey: "remoteId") as? String {
+                counter.increment()
+                fbEntity.child(key).setValue(remoteId, withCompletionBlock: { _, _ in
+                    counter.decrement()
+                    if counter.number == 0 {
+                        completion()
+                    }
+                })
             }
         }
+        if counter.number == 0 {
+            completion()
+        }
+    }
+}
+
+class Counter {
+    
+    var number = 0
+    
+    func increment() {
+        number += 1
+    }
+    
+    func decrement() {
+        number -= 1
     }
 }

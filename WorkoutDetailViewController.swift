@@ -7,7 +7,8 @@ final class WorkoutDetailViewController: UIViewController {
             if workout.activeSession == nil {
                 workout.activeSession = workout.sessions?.firstObject as? Session
                 coreDataStack.saveContext()
-                FirebaseManager.sharedInstance.syncRelationships(of: workout)
+                FirebaseManager.sharedInstance.syncRelationships(of: workout) {
+                }
                 sessionsVC?.tableView.reloadData()
             }
             if let activeSessionId = workout.activeSession?.objectID {
@@ -95,17 +96,24 @@ final class WorkoutDetailViewController: UIViewController {
     
     private func addSetToCurrentSessionFromString(_ string: String) {
         
-        let newSet = FirebaseManager.sharedInstance.makeWorkoutSet(
+        startActivityIndicator()
+        FirebaseManager.sharedInstance.makeWorkoutSet(
             count: Int16(string) ?? 0,
             time: NSDate()
-        )
-        workout.activeSession?.addToSets(newSet)
-        coreDataStack.saveContext()
-        FirebaseManager.sharedInstance.syncRelationships(of: workout)
-        FirebaseManager.sharedInstance.syncRelationships(of: newSet)
-        sessionsVC?.tableView.reloadData()
-
-        advanceToNextSession()
+        ) { [weak self] set in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.workout.activeSession?.addToSets(set)
+            strongSelf.coreDataStack.saveContext()
+            FirebaseManager.sharedInstance.syncRelationships(of: strongSelf.workout.activeSession!) {
+                FirebaseManager.sharedInstance.syncRelationships(of: set) {
+                    
+                    self?.sessionsVC?.tableView.reloadData()
+                    self?.advanceToNextSession()
+                    self?.stopActivityIndicator()
+                }
+            }
+        }
     }
     
     @IBAction func skipCurrentSessionTap(_ sender: UIButton) {
@@ -118,8 +126,12 @@ final class WorkoutDetailViewController: UIViewController {
 
         currentSession.active = false
         coreDataStack.saveContext()
-        FirebaseManager.sharedInstance.syncKeysOfManagedObject(of: currentSession)
-        advanceToNextSession()
+        
+        startActivityIndicator()
+        FirebaseManager.sharedInstance.syncKeysOfManagedObject(of: currentSession) { [weak self] in
+            self?.stopActivityIndicator()
+            self?.advanceToNextSession()
+        }
     }
 
     // Implementation
@@ -138,11 +150,14 @@ final class WorkoutDetailViewController: UIViewController {
                     sessionsVC?.selectedIds = [activeSessionId]
                 }
                 coreDataStack.saveContext()
-                FirebaseManager.sharedInstance.syncRelationships(of: workout)
+                startActivityIndicator()
+                FirebaseManager.sharedInstance.syncRelationships(of: workout) { [weak self] in
+                    self?.stopActivityIndicator()
+                    self?.sessionsVC?.tableView.reloadData()
+                }
                 break
             }
         }
-        sessionsVC?.tableView.reloadData()
     }
     
     func tableView(
@@ -165,8 +180,9 @@ final class WorkoutDetailViewController: UIViewController {
                     self?.coreDataStack.saveContext()
                     FirebaseManager.sharedInstance.syncKeysOfManagedObject(
                         of: session
-                    )
-                    self?.sessionsVC?.tableView.reloadData()
+                    ) {
+                        self?.sessionsVC?.tableView.reloadData()
+                    }
             })
             alertController.addAction(action)
         }
@@ -181,13 +197,15 @@ final class WorkoutDetailViewController: UIViewController {
                     self?.coreDataStack.saveContext()
                     FirebaseManager.sharedInstance.syncKeysOfManagedObject(
                         of: session
-                    )
-                    if let workout = self?.workout {
-                        FirebaseManager.sharedInstance.syncRelationships(
-                            of: workout
-                        )
+                    ) {
+                        if let workout = self?.workout {
+                            FirebaseManager.sharedInstance.syncRelationships(
+                                of: workout
+                            ) {
+                                self?.sessionsVC?.tableView.reloadData()
+                            }
+                        }
                     }
-                    self?.sessionsVC?.tableView.reloadData()
             })
             alertController.addAction(action)
         }
@@ -212,13 +230,13 @@ final class WorkoutDetailViewController: UIViewController {
                 ascending: true
             )
             embedded.predicate = NSPredicate(
-                format: "workout == %@",
-                workout.objectID
+                format: "workout.remoteId == %@",
+                workout.remoteId!
             )
             embedded.onSelectedRow = { [weak self] tableView, indexPath in
                 self?.tableView(tableView, didSelectRowAt: indexPath)
             }
-            if let activeSessionId =  workout.activeSession?.objectID {
+            if let activeSessionId = workout.activeSession?.objectID {
                 embedded.selectedIds = [activeSessionId]
             }
             sessionsVC = embedded

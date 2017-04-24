@@ -40,13 +40,18 @@ final class WorkoutTypeCoordinator:
     private func configureCreateViewController(
         _ controller: WorkoutTypeCreateViewController) {
         
-        controller.onFinish = { [weak self] title in
+        controller.onFinish = { [weak self, weak controller] title in
             
             if let title = title, !title.isEmpty {
-                let newType = FirebaseManager.sharedInstance.makeWorkoutType(
+                
+                controller?.startActivityIndicator()
+                FirebaseManager.sharedInstance.makeWorkoutType(
                     withTitle: title
-                )
-                self?.onFinish?(newType)
+                ) { type in
+                    
+                    controller?.stopActivityIndicator()
+                    self?.onFinish?(type)
+                }
             }
         }
     }

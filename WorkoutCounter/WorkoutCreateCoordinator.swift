@@ -31,16 +31,21 @@ class WorkoutCreateCoordinator:
             
             self?.showSelectType(from: controller)
         }
-        controller.onFinish = { [weak self] in
+        controller.onFinish = { [weak self, weak controller] in
             
             if let strongSelf = self,
                 let type = strongSelf.selectedType,
                 !strongSelf.selectedUsers.isEmpty {
                 
-                let newWorkout = FirebaseManager.sharedInstance.makeWorkout(
-                    withType: type, users: strongSelf.selectedUsers
-                )
-                self?.onFinish?(newWorkout)
+                controller?.startActivityIndicator()
+                FirebaseManager.sharedInstance.makeWorkout(
+                    withType: type,
+                    users: strongSelf.selectedUsers
+                ) { workout in
+                    
+                    controller?.stopActivityIndicator()
+                    self?.onFinish?(workout)
+                }
             }
         }
         controller.onCancel = { [weak self] in

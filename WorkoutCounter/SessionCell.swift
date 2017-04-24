@@ -6,7 +6,7 @@ final class SessionCell: UITableViewCell, ConfigurableCell {
     static let identifier: String = "SessionCell"
     
     func configure(with object: Session) {
-        textLabel?.text = (object.user!.name ?? "") +
+        textLabel?.text = (object.user?.name ?? "") +
             (object.active ? "" : " - закончил")
         detailTextLabel?.text = object.setsDescription
     }
