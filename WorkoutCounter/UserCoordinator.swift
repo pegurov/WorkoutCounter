@@ -50,15 +50,19 @@ final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
         controller.onFinish = { [weak controller] userName in
             
             if let userName = userName {
-                
-                controller?.startActivityIndicator()
+                controller?.showProgressHUD()
                 FirebaseManager.sharedInstance.makeUser(withName: userName) { _ in
-                    controller?.stopActivityIndicator()
+                    controller?.hideProgressHUD()
                     controller?.presentingViewController?.dismiss(
                         animated: true,
                         completion: nil
                     )
                 }
+            } else {
+                controller?.presentingViewController?.dismiss(
+                    animated: true,
+                    completion: nil
+                )
             }
         }
     }

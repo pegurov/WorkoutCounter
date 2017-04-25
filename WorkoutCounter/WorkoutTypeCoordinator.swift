@@ -44,12 +44,12 @@ final class WorkoutTypeCoordinator:
             
             if let title = title, !title.isEmpty {
                 
-                controller?.startActivityIndicator()
+                controller?.showProgressHUD()
                 FirebaseManager.sharedInstance.makeWorkoutType(
                     withTitle: title
                 ) { type in
                     
-                    controller?.stopActivityIndicator()
+                    controller?.hideProgressHUD()
                     self?.onFinish?(type)
                 }
             }

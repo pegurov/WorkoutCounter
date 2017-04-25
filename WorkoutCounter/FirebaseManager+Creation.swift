@@ -85,7 +85,7 @@ extension FirebaseManager {
                     counter.increment()
                     self.syncKeysOfManagedObject(of: $0) {
                         counter.decrement()
-                        if counter.number == 0 {
+                        if counter.isReady {
                             self.syncRelationships(of: newObject) {
                                
                                 let sessionsCounter = Counter()
@@ -94,7 +94,7 @@ extension FirebaseManager {
                                     self.syncRelationships(of: session.user!) {
                                         self.syncRelationships(of: session) {
                                             sessionsCounter.decrement()
-                                            if sessionsCounter.number == 0 {
+                                            if sessionsCounter.isReady {
                                                 
                                                 completion(newObject)
                                             }
@@ -157,7 +157,7 @@ extension FirebaseManager {
                     counter.increment()
                     fbEntity.child(key).setValue(date.timeIntervalSince1970, withCompletionBlock: { _, _ in
                         counter.decrement()
-                        if counter.number == 0 {
+                        if counter.isReady {
                             completion()
                         }
                     })
@@ -167,13 +167,13 @@ extension FirebaseManager {
                 counter.increment()
                 fbEntity.child(key).setValue(value, withCompletionBlock: { _, _ in
                     counter.decrement()
-                    if counter.number == 0 {
+                    if counter.isReady {
                         completion()
                     }
                 })
             }
         }
-        if counter.number == 0 {
+        if counter.isReady {
             completion()
         }
     }
@@ -207,7 +207,7 @@ extension FirebaseManager {
                         counter.increment()
                         fbEntity.child(key).child(remoteId).setValue(true, withCompletionBlock: { _, _ in
                             counter.decrement()
-                            if counter.number == 0 {
+                            if counter.isReady {
                                 completion()
                             }
                         })
@@ -219,13 +219,13 @@ extension FirebaseManager {
                 counter.increment()
                 fbEntity.child(key).setValue(remoteId, withCompletionBlock: { _, _ in
                     counter.decrement()
-                    if counter.number == 0 {
+                    if counter.isReady {
                         completion()
                     }
                 })
             }
         }
-        if counter.number == 0 {
+        if counter.isReady {
             completion()
         }
     }

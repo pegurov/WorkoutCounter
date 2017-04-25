@@ -37,13 +37,13 @@ class WorkoutCreateCoordinator:
                 let type = strongSelf.selectedType,
                 !strongSelf.selectedUsers.isEmpty {
                 
-                controller?.startActivityIndicator()
+                controller?.showProgressHUD()
                 FirebaseManager.sharedInstance.makeWorkout(
                     withType: type,
                     users: strongSelf.selectedUsers
                 ) { workout in
                     
-                    controller?.stopActivityIndicator()
+                    controller?.hideProgressHUD()
                     self?.onFinish?(workout)
                 }
             }

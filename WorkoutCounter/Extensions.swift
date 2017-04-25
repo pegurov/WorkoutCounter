@@ -1,4 +1,5 @@
 import UIKit
+import MBProgressHUD
 
 extension UIStoryboard {
     
@@ -26,6 +27,26 @@ extension UIViewController {
     
     func stopActivityIndicator() {
         navigationItem.titleView = nil
+    }
+    
+    func showProgressHUD() {
+        
+        if let view = navigationController?.view ?? view {
+            
+            let hud = MBProgressHUD.showAdded(
+                to: view,
+                animated: true
+            )
+            hud.removeFromSuperViewOnHide = true
+            hud.isUserInteractionEnabled = true
+        }
+    }
+    
+    func hideProgressHUD() {
+        
+        if let view = navigationController?.view ?? view {
+            MBProgressHUD.hide(for: view, animated: true)
+        }
     }
 }
 

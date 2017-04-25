@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0830"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84FCA7AA19066AC3D1054CE27157AAE4"
+               BlueprintIdentifier = "44DA207C700F0AFB8E3E8A744BF8322C"
                BuildableName = "Pods_WorkoutCounter.framework"
                BlueprintName = "Pods-WorkoutCounter"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "84FCA7AA19066AC3D1054CE27157AAE4"
+            BlueprintIdentifier = "44DA207C700F0AFB8E3E8A744BF8322C"
             BuildableName = "Pods_WorkoutCounter.framework"
             BlueprintName = "Pods-WorkoutCounter"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "84FCA7AA19066AC3D1054CE27157AAE4"
-            BuildableName = "Pods_WorkoutCounter.framework"
-            BlueprintName = "Pods-WorkoutCounter"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

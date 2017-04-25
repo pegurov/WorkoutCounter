@@ -9,5 +9,5 @@ target 'WorkoutCounter' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'FirebaseUI'
-  
+  pod 'MBProgressHUD'
 end
