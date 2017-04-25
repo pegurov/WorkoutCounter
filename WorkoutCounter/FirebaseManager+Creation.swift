@@ -233,7 +233,14 @@ extension FirebaseManager {
 
 class Counter {
     
-    var number = 0
+    private(set) var number: Int
+    var isReady: Bool {
+        return number == 0
+    }
+    
+    init(number: Int = 0) {
+        self.number = number
+    }
     
     func increment() {
         number += 1

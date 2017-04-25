@@ -99,14 +99,11 @@ final class FirebaseManager {
             completion()
         } else {
         
-            var counter: NSNumber = NSNumber(integerLiteral: 0)
+            let counter = Counter(number: entityStubs.count)
             entityStubs.forEach {
-                
-                counter = NSNumber(integerLiteral: counter.intValue + 1)
                 self.resolveEntityStub($0, completion: {
-                    
-                    counter = NSNumber(integerLiteral: counter.intValue - 1)
-                    if counter.intValue == 0 {
+                    counter.decrement()
+                    if counter.isReady {
                         completion()
                     }
                 })
@@ -132,14 +129,11 @@ final class FirebaseManager {
             completion()
         } else {
             
-            var counter: NSNumber = NSNumber(integerLiteral: 0)
+            let counter = Counter(number: relationships.count)
             relationships.forEach {
-                
-                counter = NSNumber(integerLiteral: counter.intValue + 1)
                 self.resolveRelationshipStub($0, completion: {
-                    
-                    counter = NSNumber(integerLiteral: counter.intValue - 1)
-                    if counter.intValue == 0 {
+                    counter.decrement()
+                    if counter.isReady {
                         completion()
                     }
                 })
@@ -195,11 +189,9 @@ final class FirebaseManager {
             completion([])
         } else {
             
-            var counter: NSNumber = NSNumber(integerLiteral: 0)
             var loaded: [EntityStub] = []
+            let counter = Counter(number: ids.count)
             ids.forEach {
-                
-                counter = NSNumber(integerLiteral: counter.intValue + 1)
                 self.loadObjectById(
                     $0,
                     entityName: entityName,
@@ -209,8 +201,8 @@ final class FirebaseManager {
                         if let loadedObject = loadedObject {
                             loaded.append(loadedObject)
                         }
-                        counter = NSNumber(integerLiteral: counter.intValue - 1)
-                        if counter.intValue == 0 {
+                        counter.decrement()
+                        if counter.isReady {
                             completion(loaded)
                         }
                 })
