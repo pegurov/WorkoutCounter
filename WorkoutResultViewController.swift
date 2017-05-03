@@ -14,10 +14,15 @@ extension Workout {
             result += (type?.title ?? "") + "\t"
             result += (session.user!.name ?? "") + "\t\t\t\t"
             
-            session.sets?.forEach { set in
-                
-                let set = set as! WorkoutSet
-                result.append("\(set.count)\t")
+            (session.sets?.array as? [WorkoutSet])?.sorted {
+                if let lTime = $0.time?.timeIntervalSince1970,
+                    let rTime = $1.time?.timeIntervalSince1970 {
+                    
+                    return lTime < rTime
+                }
+                return true
+            }.forEach {
+                result.append("\($0.count)\t")
             }
             result.append("\n")
         }
