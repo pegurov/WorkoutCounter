@@ -193,9 +193,15 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
             case .delete:
                 tableView.deleteRows(at: [indexPath!], with: .fade)
             case .update:
-                configureCell(tableView.cellForRow(at: indexPath!) as! C, withObject: anObject as! T)
+                // the cell can be nil
+                if let cell = tableView.cellForRow(at: indexPath!) as? C {
+                    configureCell(cell, withObject: anObject as! T)
+                }
             case .move:
-                configureCell(tableView.cellForRow(at: indexPath!) as! C, withObject: anObject as! T)
+                // the cell can be nil
+                if let cell = tableView.cellForRow(at: indexPath!) as? C {
+                    configureCell(cell, withObject: anObject as! T)
+                }
                 tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }
     }
