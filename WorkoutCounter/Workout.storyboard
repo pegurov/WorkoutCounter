@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -156,31 +157,50 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SessionCell" textLabel="N4p-at-tc9" detailTextLabel="oMA-zS-M1t" style="IBUITableViewCellStyleSubtitle" id="q6b-B5-0kn" customClass="SessionCell" customModule="WorkoutCounter" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="70"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SessionCell" rowHeight="98" id="ndk-X0-0Iz" customClass="SessionCell" customModule="WorkoutCounter" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="98"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q6b-B5-0kn" id="Tr4-53-ruf">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ndk-X0-0Iz" id="P37-BM-3c4">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="97.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N4p-at-tc9">
-                                            <rect key="frame" x="15" y="18" width="36.5" height="20.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68d-A2-jyb">
+                                            <rect key="frame" x="8" y="8" width="359" height="21"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oMA-zS-M1t">
-                                            <rect key="frame" x="15" y="38.5" width="44" height="14.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="previous result" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptq-1l-vnd">
+                                            <rect key="frame" x="8" y="29" width="359" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="current result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKh-yJ-tkE">
+                                            <rect key="frame" x="8" y="46" width="359" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="68d-A2-jyb" firstAttribute="top" secondItem="P37-BM-3c4" secondAttribute="topMargin" id="48P-nQ-V25"/>
+                                        <constraint firstItem="LKh-yJ-tkE" firstAttribute="top" secondItem="Ptq-1l-vnd" secondAttribute="bottom" id="6hx-BJ-vkg"/>
+                                        <constraint firstItem="68d-A2-jyb" firstAttribute="leading" secondItem="P37-BM-3c4" secondAttribute="leadingMargin" id="Cgz-hC-4Kf"/>
+                                        <constraint firstItem="LKh-yJ-tkE" firstAttribute="leading" secondItem="P37-BM-3c4" secondAttribute="leadingMargin" id="SE2-th-QSA"/>
+                                        <constraint firstItem="Ptq-1l-vnd" firstAttribute="top" secondItem="68d-A2-jyb" secondAttribute="bottom" id="b5k-9e-kHy"/>
+                                        <constraint firstItem="Ptq-1l-vnd" firstAttribute="leading" secondItem="P37-BM-3c4" secondAttribute="leadingMargin" id="gPR-dF-Ot1"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="LKh-yJ-tkE" secondAttribute="bottom" priority="999" id="hwR-dr-d5z"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="LKh-yJ-tkE" secondAttribute="trailing" id="jRJ-pz-gwT"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Ptq-1l-vnd" secondAttribute="trailing" id="nYR-Fr-866"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="68d-A2-jyb" secondAttribute="trailing" id="tdH-uE-K54"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="labelCurrentSession" destination="LKh-yJ-tkE" id="C1S-1K-f1p"/>
+                                    <outlet property="labelPreviousSession" destination="Ptq-1l-vnd" id="OWO-9m-CRH"/>
+                                    <outlet property="labelTitle" destination="68d-A2-jyb" id="bRg-sc-WHP"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -232,7 +252,7 @@
         <scene sceneID="1E1-jQ-A2L">
             <objects>
                 <navigationController id="N3m-So-9qj" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wib-qM-Oby">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="wib-qM-Oby">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

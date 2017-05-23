@@ -68,7 +68,7 @@ extension Session {
         guard let sets = sets?.array as? [WorkoutSet],
             !sets.isEmpty else { return "Пока нет подходов" }
         
-        var description = ""
+        var description = "[\(sets.count)] "
         var totalCount: Int16 = 0
         let sortedSets = sets.sorted { set1, set2 in
             if let time1 = set1.time, let time2 = set2.time {

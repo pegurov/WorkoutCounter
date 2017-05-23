@@ -43,9 +43,9 @@
     </entity>
     <elements>
         <element name="Session" positionX="270" positionY="225" width="128" height="135"/>
-        <element name="WorkoutSet" positionX="270" positionY="207" width="128" height="120"/>
         <element name="User" positionX="261" positionY="198" width="128" height="150"/>
         <element name="Workout" positionX="261" positionY="189" width="128" height="135"/>
+        <element name="WorkoutSet" positionX="270" positionY="207" width="128" height="120"/>
         <element name="WorkoutType" positionX="270" positionY="261" width="128" height="105"/>
     </elements>
 </model>

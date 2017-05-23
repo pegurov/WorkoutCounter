@@ -11,9 +11,7 @@ final class WorkoutDetailViewController: UIViewController {
                 }
                 sessionsVC?.tableView.reloadData()
             }
-            if let activeSessionId = workout.activeSession?.objectID {
-                sessionsVC?.selectedIds = [activeSessionId]
-            }
+            forwardActiveSession()
         }
     }
     var sessions: [Session] {
@@ -34,6 +32,14 @@ final class WorkoutDetailViewController: UIViewController {
             $0.layer.borderWidth = 1
         }
         loadData()
+    }
+    
+    private func forwardActiveSession() {
+        
+        if let activeSessionId = workout.activeSession?.objectID {
+            sessionsVC?.selectedIds = [activeSessionId]
+            sessionsVC?.tableView.reloadData()
+        }
     }
     
     private func loadData() {
@@ -181,7 +187,7 @@ final class WorkoutDetailViewController: UIViewController {
                     FirebaseManager.sharedInstance.syncKeysOfManagedObject(
                         of: session
                     ) {
-                        self?.sessionsVC?.tableView.reloadData()
+                        self?.forwardActiveSession()
                     }
             })
             alertController.addAction(action)
@@ -202,7 +208,7 @@ final class WorkoutDetailViewController: UIViewController {
                             FirebaseManager.sharedInstance.syncRelationships(
                                 of: workout
                             ) {
-                                self?.sessionsVC?.tableView.reloadData()
+                                self?.forwardActiveSession()
                             }
                         }
                     }
