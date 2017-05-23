@@ -152,45 +152,45 @@
         <scene sceneID="37d-su-8rJ">
             <objects>
                 <tableViewController id="Fem-uD-Kdb" customClass="SessionsViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ieq-4A-7x4">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="119" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ieq-4A-7x4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="433"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SessionCell" rowHeight="98" id="ndk-X0-0Iz" customClass="SessionCell" customModule="WorkoutCounter" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="98"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SessionCell" rowHeight="119" id="ndk-X0-0Iz" customClass="SessionCell" customModule="WorkoutCounter" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="119"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ndk-X0-0Iz" id="P37-BM-3c4">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="97.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="118.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68d-A2-jyb">
-                                            <rect key="frame" x="8" y="8" width="359" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68d-A2-jyb">
+                                            <rect key="frame" x="8" y="16" width="359" height="21"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="previous result" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptq-1l-vnd">
-                                            <rect key="frame" x="8" y="29" width="359" height="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="previous result" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptq-1l-vnd">
+                                            <rect key="frame" x="8" y="37" width="359" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="current result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKh-yJ-tkE">
-                                            <rect key="frame" x="8" y="46" width="359" height="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="current result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKh-yJ-tkE">
+                                            <rect key="frame" x="8" y="54" width="359" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="68d-A2-jyb" firstAttribute="top" secondItem="P37-BM-3c4" secondAttribute="topMargin" id="48P-nQ-V25"/>
+                                        <constraint firstItem="68d-A2-jyb" firstAttribute="top" secondItem="P37-BM-3c4" secondAttribute="topMargin" constant="8" id="48P-nQ-V25"/>
                                         <constraint firstItem="LKh-yJ-tkE" firstAttribute="top" secondItem="Ptq-1l-vnd" secondAttribute="bottom" id="6hx-BJ-vkg"/>
                                         <constraint firstItem="68d-A2-jyb" firstAttribute="leading" secondItem="P37-BM-3c4" secondAttribute="leadingMargin" id="Cgz-hC-4Kf"/>
                                         <constraint firstItem="LKh-yJ-tkE" firstAttribute="leading" secondItem="P37-BM-3c4" secondAttribute="leadingMargin" id="SE2-th-QSA"/>
+                                        <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="LKh-yJ-tkE" secondAttribute="bottom" constant="8" id="XjU-Vp-USj"/>
                                         <constraint firstItem="Ptq-1l-vnd" firstAttribute="top" secondItem="68d-A2-jyb" secondAttribute="bottom" id="b5k-9e-kHy"/>
                                         <constraint firstItem="Ptq-1l-vnd" firstAttribute="leading" secondItem="P37-BM-3c4" secondAttribute="leadingMargin" id="gPR-dF-Ot1"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="LKh-yJ-tkE" secondAttribute="bottom" priority="999" id="hwR-dr-d5z"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="LKh-yJ-tkE" secondAttribute="trailing" id="jRJ-pz-gwT"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Ptq-1l-vnd" secondAttribute="trailing" id="nYR-Fr-866"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="68d-A2-jyb" secondAttribute="trailing" id="tdH-uE-K54"/>
@@ -211,7 +211,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NYq-0D-iUf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1308" y="759"/>
+            <point key="canvasLocation" x="1308" y="758.77061469265368"/>
         </scene>
         <!--Результат-->
         <scene sceneID="u0a-JW-Ogw">
