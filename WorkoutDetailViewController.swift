@@ -166,11 +166,7 @@ final class WorkoutDetailViewController: UIViewController {
         }
     }
     
-    func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath) {
-
-        let session = sessions[indexPath.row]
+    func selectedSession(_ session: Session) {
         if session.active && session == workout.activeSession { return }
         
         let alertController = UIAlertController(
@@ -239,8 +235,8 @@ final class WorkoutDetailViewController: UIViewController {
                 format: "workout.remoteId == %@",
                 workout.remoteId!
             )
-            embedded.onSelectedRow = { [weak self] tableView, indexPath in
-                self?.tableView(tableView, didSelectRowAt: indexPath)
+            embedded.onObjectSelected = { [weak self] session in
+                self?.selectedSession(session)
             }
             if let activeSessionId = workout.activeSession?.objectID {
                 embedded.selectedIds = [activeSessionId]
