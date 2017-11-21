@@ -8,6 +8,7 @@ final class WorkoutCoordinator: StoryboardCoordinator<WorkoutsViewController> {
     // MARK: - Private properties
     private var createCoordinator: WorkoutCreateCoordinator?
     private var profileCoordinator: ProfileCoordinator?
+    private var selectUsersCoordinator: SelectUsersCoordinator?
     
     // MARK: - StoryboardCoordinator
     override func configureRootViewController(
@@ -75,6 +76,34 @@ final class WorkoutCoordinator: StoryboardCoordinator<WorkoutsViewController> {
                 destination.workout = object
             }
         }
+        
+        controller.onAddUsers = { [weak self] in
+            self?.showUsersAdd(from: controller)
+        }
+    }
+    
+    // MARK: - Starting users add flow
+    private func showUsersAdd(from controller: WorkoutDetailViewController) {
+        
+        let existingUserIds = controller.sessions.flatMap { $0.user?.objectID }
+        selectUsersCoordinator = SelectUsersCoordinator(
+            storyboard: .user,
+            coreDataStack: coreDataStack,
+            startInNavigation: false
+        )
+        selectUsersCoordinator?.predicate = NSPredicate(
+            format: "NOT (self IN %@)", existingUserIds
+        )
+        selectUsersCoordinator?.onUserIdsUpdated = { [weak controller] userIds in
+            
+//            controller?.usersViewController?.predicate = NSPredicate(
+//                format: "(self IN %@)", userIds
+//            )
+        }
+        navigationController?.pushViewController(
+            selectUsersCoordinator!.rootViewController,
+            animated: true
+        )
     }
     
     // MARK: - Starting workout create flow

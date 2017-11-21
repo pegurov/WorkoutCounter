@@ -6,4 +6,5 @@ enum SegueId: String {
     case embed
     case detail
     case result
+    case add
 }

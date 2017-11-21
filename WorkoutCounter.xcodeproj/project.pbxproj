@@ -37,7 +37,7 @@
 		C462F9351EAA9E280094962C /* StoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */; };
 		C462F9371EAA9E540094962C /* SegueId.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9361EAA9E540094962C /* SegueId.swift */; };
 		C462F9391EAB7B910094962C /* NSManagedObjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9381EAB7B910094962C /* NSManagedObjectExtensions.swift */; };
-		C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373D1EA219B40047C95F /* UserCoordinator.swift */; };
+		C47D373E1EA219B40047C95F /* SelectUsersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373D1EA219B40047C95F /* SelectUsersCoordinator.swift */; };
 		C47D37401EA24DE80047C95F /* CoreDataStackImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */; };
 		C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37411EA250E30047C95F /* UserCreateViewController.swift */; };
 		C47D37451EA288AF0047C95F /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37441EA288AF0047C95F /* UsersViewController.swift */; };
@@ -98,7 +98,7 @@
 		C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardCoordinator.swift; sourceTree = "<group>"; };
 		C462F9361EAA9E540094962C /* SegueId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueId.swift; sourceTree = "<group>"; };
 		C462F9381EAB7B910094962C /* NSManagedObjectExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSManagedObjectExtensions.swift; sourceTree = "<group>"; };
-		C47D373D1EA219B40047C95F /* UserCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCoordinator.swift; sourceTree = "<group>"; };
+		C47D373D1EA219B40047C95F /* SelectUsersCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectUsersCoordinator.swift; sourceTree = "<group>"; };
 		C47D373F1EA24DE80047C95F /* CoreDataStackImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackImp.swift; sourceTree = "<group>"; };
 		C47D37411EA250E30047C95F /* UserCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCreateViewController.swift; sourceTree = "<group>"; };
 		C47D37441EA288AF0047C95F /* UsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				D5566DA71E9BB34E00503C91 /* User.storyboard */,
-				C47D373D1EA219B40047C95F /* UserCoordinator.swift */,
+				C47D373D1EA219B40047C95F /* SelectUsersCoordinator.swift */,
 				C47D37441EA288AF0047C95F /* UsersViewController.swift */,
 				C47D37411EA250E30047C95F /* UserCreateViewController.swift */,
 			);
@@ -517,7 +517,7 @@
 				C44EDBDD1EA7E07600751707 /* AuthProvider.swift in Sources */,
 				C47D374A1EA29FB30047C95F /* UserCell.swift in Sources */,
 				D5566DA41E9BB34E00503C91 /* CoreDataListViewController.swift in Sources */,
-				C47D373E1EA219B40047C95F /* UserCoordinator.swift in Sources */,
+				C47D373E1EA219B40047C95F /* SelectUsersCoordinator.swift in Sources */,
 				C47D37421EA250E30047C95F /* UserCreateViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

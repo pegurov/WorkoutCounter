@@ -2,6 +2,10 @@ import UIKit
 
 final class WorkoutDetailViewController: UIViewController {
     
+    // MARK: - Output
+    var onAddUsers: (() -> ())?
+    
+    // MARK: - Input
     var workout: Workout! {
         didSet {
             if workout.activeSession == nil {
@@ -18,11 +22,15 @@ final class WorkoutDetailViewController: UIViewController {
         return sessionsVC?.fetchedResultsController.fetchedObjects ?? []
     }
     var coreDataStack: CoreDataStack!
-    weak var sessionsVC: SessionsViewController?
     
+    // MARK: - Private
+    private weak var sessionsVC: SessionsViewController?
+    
+    // MARK: - IBOutlets
     @IBOutlet var buttons: [UIButton]!
     @IBOutlet weak var labelTitle: UILabel!
     
+    // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,6 +40,11 @@ final class WorkoutDetailViewController: UIViewController {
             $0.layer.borderWidth = 1
         }
         loadData()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(WorkoutDetailViewController.addUserTap)
+        )
     }
     
     private func forwardActiveSession() {
@@ -140,6 +153,10 @@ final class WorkoutDetailViewController: UIViewController {
         }
     }
 
+    @objc private func addUserTap() {
+        onAddUsers?()
+    }
+    
     // Implementation
     
     private func advanceToNextSession() {

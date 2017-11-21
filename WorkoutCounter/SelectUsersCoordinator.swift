@@ -7,6 +7,9 @@ final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
     var onUserIdsUpdated: ((_ userIds: [NSManagedObjectID]) -> Void)?
     
     // MARK: - Input -
+    var predicate: NSPredicate? {
+        didSet { rootViewController.predicate = predicate }
+    }
     var selectedUserIds = [NSManagedObjectID]() {
         didSet { rootViewController.selectedIds = selectedUserIds }
     }
@@ -20,6 +23,8 @@ final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
             key: "name",
             ascending: true
         )
+        controller.predicate = predicate
+        
         controller.onPrepareForSegue = { [weak self] segue, sender, object in
             
             if segue.identifier == SegueId.create.rawValue {
