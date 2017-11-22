@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 final class WorkoutDetailViewController: UIViewController {
     
@@ -22,6 +23,7 @@ final class WorkoutDetailViewController: UIViewController {
         return sessionsVC?.fetchedResultsController.fetchedObjects ?? []
     }
     var coreDataStack: CoreDataStack!
+    var userIdsToAddOnViewDidAppear: [NSManagedObjectID] = []
     
     // MARK: - Private
     private weak var sessionsVC: SessionsViewController?
@@ -47,6 +49,13 @@ final class WorkoutDetailViewController: UIViewController {
         )
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print(userIdsToAddOnViewDidAppear)
+    }
+    
+    // MARK: - Private implementation
     private func forwardActiveSession() {
         
         if let activeSessionId = workout.activeSession?.objectID {

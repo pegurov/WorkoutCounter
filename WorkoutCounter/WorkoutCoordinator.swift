@@ -95,10 +95,7 @@ final class WorkoutCoordinator: StoryboardCoordinator<WorkoutsViewController> {
             format: "NOT (self IN %@)", existingUserIds
         )
         selectUsersCoordinator?.onUserIdsUpdated = { [weak controller] userIds in
-            
-//            controller?.usersViewController?.predicate = NSPredicate(
-//                format: "(self IN %@)", userIds
-//            )
+            controller?.userIdsToAddOnViewDidAppear = userIds
         }
         navigationController?.pushViewController(
             selectUsersCoordinator!.rootViewController,
