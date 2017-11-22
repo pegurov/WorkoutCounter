@@ -51,8 +51,17 @@ final class WorkoutDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+     guard userIdsToAddOnViewDidAppear.count > 0 else { return }
         
-        print(userIdsToAddOnViewDidAppear)
+        startActivityIndicator()
+        FirebaseManager.sharedInstance.addUserIds(
+            ids: userIdsToAddOnViewDidAppear,
+            to: workout,
+            completion: { [weak self] in
+                self?.sessionsVC?.tableView.reloadData()
+                self?.stopActivityIndicator()
+            }
+        )
     }
     
     // MARK: - Private implementation

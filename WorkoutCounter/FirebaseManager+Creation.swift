@@ -132,6 +132,22 @@ extension FirebaseManager {
         }
     }
     
+    func addUserIds(ids: [NSManagedObjectID], to: Workout, completion: @escaping ((Workout) -> Void)) {
+        
+        // TODO: 
+        let newUsers: [User] = ids.flatMap {
+            return coreDataStack.managedObjectContext.object(with: $0)
+        }
+        let newSessions: [Session] = users.map {
+            let newSession = Session(context: coreDataStack.managedObjectContext)
+            newSession.user = $0
+            return newSession
+        }
+        newObject.sessions = NSOrderedSet(array: sessions)
+        newObject.activeSession = sessions.first
+        coreDataStack.saveContext()
+    }
+    
     func syncKeysOfManagedObject(
         of object: NSManagedObject,
         completion: @escaping (() -> Void)) {
