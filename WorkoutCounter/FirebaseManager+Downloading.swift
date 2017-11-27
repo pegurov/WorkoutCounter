@@ -3,8 +3,8 @@ import Firebase
 import FirebaseStorage
 import CoreData
 
-ccbfkhcggcdfidgcivihigbudejrcgvuuhlilubgceth
-
+final class FirebaseManager {
+    
     private(set) static var sharedInstance: FirebaseManager!
     
     static func startWith(
