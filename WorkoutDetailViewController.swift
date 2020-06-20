@@ -165,7 +165,7 @@ final class WorkoutDetailViewController: UIViewController {
         coreDataStack.saveContext()
         
         startActivityIndicator()
-        FirebaseManager.sharedInstance.syncKeysOfManagedObject(of: currentSession) { [weak self] in
+        FirebaseManager.sharedInstance.syncKeysOfManagedObject(of: currentSession) { [weak self] _ in
             self?.stopActivityIndicator()
             self?.advanceToNextSession()
         }
@@ -217,7 +217,7 @@ final class WorkoutDetailViewController: UIViewController {
                     self?.coreDataStack.saveContext()
                     FirebaseManager.sharedInstance.syncKeysOfManagedObject(
                         of: session
-                    ) {
+                    ) { _ in
                         self?.forwardActiveSession()
                     }
             })
@@ -234,7 +234,7 @@ final class WorkoutDetailViewController: UIViewController {
                     self?.coreDataStack.saveContext()
                     FirebaseManager.sharedInstance.syncKeysOfManagedObject(
                         of: session
-                    ) {
+                    ) { _ in
                         if let workout = self?.workout {
                             FirebaseManager.sharedInstance.syncRelationships(
                                 of: workout

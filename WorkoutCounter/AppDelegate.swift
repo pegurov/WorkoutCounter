@@ -6,7 +6,7 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var appCoordinator: ApplicationCoordinator!
+    var rootCoordinator: RootCoordinator!
     var coreDataStack: CoreDataStack!
     
     func application(
@@ -19,13 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseManager.startWith(coreDataStack: coreDataStack)
         
         window = UIWindow()
-        appCoordinator = ApplicationCoordinator(
+        rootCoordinator = RootCoordinator(
             authProvider: FirebaseAuthProvider(),
             coreDataStack: coreDataStack,
+            firebaseManager: FirebaseManager.sharedInstance,
             window: window!
         )
         window?.makeKeyAndVisible()
-        appCoordinator.start()
+        rootCoordinator.start()
         return true
     }
 

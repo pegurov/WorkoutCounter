@@ -52,23 +52,25 @@ final class SelectUsersCoordinator: StoryboardCoordinator<UsersViewController> {
     
     private func configureCreateController(_ controller: UserCreateViewController) {
         
-        controller.onFinish = { [weak controller] userName in
-            
-            if let userName = userName {
-                controller?.showProgressHUD()
-                FirebaseManager.sharedInstance.makeUser(withName: userName) { _ in
-                    controller?.hideProgressHUD()
-                    controller?.presentingViewController?.dismiss(
-                        animated: true,
-                        completion: nil
-                    )
-                }
-            } else {
-                controller?.presentingViewController?.dismiss(
-                    animated: true,
-                    completion: nil
-                )
-            }
-        }
+        assertionFailure()
+        
+//        controller.onFinish = { [weak controller] userName in
+//
+//            if let userName = userName {
+//                controller?.showProgressHUD()
+//                FirebaseManager.sharedInstance.makeUser(withName: userName) { _ in
+//                    controller?.hideProgressHUD()
+//                    controller?.presentingViewController?.dismiss(
+//                        animated: true,
+//                        completion: nil
+//                    )
+//                }
+//            } else {
+//                controller?.presentingViewController?.dismiss(
+//                    animated: true,
+//                    completion: nil
+//                )
+//            }
+//        }
     }
 }

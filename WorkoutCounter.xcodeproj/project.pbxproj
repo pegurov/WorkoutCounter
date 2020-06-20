@@ -17,9 +17,10 @@
 		C4270E3D1EACE94600F11809 /* ActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4270E3C1EACE94600F11809 /* ActivityView.xib */; };
 		C4270E3F1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */; };
 		C4270E431EAD3AE300F11809 /* SessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4270E421EAD3AE300F11809 /* SessionsViewController.swift */; };
+		C4314FE8249E3D4E00DC443A /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4314FE7249E3D4E00DC443A /* RootCoordinator.swift */; };
+		C4314FEA249E68D300DC443A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4314FE9249E68D300DC443A /* GoogleService-Info.plist */; };
 		C44EDBBE1EA3E1E500751707 /* WorkoutDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */; };
 		C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBBF1EA40D8400751707 /* SessionCell.swift */; };
-		C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */; };
 		C44EDBC61EA6A97B00751707 /* FirebaseManager+Downloading.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBC51EA6A97B00751707 /* FirebaseManager+Downloading.swift */; };
 		C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBD01EA7DDA200751707 /* Profile.storyboard */; };
 		C44EDBD31EA7DDC000751707 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBD21EA7DDC000751707 /* ProfileCoordinator.swift */; };
@@ -75,9 +76,10 @@
 		C4270E3C1EACE94600F11809 /* ActivityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityView.xib; sourceTree = "<group>"; };
 		C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypeCreateViewController.swift; sourceTree = "<group>"; };
 		C4270E421EAD3AE300F11809 /* SessionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsViewController.swift; sourceTree = "<group>"; };
+		C4314FE7249E3D4E00DC443A /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
+		C4314FE9249E68D300DC443A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
 		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
-		C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C44EDBC31EA68A2300751707 /* WorkoutCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCounter.entitlements; sourceTree = "<group>"; };
 		C44EDBC51EA6A97B00751707 /* FirebaseManager+Downloading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FirebaseManager+Downloading.swift"; sourceTree = "<group>"; };
 		C44EDBD01EA7DDA200751707 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
@@ -186,12 +188,13 @@
 			name = Auth;
 			sourceTree = "<group>";
 		};
-		C44EDBD91EA7DF6E00751707 /* Application */ = {
+		C44EDBD91EA7DF6E00751707 /* Root+Application */ = {
 			isa = PBXGroup;
 			children = (
 				C44EDBDA1EA7DF8800751707 /* ApplicationCoordinator.swift */,
+				C4314FE7249E3D4E00DC443A /* RootCoordinator.swift */,
 			);
-			name = Application;
+			name = "Root+Application";
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -255,7 +258,7 @@
 		C47D37501EA2A4DB0047C95F /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
-				C44EDBC11EA6848B00751707 /* GoogleService-Info.plist */,
+				C4314FE9249E68D300DC443A /* GoogleService-Info.plist */,
 				D5566DAA1E9BB34E00503C91 /* Assets.xcassets */,
 				D5566DAC1E9BB34E00503C91 /* LaunchScreen.storyboard */,
 				D5566DAF1E9BB34E00503C91 /* Info.plist */,
@@ -330,7 +333,7 @@
 				C47D374F1EA2A0640047C95F /* CoreData */,
 				C44EDBC41EA6A94D00751707 /* Firebase */,
 				C47D37461EA29F420047C95F /* Common */,
-				C44EDBD91EA7DF6E00751707 /* Application */,
+				C44EDBD91EA7DF6E00751707 /* Root+Application */,
 				C44EDBD81EA7DF5D00751707 /* Auth */,
 				C44EDBCF1EA7DD7C00751707 /* Profile */,
 				C462F92F1EAA99280094962C /* Workout create */,
@@ -419,9 +422,9 @@
 				C462F92A1EAA91CE0094962C /* WorkoutType.storyboard in Resources */,
 				C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */,
 				D5566DAB1E9BB34E00503C91 /* Assets.xcassets in Resources */,
+				C4314FEA249E68D300DC443A /* GoogleService-Info.plist in Resources */,
 				D5566DA91E9BB34E00503C91 /* User.storyboard in Resources */,
 				C47D37611EA3366B0047C95F /* UserCell.xib in Resources */,
-				C44EDBC21EA6848B00751707 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,6 +545,7 @@
 				C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */,
 				C44EDBC01EA40D8400751707 /* SessionCell.swift in Sources */,
 				C462F9391EAB7B910094962C /* NSManagedObjectExtensions.swift in Sources */,
+				C4314FE8249E3D4E00DC443A /* RootCoordinator.swift in Sources */,
 				C44EDBD51EA7DE3100751707 /* ProfileViewController.swift in Sources */,
 				D5566DA21E9BB34E00503C91 /* WorkoutCounter.xcdatamodeld in Sources */,
 				C462F92C1EAA94DE0094962C /* WorkoutTypesViewController.swift in Sources */,

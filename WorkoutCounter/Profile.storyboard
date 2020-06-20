@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hgv-WC-nBI">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hgv-WC-nBI">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,6 +14,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="tabBarItem.title" value="Профиль"/>
+                        <userDefinedRuntimeAttribute type="image" keyPath="tabBarItem.image" value="user"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="7tA-T3-mvc" kind="relationship" relationship="rootViewController" id="oRw-hC-EUx"/>
                     </connections>
@@ -43,27 +44,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZZ-Gb-Hyd">
-                                <rect key="frame" x="164" y="352" width="46" height="30"/>
-                                <state key="normal" title="Выйти"/>
-                                <connections>
-                                    <action selector="logoutTap:" destination="7tA-T3-mvc" eventType="touchUpInside" id="Lb6-N0-CP8"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Scc-cl-sJX" firstAttribute="centerY" secondItem="IjU-TS-hAp" secondAttribute="centerY" id="Geb-Zi-yck"/>
-                            <constraint firstItem="bZZ-Gb-Hyd" firstAttribute="top" secondItem="Scc-cl-sJX" secondAttribute="bottom" constant="8" id="L50-2l-kgw"/>
-                            <constraint firstItem="bZZ-Gb-Hyd" firstAttribute="centerX" secondItem="Scc-cl-sJX" secondAttribute="centerX" id="LCd-uE-Vy4"/>
                             <constraint firstItem="Scc-cl-sJX" firstAttribute="centerX" secondItem="IjU-TS-hAp" secondAttribute="centerX" id="SVS-ce-WlC"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Профиль" id="1b4-Iu-5i4"/>
+                    <navigationItem key="navigationItem" title="Профиль" id="1b4-Iu-5i4">
+                        <barButtonItem key="rightBarButtonItem" title="Выйти" id="eyz-v1-OXa">
+                            <connections>
+                                <action selector="logoutTap:" destination="7tA-T3-mvc" id="EPU-nq-bE0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E95-Fh-pUs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-329" y="100"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="user" width="24" height="29"/>
+    </resources>
 </document>

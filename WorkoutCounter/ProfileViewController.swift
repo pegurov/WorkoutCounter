@@ -4,7 +4,7 @@ final class ProfileViewController: UIViewController {
     
     var onLogout: (() -> Void)?
     
-    @IBAction func logoutTap(_ sender: UIButton) {
+    @IBAction func logoutTap(_ sender: UIBarButtonItem) {
         onLogout?()
     }
 }

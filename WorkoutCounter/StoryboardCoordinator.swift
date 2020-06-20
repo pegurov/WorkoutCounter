@@ -32,7 +32,5 @@ class StoryboardCoordinator<RootType: UIViewController> {
         }
     }
     
-    func configureRootViewController(_ controller: RootType) {
-        assert(false, "Must be overridden")
-    }
+    func configureRootViewController(_ controller: RootType) { }
 }

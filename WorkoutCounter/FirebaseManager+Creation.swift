@@ -21,7 +21,7 @@ extension FirebaseManager {
 // TODO: Created by
         coreDataStack.saveContext()
         
-        syncKeysOfManagedObject(of: newObject) {
+        syncKeysOfManagedObject(of: newObject) { _ in
             self.syncRelationships(of: newObject) {
                 completion(newObject)
             }
@@ -29,8 +29,9 @@ extension FirebaseManager {
     }
     
     func makeUser(
-        withName name: String,
-        completion: @escaping ((User) -> Void)) {
+        firebaseId: String,
+        firebaseName: String?,
+        completion: @escaping ((User?) -> Void)) {
         
         let entityDescription = NSEntityDescription.entity(
             forEntityName: "User",
@@ -40,13 +41,15 @@ extension FirebaseManager {
             entity: entityDescription!,
             insertInto: coreDataStack.managedObjectContext
         )
-        newObject.name = name
-// TODO: Created by
-        coreDataStack.saveContext()
+        newObject.remoteId = firebaseId
+        newObject.name = firebaseName ?? firebaseId
         
-        syncKeysOfManagedObject(of: newObject) {
-            self.syncRelationships(of: newObject) {
+        syncKeysOfManagedObject(of: newObject) { [weak self] success in
+            if success {
+                self?.coreDataStack.saveContext()
                 completion(newObject)
+            } else {
+                completion(nil)
             }
         }
     }
@@ -77,13 +80,13 @@ extension FirebaseManager {
         newObject.activeSession = sessions.first
         coreDataStack.saveContext()
         
-        syncKeysOfManagedObject(of: newObject) {
+        syncKeysOfManagedObject(of: newObject) { _ in
             self.syncRelationships(of: type) {
                 
                 let counter = Counter()
                 sessions.forEach {
                     counter.increment()
-                    self.syncKeysOfManagedObject(of: $0) {
+                    self.syncKeysOfManagedObject(of: $0) { _ in
                         counter.decrement()
                         if counter.isReady {
                             self.syncRelationships(of: newObject) {
@@ -127,14 +130,14 @@ extension FirebaseManager {
         // TODO: Created by
         coreDataStack.saveContext()
         
-        syncKeysOfManagedObject(of: newObject) {
+        syncKeysOfManagedObject(of: newObject) { _ in
             completion(newObject)
         }
     }
     
     func addUserIds(ids: [NSManagedObjectID], to: Workout, completion: @escaping ((Workout) -> Void)) {
         
-        fatalError()
+        assertionFailure()
         
 //        // TODO:
 //        let newUsers: [User] = ids.flatMap {
@@ -152,47 +155,33 @@ extension FirebaseManager {
     
     func syncKeysOfManagedObject(
         of object: NSManagedObject,
-        completion: @escaping (() -> Void)) {
-        
-        let counter = Counter()
-        
+        completion: @escaping ((Bool) -> Void))
+    {
         let description = object.entity
-        let fbEntity: DatabaseReference
-        if let remoteId = object.value(forKey: "remoteId") as? String {
-            fbEntity = ref.child(description.name!).child(remoteId)
-        } else {
-            fbEntity = ref.child(description.name!).childByAutoId()
-            object.setValue(fbEntity.key, forKey: "remoteId")
-        }
-
-        // sync keys
+        var data: [String: Any] = [:]
         description.attributesByName.forEach { key, attribute in
-            
+
             let value = object.value(forKey: key)
-            if attribute.attributeType == .dateAttributeType {
-                if let date = value as? Date {
-                    
-                    counter.increment()
-                    fbEntity.child(key).setValue(date.timeIntervalSince1970, withCompletionBlock: { _, _ in
-                        counter.decrement()
-                        if counter.isReady {
-                            completion()
-                        }
-                    })
-                }
-            } else if key != "remoteId" {
-                
-                counter.increment()
-                fbEntity.child(key).setValue(value, withCompletionBlock: { _, _ in
-                    counter.decrement()
-                    if counter.isReady {
-                        completion()
-                    }
-                })
+            if key != "remoteId" {
+                data[key] = value
             }
         }
-        if counter.isReady {
-            completion()
+        
+        if let remoteId = object.value(forKey: "remoteId") as? String {
+            let firebaseDocument = Firestore.firestore().collection(description.name!).document(remoteId)
+            firebaseDocument.setData(data, merge: true) { error in
+                completion(error != nil)
+            }
+        } else {
+            var documentId: String?
+            let newDocument = Firestore.firestore().collection(description.name!).addDocument(data: data) { [weak self] error in
+                if error != nil {
+                    object.setValue(documentId, forKey: "remoteId")
+                    self?.coreDataStack.saveContext()
+                }
+                completion(error != nil)
+            }
+            documentId = newDocument.documentID
         }
     }
     
@@ -200,52 +189,55 @@ extension FirebaseManager {
         of object: NSManagedObject,
         completion: @escaping (() -> Void)) {
         
-        let counter = Counter()
         
-        let description = object.entity
-        let fbEntity: DatabaseReference
-        if let remoteId = object.value(forKey: "remoteId") as? String {
-            fbEntity = ref.child(description.name!).child(remoteId)
-        } else {
-            fbEntity = ref.child(description.name!).childByAutoId()
-            object.setValue(fbEntity.key, forKey: "remoteId")
-        }
+        assertionFailure()
         
-        // sync relationships
-        description.relationshipsByName.forEach { key, relationship in
-            
-            let relationshipValue = object.value(forKey: key)
-            if relationship.isToMany {
-                
-                let set = object.mutableOrderedSetValue(forKey: key)
-                set.forEach {
-                    
-                    if let relationshipObject = $0 as? NSManagedObject,
-                        let remoteId = relationshipObject.value(forKey: "remoteId") as? String {
-                        counter.increment()
-                        fbEntity.child(key).child(remoteId).setValue(true, withCompletionBlock: { _, _ in
-                            counter.decrement()
-                            if counter.isReady {
-                                completion()
-                            }
-                        })
-                    } else {
-                        assert(false, "Relationship in set has no remoteId")
-                    }
-                }
-            } else if let remoteId = (relationshipValue as? NSManagedObject)?.value(forKey: "remoteId") as? String {
-                counter.increment()
-                fbEntity.child(key).setValue(remoteId, withCompletionBlock: { _, _ in
-                    counter.decrement()
-                    if counter.isReady {
-                        completion()
-                    }
-                })
-            }
-        }
-        if counter.isReady {
-            completion()
-        }
+//        let counter = Counter()
+//
+//        let description = object.entity
+//        let fbEntity: DatabaseReference
+//        if let remoteId = object.value(forKey: "remoteId") as? String {
+//            fbEntity = ref.child(description.name!).child(remoteId)
+//        } else {
+//            fbEntity = ref.child(description.name!).childByAutoId()
+//            object.setValue(fbEntity.key, forKey: "remoteId")
+//        }
+//
+//        // sync relationships
+//        description.relationshipsByName.forEach { key, relationship in
+//
+//            let relationshipValue = object.value(forKey: key)
+//            if relationship.isToMany {
+//
+//                let set = object.mutableOrderedSetValue(forKey: key)
+//                set.forEach {
+//
+//                    if let relationshipObject = $0 as? NSManagedObject,
+//                        let remoteId = relationshipObject.value(forKey: "remoteId") as? String {
+//                        counter.increment()
+//                        fbEntity.child(key).child(remoteId).setValue(true, withCompletionBlock: { _, _ in
+//                            counter.decrement()
+//                            if counter.isReady {
+//                                completion()
+//                            }
+//                        })
+//                    } else {
+//                        assert(false, "Relationship in set has no remoteId")
+//                    }
+//                }
+//            } else if let remoteId = (relationshipValue as? NSManagedObject)?.value(forKey: "remoteId") as? String {
+//                counter.increment()
+//                fbEntity.child(key).setValue(remoteId, withCompletionBlock: { _, _ in
+//                    counter.decrement()
+//                    if counter.isReady {
+//                        completion()
+//                    }
+//                })
+//            }
+//        }
+//        if counter.isReady {
+//            completion()
+//        }
     }
 }
 

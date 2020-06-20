@@ -1,6 +1,5 @@
 import Foundation
 import Firebase
-import FirebaseStorage
 import CoreData
 
 final class FirebaseManager {
@@ -12,11 +11,9 @@ final class FirebaseManager {
         
         sharedInstance = FirebaseManager()
         sharedInstance.coreDataStack = coreDataStack
-        sharedInstance.ref = Database.database().reference()
     }
     
     private(set) var coreDataStack: CoreDataStack!
-    private(set) var ref: DatabaseReference!
     
     func loadRequest(
         _ request: ObjectsRequest,
@@ -61,34 +58,33 @@ final class FirebaseManager {
         request: ObjectsRequest,
         completion: @escaping ([EntityStub]) -> Void) {
         
-        ref.child(request.entityName).observeSingleEvent(
-            of: DataEventType.value,
-            with: { [weak self] snapshot in
-                
-                let response = snapshot.value as? [String : Any] ?? [:]
-                var entityStubs: [EntityStub] = []
-                
-                for remoteId in response.keys {
-                    guard let json = response[remoteId] as? [String : Any],
-                        let strongSelf = self else {
-                            continue
-                    }
+        Firestore.firestore().collection(request.entityName).getDocuments { [weak self] snapshot, error in
+            guard error == nil, let documents = snapshot?.documents else {
+// error handling
+                assertionFailure()
+                completion([])
+                return
+            }
+            var entityStubs: [EntityStub] = []
+            
+            for document in documents {
+                let remoteId = document.documentID
+                let json = document.data()
+                guard let strongSelf = self else { continue }
 
-                    let entityStub = EntityStub(
-                        context: strongSelf.coreDataStack.managedObjectContext,
-                        entityName: request.entityName,
-                        remoteId: remoteId,
-                        json: json,
-                        node: request.node
-                    )
-                    entityStubs.append(entityStub)
-                }
-                self?.resolveEntityStubs(
-                    entityStubs,
-                    completion: {
-                        completion(entityStubs)
-                })
-        })
+                let entityStub = EntityStub(
+                    context: strongSelf.coreDataStack.managedObjectContext,
+                    entityName: request.entityName,
+                    remoteId: remoteId,
+                    json: json,
+                    node: request.node
+                )
+                entityStubs.append(entityStub)
+            }
+            self?.resolveEntityStubs(entityStubs) {
+                completion(entityStubs)
+            }
+        }
     }
     
     private func resolveEntityStubs(
@@ -197,7 +193,7 @@ final class FirebaseManager {
                     entityName: entityName,
                     node: node,
                     completion: { loadedObject in
-                    
+// error handling
                         if let loadedObject = loadedObject {
                             loaded.append(loadedObject)
                         }
@@ -216,31 +212,23 @@ final class FirebaseManager {
         node: ObjectGraphNode,
         completion: @escaping (EntityStub?) -> Void) {
      
-        ref.child(entityName).child(id).observeSingleEvent(
-            of: DataEventType.value,
-            with: { [weak self] snapshot in
-                
-                guard let json = snapshot.value as? [String : Any],
-                    let strongSelf = self else {
-                        
-                        completion(nil)
-                        return
-                }
-                
-                let entityStub = EntityStub(
-                    context: strongSelf.coreDataStack.managedObjectContext,
-                    entityName: entityName,
-                    remoteId: id,
-                    json: json,
-                    node: node
-                )
-                self?.resolveEntityStub(
-                    entityStub,
-                    completion: {
-                
-                        completion(entityStub)
-                })
-        })
+        Firestore.firestore().collection(entityName).document(id).getDocument { [weak self] document, error in
+            guard let json = document?.data(), let strongSelf = self else {
+                completion(nil)
+                return
+            }
+            let entityStub = EntityStub(
+                context: strongSelf.coreDataStack.managedObjectContext,
+                entityName: entityName,
+                remoteId: id,
+                json: json,
+                node: node
+            )
+            self?.resolveEntityStub(entityStub) {
+// error handling
+                completion(entityStub)
+            }
+        }
     }
     
     // MARK: - Processing loaded objects
@@ -371,13 +359,16 @@ extension NSManagedObject {
             
             if entity.relationshipsByName[key] != nil {
                 // relationship, skip
-            } else if entity.attributesByName[key]?.attributeType == .dateAttributeType {
-                if let double = json[key] as? Double {
-                    setValue(Date(timeIntervalSince1970: double), forKey: key)
-                } else {
-                    assert(false, "Date which is not a double")
-                }
-            } else {
+            }
+// This is probably not needed
+//            else if entity.attributesByName[key]?.attributeType == .dateAttributeType {
+//                if let double = json[key] as? Double {
+//                    setValue(Date(timeIntervalSince1970: double), forKey: key)
+//                } else {
+//                    assert(false, "Date which is not a double")
+//                }
+//            }
+            else {
                 setValue(json[key], forKey: key)
             }
         }

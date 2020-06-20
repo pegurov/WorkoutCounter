@@ -410,7 +410,7 @@ PODS:
 
 DEPENDENCIES:
   - Firebase/Core
-  - Firebase/Database
+  - Firebase/Firestore
   - FirebaseUI
   - MBProgressHUD
 
@@ -477,6 +477,6 @@ SPEC CHECKSUMS:
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   SDWebImage: e3eae2eda88578db0685a0c88597fdadd9433f05
 
-PODFILE CHECKSUM: dc2cec1d107e4ef05b8de72518a5848229e00912
+PODFILE CHECKSUM: 070b0961a6ab070fa55c4942a99352febdf59564
 
 COCOAPODS: 1.9.0.beta.2

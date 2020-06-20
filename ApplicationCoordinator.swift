@@ -3,47 +3,30 @@ import FirebaseAuth
 
 final class ApplicationCoordinator {
     
-    private var authProvider: AuthProvider
-    private var coreDataStack: CoreDataStack
-    private var workoutCoordinator: WorkoutCoordinator?
-    private var authCoordinator: AuthCoordinator?
-    private weak var window: UIWindow!
-
-    init(
-        authProvider: AuthProvider,
-        coreDataStack: CoreDataStack,
-        window: UIWindow) {
-        
-        self.coreDataStack = coreDataStack
-        self.authProvider = authProvider
-        self.authProvider.onAuthStateChanged = { [weak self] in
-            self?.checkAuth()
-        }
-        self.window = window
-        window.backgroundColor = .white
+    // тут должны быть вкладки. Начать можем с самой прростой вкладки - User
+    // Открываешь app, логинишься и видишь вкладку со своим профилем (если она не заполнена)
+    // Если заполнена, то тогда падаешь во вкладку Today
+    
+    // MARK: - Output
+    let rootViewController = UITabBarController()
+    var onLogout: (() -> Void)? {
+        get { return profileCoordinator.onLogout }
+        set { profileCoordinator.onLogout = newValue }
     }
     
-    func start() {
-        checkAuth()
-    }
+    // MARK: - Private
+    private let profileCoordinator: ProfileCoordinator
     
-    private func checkAuth() {
+    init(coreDataStack: CoreDataStack) {
         
-        if authProvider.authorized {
-            
-            workoutCoordinator = WorkoutCoordinator(
-                storyboard: .workout,
-                coreDataStack: coreDataStack
-            )
-            workoutCoordinator?.onLogout = { [weak self] in
-                self?.authProvider.logout()
-            }
-            window.rootViewController = workoutCoordinator?.navigationController
-        } else {
-            
-            authCoordinator = AuthCoordinator()
-            window.rootViewController = authCoordinator?.navigationController
-        }
+        profileCoordinator = ProfileCoordinator(
+            storyboard: .profile,
+            coreDataStack: coreDataStack,
+            startInNavigation: true
+        )
+        
+        rootViewController.viewControllers = [
+            profileCoordinator.navigationController!
+        ]
     }
 }
-
