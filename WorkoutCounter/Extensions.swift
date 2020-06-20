@@ -55,7 +55,7 @@ extension Array {
     @discardableResult
     mutating func removeWhere(_ condition:((Element) -> Bool)) -> Element? {
         
-        if let index = index(where: condition) {
+        if let index = firstIndex(where: condition) {
             return remove(at: index)
         }
         return nil

@@ -91,7 +91,7 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
     }
 
     var onInsertNewObject: (() -> Void)?
-    func insertNewObject(_ sender: Any) {
+    @objc func insertNewObject(_ sender: Any) {
         onInsertNewObject?()
     }
 
@@ -136,9 +136,9 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
 
     override func tableView(
         _ tableView: UITableView,
-        commit editingStyle: UITableViewCellEditingStyle,
-        forRowAt indexPath: IndexPath) {
-        
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath)
+    {
         if editingStyle == .delete {
             let context = fetchedResultsController.managedObjectContext
             context.delete(fetchedResultsController.object(at: indexPath))
@@ -203,6 +203,8 @@ class CoreDataListViewController<T, C: ConfigurableCell>:
                     configureCell(cell, withObject: anObject as! T)
                 }
                 tableView.moveRow(at: indexPath!, to: newIndexPath!)
+            @unknown default:
+                fatalError()
         }
     }
 

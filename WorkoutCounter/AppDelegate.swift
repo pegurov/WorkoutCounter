@@ -11,11 +11,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool
+    {
         BuddyBuildSDK.setup()
         
         
-        FIRApp.configure()
+        FirebaseApp.configure()
         startGenericControllers()
         coreDataStack = CoreDataStackImp()
         FirebaseManager.startWith(coreDataStack: coreDataStack)

@@ -12,11 +12,11 @@ final class FirebaseManager {
         
         sharedInstance = FirebaseManager()
         sharedInstance.coreDataStack = coreDataStack
-        sharedInstance.ref = FIRDatabase.database().reference()
+        sharedInstance.ref = Database.database().reference()
     }
     
     private(set) var coreDataStack: CoreDataStack!
-    private(set) var ref: FIRDatabaseReference!
+    private(set) var ref: DatabaseReference!
     
     func loadRequest(
         _ request: ObjectsRequest,
@@ -62,7 +62,7 @@ final class FirebaseManager {
         completion: @escaping ([EntityStub]) -> Void) {
         
         ref.child(request.entityName).observeSingleEvent(
-            of: FIRDataEventType.value,
+            of: DataEventType.value,
             with: { [weak self] snapshot in
                 
                 let response = snapshot.value as? [String : Any] ?? [:]
@@ -217,7 +217,7 @@ final class FirebaseManager {
         completion: @escaping (EntityStub?) -> Void) {
      
         ref.child(entityName).child(id).observeSingleEvent(
-            of: FIRDataEventType.value,
+            of: DataEventType.value,
             with: { [weak self] snapshot in
                 
                 guard let json = snapshot.value as? [String : Any],

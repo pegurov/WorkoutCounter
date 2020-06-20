@@ -1,5 +1,6 @@
 import UIKit
-import FirebaseAuthUI
+import FirebaseAuth
+import FirebaseUI
 
 final class AuthCoordinator {
     

@@ -20,7 +20,6 @@
 #import "FBSDKServerConfiguration+Internal.h"
 
 #import "FBSDKInternalUtility.h"
-#import "FBSDKMacros.h"
 
 #define FBSDK_SERVER_CONFIGURATION_ADVERTISING_ID_ENABLED_KEY @"advertisingIDEnabled"
 #define FBSDK_SERVER_CONFIGURATION_APP_ID_KEY @"appID"
@@ -31,17 +30,22 @@
 #define FBSDK_SERVER_CONFIGURATION_IMPLICIT_LOGGING_ENABLED_KEY @"implicitLoggingEnabled"
 #define FBSDK_SERVER_CONFIGURATION_DEFAULT_SHARE_MODE_KEY @"defaultShareMode"
 #define FBSDK_SERVER_CONFIGURATION_IMPLICIT_PURCHASE_LOGGING_ENABLED_KEY @"implicitPurchaseLoggingEnabled"
+#define FBSDK_SERVER_CONFIGURATION_CODELESS_EVENTS_ENABLED_KEY @"codelessEventsEnabled"
 #define FBSDK_SERVER_CONFIGURATION_LOGIN_TOOLTIP_ENABLED_KEY @"loginTooltipEnabled"
 #define FBSDK_SERVER_CONFIGURATION_LOGIN_TOOLTIP_TEXT_KEY @"loginTooltipText"
-#define FBSDK_SERVER_CONFIGURATION_SYSTEM_AUTHENTICATION_ENABLED_KEY @"systemAuthenticationEnabled"
-#define FBSDK_SERVER_CONFIGURATION_NATIVE_AUTH_FLOW_ENABLED_KEY @"nativeAuthFlowEnabled"
 #define FBSDK_SERVER_CONFIGURATION_TIMESTAMP_KEY @"timestamp"
 #define FBSDK_SERVER_CONFIGURATION_SESSION_TIMEOUT_INTERVAL @"sessionTimeoutInterval"
 #define FBSDK_SERVER_CONFIGURATION_LOGGING_TOKEN @"loggingToken"
 #define FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_OPTIONS_KEY @"smartLoginEnabled"
 #define FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_BOOKMARK_ICON_URL_KEY @"smarstLoginBookmarkIconURL"
 #define FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_MENU_ICON_URL_KEY @"smarstLoginBookmarkMenuURL"
+#define FBSDK_SERVER_CONFIGURATION_UPDATE_MESSAGE_KEY @"SDKUpdateMessage"
+#define FBSDK_SERVER_CONFIGURATION_EVENT_BINDINGS  @"eventBindings"
+#define FBSDK_SERVER_CONFIGURATION_RESTRICTIVE_PARAMS @"restrictiveParams"
+#define FBSDK_SERVER_CONFIGURATION_AAM_RULES @"AAMRules"
+#define FBSDK_SERVER_CONFIGURATION_SUGGESTED_EVENTS_SETTING @"suggestedEventsSetting"
 #define FBSDK_SERVER_CONFIGURATION_VERSION_KEY @"version"
+#define FBSDK_SERVER_CONFIGURATION_TRACK_UNINSTALL_ENABLED_KEY @"trackAppUninstallEnabled"
 
 #pragma mark - Dialog Names
 
@@ -74,11 +78,6 @@ const NSInteger FBSDKServerConfigurationVersion = 2;
 
 #pragma mark - Object Lifecycle
 
-- (instancetype)init NS_UNAVAILABLE
-{
-  assert(0);
-}
-
 - (instancetype)initWithAppID:(NSString *)appID
                       appName:(NSString *)appName
           loginTooltipEnabled:(BOOL)loginTooltipEnabled
@@ -87,8 +86,8 @@ const NSInteger FBSDKServerConfigurationVersion = 2;
          advertisingIDEnabled:(BOOL)advertisingIDEnabled
        implicitLoggingEnabled:(BOOL)implicitLoggingEnabled
 implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
-  systemAuthenticationEnabled:(BOOL)systemAuthenticationEnabled
-        nativeAuthFlowEnabled:(BOOL)nativeAuthFlowEnabled
+        codelessEventsEnabled:(BOOL)codelessEventsEnabled
+     uninstallTrackingEnabled:(BOOL)uninstallTrackingEnabled
          dialogConfigurations:(NSDictionary *)dialogConfigurations
                   dialogFlows:(NSDictionary *)dialogFlows
                     timestamp:(NSDate *)timestamp
@@ -99,6 +98,11 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
             smartLoginOptions:(FBSDKServerConfigurationSmartLoginOptions)smartLoginOptions
     smartLoginBookmarkIconURL:(NSURL *)smartLoginBookmarkIconURL
         smartLoginMenuIconURL:(NSURL *)smartLoginMenuIconURL
+                updateMessage:(NSString *)updateMessage
+                eventBindings:(NSArray *)eventBindings
+            restrictiveParams:(NSDictionary<NSString *, id> *)restrictiveParams
+                     AAMRules:(NSDictionary<NSString *, id> *)AAMRules
+       suggestedEventsSetting:(NSDictionary<NSString *,id> *)suggestedEventsSetting
 {
   if ((self = [super init])) {
     _appID = [appID copy];
@@ -109,8 +113,8 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
     _advertisingIDEnabled = advertisingIDEnabled;
     _implicitLoggingEnabled = implicitLoggingEnabled;
     _implicitPurchaseLoggingEnabled = implicitPurchaseLoggingEnabled;
-    _systemAuthenticationEnabled = systemAuthenticationEnabled;
-    _nativeAuthFlowEnabled = nativeAuthFlowEnabled;
+    _codelessEventsEnabled = codelessEventsEnabled;
+    _uninstallTrackingEnabled = uninstallTrackingEnabled;
     _dialogConfigurations = [dialogConfigurations copy];
     _dialogFlows = [dialogFlows copy];
     _timestamp = [timestamp copy];
@@ -121,6 +125,11 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
     _smartLoginOptions = smartLoginOptions;
     _smartLoginMenuIconURL = [smartLoginMenuIconURL copy];
     _smartLoginBookmarkIconURL = [smartLoginBookmarkIconURL copy];
+    _updateMessage = [updateMessage copy];
+    _eventBindings = eventBindings;
+    _restrictiveParams = restrictiveParams;
+    _AAMRules = AAMRules;
+    _suggestedEventsSetting = suggestedEventsSetting;
     _version = FBSDKServerConfigurationVersion;
   }
   return self;
@@ -148,12 +157,12 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
 - (BOOL)_useFeatureWithKey:(NSString *)key dialogName:(NSString *)dialogName
 {
   if ([dialogName isEqualToString:FBSDKDialogConfigurationNameLogin]) {
-    return [(NSNumber *)(_dialogFlows[dialogName][key] ?:
-                         _dialogFlows[FBSDKDialogConfigurationNameDefault][key]) boolValue];
+    return ((NSNumber *)(_dialogFlows[dialogName][key] ?:
+                         _dialogFlows[FBSDKDialogConfigurationNameDefault][key])).boolValue;
   } else {
-    return [(NSNumber *)(_dialogFlows[dialogName][key] ?:
+    return ((NSNumber *)(_dialogFlows[dialogName][key] ?:
                          _dialogFlows[FBSDKDialogConfigurationNameSharing][key] ?:
-                         _dialogFlows[FBSDKDialogConfigurationNameDefault][key]) boolValue];
+                         _dialogFlows[FBSDKDialogConfigurationNameDefault][key])).boolValue;
   }
 }
 
@@ -177,10 +186,11 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
   BOOL implicitLoggingEnabled = [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_IMPLICIT_LOGGING_ENABLED_KEY];
   BOOL implicitPurchaseLoggingEnabled =
   [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_IMPLICIT_PURCHASE_LOGGING_ENABLED_KEY];
-  BOOL systemAuthenticationEnabled =
-  [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_SYSTEM_AUTHENTICATION_ENABLED_KEY];
+  BOOL codelessEventsEnabled =
+  [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_CODELESS_EVENTS_ENABLED_KEY];
+  BOOL uninstallTrackingEnabled =
+  [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_TRACK_UNINSTALL_ENABLED_KEY];
   FBSDKServerConfigurationSmartLoginOptions smartLoginOptions = [decoder decodeIntegerForKey:FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_OPTIONS_KEY];
-  BOOL nativeAuthFlowEnabled = [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_NATIVE_AUTH_FLOW_ENABLED_KEY];
   NSDate *timestamp = [decoder decodeObjectOfClass:[NSDate class] forKey:FBSDK_SERVER_CONFIGURATION_TIMESTAMP_KEY];
   NSSet *dialogConfigurationsClasses = [[NSSet alloc] initWithObjects:
                                         [NSDictionary class],
@@ -200,6 +210,11 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
   NSString *loggingToken = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDK_SERVER_CONFIGURATION_LOGGING_TOKEN];
   NSURL *smartLoginBookmarkIconURL = [decoder decodeObjectOfClass:[NSURL class] forKey:FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_BOOKMARK_ICON_URL_KEY];
   NSURL *smartLoginMenuIconURL = [decoder decodeObjectOfClass:[NSURL class] forKey:FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_MENU_ICON_URL_KEY];
+  NSString *updateMessage = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDK_SERVER_CONFIGURATION_UPDATE_MESSAGE_KEY];
+  NSArray *eventBindings = [decoder decodeObjectOfClass:[NSArray class] forKey:FBSDK_SERVER_CONFIGURATION_EVENT_BINDINGS];
+  NSDictionary<NSString *, id> *restrictiveParams = [decoder decodeObjectOfClass:[NSDictionary class] forKey:FBSDK_SERVER_CONFIGURATION_RESTRICTIVE_PARAMS];
+  NSDictionary<NSString *, id> *AAMRules = [decoder decodeObjectOfClass:[NSDictionary class] forKey:FBSDK_SERVER_CONFIGURATION_AAM_RULES];
+  NSDictionary<NSString *, id> *suggestedEventsSetting = [decoder decodeObjectOfClass:[NSDictionary class] forKey:FBSDK_SERVER_CONFIGURATION_SUGGESTED_EVENTS_SETTING];
   NSInteger version = [decoder decodeIntegerForKey:FBSDK_SERVER_CONFIGURATION_VERSION_KEY];
   FBSDKServerConfiguration *configuration = [self initWithAppID:appID
                                                         appName:appName
@@ -209,8 +224,8 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
                                            advertisingIDEnabled:advertisingIDEnabled
                                          implicitLoggingEnabled:implicitLoggingEnabled
                                  implicitPurchaseLoggingEnabled:implicitPurchaseLoggingEnabled
-                                    systemAuthenticationEnabled:systemAuthenticationEnabled
-                                          nativeAuthFlowEnabled:nativeAuthFlowEnabled
+                                          codelessEventsEnabled:codelessEventsEnabled
+                                       uninstallTrackingEnabled:uninstallTrackingEnabled
                                            dialogConfigurations:dialogConfigurations
                                                     dialogFlows:dialogFlows
                                                       timestamp:timestamp
@@ -221,6 +236,11 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
                                               smartLoginOptions:smartLoginOptions
                                       smartLoginBookmarkIconURL:smartLoginBookmarkIconURL
                                           smartLoginMenuIconURL:smartLoginMenuIconURL
+                                                  updateMessage:updateMessage
+                                                  eventBindings:eventBindings
+                                              restrictiveParams:restrictiveParams
+                                                       AAMRules:AAMRules
+                                         suggestedEventsSetting:suggestedEventsSetting
                                              ];
   configuration->_version = version;
   return configuration;
@@ -238,16 +258,23 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
   [encoder encodeBool:_implicitLoggingEnabled forKey:FBSDK_SERVER_CONFIGURATION_IMPLICIT_LOGGING_ENABLED_KEY];
   [encoder encodeBool:_implicitPurchaseLoggingEnabled
                forKey:FBSDK_SERVER_CONFIGURATION_IMPLICIT_PURCHASE_LOGGING_ENABLED_KEY];
+  [encoder encodeBool:_codelessEventsEnabled
+               forKey:FBSDK_SERVER_CONFIGURATION_CODELESS_EVENTS_ENABLED_KEY];
   [encoder encodeBool:_loginTooltipEnabled forKey:FBSDK_SERVER_CONFIGURATION_LOGIN_TOOLTIP_ENABLED_KEY];
+  [encoder encodeBool:_uninstallTrackingEnabled
+               forKey:FBSDK_SERVER_CONFIGURATION_TRACK_UNINSTALL_ENABLED_KEY];
   [encoder encodeObject:_loginTooltipText forKey:FBSDK_SERVER_CONFIGURATION_LOGIN_TOOLTIP_TEXT_KEY];
-  [encoder encodeBool:_nativeAuthFlowEnabled forKey:FBSDK_SERVER_CONFIGURATION_NATIVE_AUTH_FLOW_ENABLED_KEY];
-  [encoder encodeBool:_systemAuthenticationEnabled forKey:FBSDK_SERVER_CONFIGURATION_SYSTEM_AUTHENTICATION_ENABLED_KEY];
   [encoder encodeObject:_timestamp forKey:FBSDK_SERVER_CONFIGURATION_TIMESTAMP_KEY];
   [encoder encodeDouble:_sessionTimoutInterval forKey:FBSDK_SERVER_CONFIGURATION_SESSION_TIMEOUT_INTERVAL];
   [encoder encodeObject:_loggingToken forKey:FBSDK_SERVER_CONFIGURATION_LOGGING_TOKEN];
   [encoder encodeInteger:_smartLoginOptions forKey:FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_OPTIONS_KEY];
   [encoder encodeObject:_smartLoginBookmarkIconURL forKey:FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_BOOKMARK_ICON_URL_KEY];
   [encoder encodeObject:_smartLoginMenuIconURL forKey:FBSDK_SERVER_CONFIGURATION_SMART_LOGIN_MENU_ICON_URL_KEY];
+  [encoder encodeObject:_updateMessage forKey:FBSDK_SERVER_CONFIGURATION_UPDATE_MESSAGE_KEY];
+  [encoder encodeObject:_eventBindings forKey:FBSDK_SERVER_CONFIGURATION_EVENT_BINDINGS];
+  [encoder encodeObject:_restrictiveParams forKey:FBSDK_SERVER_CONFIGURATION_RESTRICTIVE_PARAMS];
+  [encoder encodeObject:_AAMRules forKey:FBSDK_SERVER_CONFIGURATION_AAM_RULES];
+  [encoder encodeObject:_suggestedEventsSetting forKey:FBSDK_SERVER_CONFIGURATION_SUGGESTED_EVENTS_SETTING];
   [encoder encodeInteger:_version forKey:FBSDK_SERVER_CONFIGURATION_VERSION_KEY];
 }
 

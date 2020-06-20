@@ -16,22 +16,33 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import "FBSDKLoginCompletion.h"
 
 @interface FBSDKLoginCompletionParameters ()
 
-@property (nonatomic, copy, readwrite) NSString *accessTokenString;
+@property (nonatomic, copy) NSString *accessTokenString;
+@property (nonatomic, copy) NSString *nonceString;
 
-@property (nonatomic, copy, readwrite) NSSet *permissions;
-@property (nonatomic, copy, readwrite) NSSet *declinedPermissions;
+@property (nonatomic, copy) NSSet *permissions;
+@property (nonatomic, copy) NSSet *declinedPermissions;
+@property (nonatomic, copy) NSSet *expiredPermissions;
 
-@property (nonatomic, copy, readwrite) NSString *appID;
-@property (nonatomic, copy, readwrite) NSString *userID;
+@property (nonatomic, copy) NSString *appID;
+@property (nonatomic, copy) NSString *userID;
 
-@property (nonatomic, copy, readwrite) NSError *error;
+@property (nonatomic, copy) NSError *error;
 
-@property (nonatomic, readwrite, getter=isSystemAccount) BOOL systemAccount;
-@property (nonatomic, copy, readwrite) NSDate *expirationDate;
-@property (nonatomic, copy, readwrite) NSString *challenge;
+@property (nonatomic, copy) NSDate *expirationDate;
+@property (nonatomic, copy) NSDate *dataAccessExpirationDate;
+
+@property (nonatomic, copy) NSString *challenge;
+
+@property (nonatomic, copy) NSString *graphDomain;
 
 @end
+
+#endif

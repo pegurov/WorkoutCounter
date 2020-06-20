@@ -65,7 +65,7 @@ extension FirebaseManager {
             insertInto: coreDataStack.managedObjectContext
         )
         newObject.type = type
-        newObject.date = NSDate()
+        newObject.date = Date()
 // TODO: Created by
         
         let sessions: [Session] = users.map {
@@ -111,7 +111,7 @@ extension FirebaseManager {
     
     func makeWorkoutSet(
         count: Int16,
-        time: NSDate,
+        time: Date,
         completion: @escaping ((WorkoutSet) -> Void)) {
         
         let entityDescription = NSEntityDescription.entity(
@@ -134,18 +134,20 @@ extension FirebaseManager {
     
     func addUserIds(ids: [NSManagedObjectID], to: Workout, completion: @escaping ((Workout) -> Void)) {
         
-        // TODO: 
-        let newUsers: [User] = ids.flatMap {
-            return coreDataStack.managedObjectContext.object(with: $0)
-        }
-        let newSessions: [Session] = users.map {
-            let newSession = Session(context: coreDataStack.managedObjectContext)
-            newSession.user = $0
-            return newSession
-        }
-        newObject.sessions = NSOrderedSet(array: sessions)
-        newObject.activeSession = sessions.first
-        coreDataStack.saveContext()
+        fatalError()
+        
+//        // TODO:
+//        let newUsers: [User] = ids.flatMap {
+//            return coreDataStack.managedObjectContext.object(with: $0) as? User
+//        }
+//        let newSessions: [Session] = users.map {
+//            let newSession = Session(context: coreDataStack.managedObjectContext)
+//            newSession.user = $0
+//            return newSession
+//        }
+//        newObject.sessions = NSOrderedSet(array: sessions)
+//        newObject.activeSession = sessions.first
+//        coreDataStack.saveContext()
     }
     
     func syncKeysOfManagedObject(
@@ -155,7 +157,7 @@ extension FirebaseManager {
         let counter = Counter()
         
         let description = object.entity
-        let fbEntity: FIRDatabaseReference
+        let fbEntity: DatabaseReference
         if let remoteId = object.value(forKey: "remoteId") as? String {
             fbEntity = ref.child(description.name!).child(remoteId)
         } else {
@@ -168,7 +170,7 @@ extension FirebaseManager {
             
             let value = object.value(forKey: key)
             if attribute.attributeType == .dateAttributeType {
-                if let date = value as? NSDate {
+                if let date = value as? Date {
                     
                     counter.increment()
                     fbEntity.child(key).setValue(date.timeIntervalSince1970, withCompletionBlock: { _, _ in
@@ -201,7 +203,7 @@ extension FirebaseManager {
         let counter = Counter()
         
         let description = object.entity
-        let fbEntity: FIRDatabaseReference
+        let fbEntity: DatabaseReference
         if let remoteId = object.value(forKey: "remoteId") as? String {
             fbEntity = ref.child(description.name!).child(remoteId)
         } else {

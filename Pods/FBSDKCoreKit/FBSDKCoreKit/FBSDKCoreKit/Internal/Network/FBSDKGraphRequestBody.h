@@ -22,6 +22,7 @@
 @class FBSDKGraphRequestDataAttachment;
 @class FBSDKLogger;
 
+NS_SWIFT_NAME(GraphRequestBody)
 @interface FBSDKGraphRequestBody : NSObject
 
 @property (nonatomic, retain, readonly) NSData *data;
@@ -42,6 +43,8 @@
   dataAttachmentValue:(FBSDKGraphRequestDataAttachment *)dataAttachment
                logger:(FBSDKLogger *)logger;
 
-+ (NSString *)mimeContentType;
+- (NSString *)mimeContentType;
+
+- (NSData *)compressedData;
 
 @end

@@ -16,17 +16,23 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import <Foundation/Foundation.h>
 
-#import <FBSDKLoginKit/FBSDKLoginManagerLoginResult.h>
+#import "FBSDKLoginManagerLoginResult.h"
 
 @interface FBSDKLoginManagerLoginResult()
 
 @property (nonatomic, readonly) NSDictionary *loggingExtras;
 
 // legacy flag indicating this is an intermediary result only for logging purposes.
-@property (nonatomic) BOOL isSkipped;
+@property (nonatomic, assign) BOOL isSkipped;
 
 // adds additional logging entry to extras - only sent as part of `endLoginWithResult:`
 -(void)addLoggingExtra:(id)object forKey:(id<NSCopying>)key;
 @end
+
+#endif

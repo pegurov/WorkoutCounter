@@ -16,6 +16,10 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import "FBSDKAudioResourceLoader.h"
 
 #import "FBSDKDynamicFrameworkLoader.h"
@@ -79,7 +83,7 @@
 {
   NSURL *fileURL = [self _fileURL:errorRef];
 
-  if (![_fileManager fileExistsAtPath:[fileURL path]]) {
+  if (![_fileManager fileExistsAtPath:fileURL.path]) {
     NSData *data = [[self class] data];
     if (![data writeToURL:fileURL options:NSDataWritingAtomic error:errorRef]) {
       return NO;
@@ -149,3 +153,5 @@
 }
 
 @end
+
+#endif

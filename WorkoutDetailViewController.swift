@@ -57,7 +57,7 @@ final class WorkoutDetailViewController: UIViewController {
         FirebaseManager.sharedInstance.addUserIds(
             ids: userIdsToAddOnViewDidAppear,
             to: workout,
-            completion: { [weak self] in
+            completion: { [weak self] _ in
                 self?.sessionsVC?.tableView.reloadData()
                 self?.stopActivityIndicator()
             }
@@ -136,7 +136,7 @@ final class WorkoutDetailViewController: UIViewController {
         startActivityIndicator()
         FirebaseManager.sharedInstance.makeWorkoutSet(
             count: Int16(string) ?? 0,
-            time: NSDate()
+            time: Date()
         ) { [weak self] set in
             guard let strongSelf = self else { return }
             
@@ -179,7 +179,7 @@ final class WorkoutDetailViewController: UIViewController {
     
     private func advanceToNextSession() {
         guard let currentSession = workout.activeSession,
-            let indexOfCurrent = sessions.index(where: { $0.remoteId == currentSession.remoteId }) else { return }
+            let indexOfCurrent = sessions.firstIndex(where: { $0.remoteId == currentSession.remoteId }) else { return }
 
         let currentAndAfter = sessions.suffix(from: indexOfCurrent)
         let beforeCurrent = sessions.prefix(upTo: indexOfCurrent)

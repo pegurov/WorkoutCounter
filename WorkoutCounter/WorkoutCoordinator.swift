@@ -85,7 +85,7 @@ final class WorkoutCoordinator: StoryboardCoordinator<WorkoutsViewController> {
     // MARK: - Starting users add flow
     private func showUsersAdd(from controller: WorkoutDetailViewController) {
         
-        let existingUserIds = controller.sessions.flatMap { $0.user?.objectID }
+        let existingUserIds = controller.sessions.compactMap { $0.user?.objectID }
         selectUsersCoordinator = SelectUsersCoordinator(
             storyboard: .user,
             coreDataStack: coreDataStack,
