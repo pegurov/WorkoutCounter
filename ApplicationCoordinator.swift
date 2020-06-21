@@ -17,11 +17,10 @@ final class ApplicationCoordinator {
     // MARK: - Private
     private let profileCoordinator: ProfileCoordinator
     
-    init(coreDataStack: CoreDataStack) {
+    init() {
         
         profileCoordinator = ProfileCoordinator(
             storyboard: .profile,
-            coreDataStack: coreDataStack,
             startInNavigation: true
         )
         

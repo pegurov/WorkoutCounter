@@ -25,7 +25,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "179"
             endingLineNumber = "179"
-            landmarkName = "syncRelationships(of:completion:)"
+            landmarkName = "syncKeysOfManagedObject(of:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

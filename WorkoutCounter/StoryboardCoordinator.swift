@@ -6,16 +6,13 @@ class StoryboardCoordinator<RootType: UIViewController> {
     let navigationController: UINavigationController?
     let rootViewController: RootType
     let storyboard: UIStoryboard
-    let coreDataStack: CoreDataStack
     
     // MARK: - Init -
     init(
         storyboard: UIStoryboard,
-        coreDataStack: CoreDataStack,
         startInNavigation: Bool = true) {
         
         self.storyboard = storyboard
-        self.coreDataStack = coreDataStack
         
         if startInNavigation {
             

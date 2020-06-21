@@ -1,14 +1,6 @@
 import UIKit
 import CoreData
 
-protocol ConfigurableCell {
-    
-    associatedtype T
-    
-    func configure(with object: T)
-    static var identifier: String { get }
-}
-
 class CoreDataListViewController<T, C: ConfigurableCell>:
     UITableViewController,
     NSFetchedResultsControllerDelegate
