@@ -32,14 +32,14 @@ final class RootCoordinator {
 // открываешь приложение и он все еще тут, хотя на сервере его уже нет
 // и он не загружается
             
-            Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<User, Error>) in
+            Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<FirebaseData.User, Error>) in
                 switch result {
                 case .success:
                     self?.showApplication()
                 case let .failure(error):
                     switch error {
                     case FirebaseError.documentDoesNotExist:
-                        let newUser = User(
+                        let newUser = FirebaseData.User(
                             name: self?.authProvider.firebaseUser?.displayName ?? userId,
                             createdAt: Date(),
                             createdBy: userId

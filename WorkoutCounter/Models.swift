@@ -29,36 +29,11 @@ import Foundation
 //    let createdBy: String // User
 //}
 
-
-
-final class User: NSObject, Codable {
-    let name: String
-    
-    let createdAt: Date
-    let createdBy: String
-    
-    init(
-        name: String,
-        createdAt: Date,
-        createdBy: String)
-    {
-        self.name = name
-        self.createdAt = createdAt
-        self.createdBy = createdBy
-        
-        
-        
-        ObjectGraphNode(children: [
-            ObjectGraphNode(mode: .leaf(key: "createdBy", type: User.self))
-        ])
-    }
-}
-
-final class ObjectGraphNode<T: Codable> {
-    
-    enum Mode<T> {
-        case root(type: T.Type)
-        case leaf(key: String, type: T.Type)
+//final class ObjectGraphNode<T: Codable> {
+//
+//    enum Mode<T> {
+//        case root(type: T.Type)
+//        case leaf(key: String, type: T.Type)
         
 //        static func ==( _ lhs: Mode, rhs: Mode) -> Bool {
 //            switch (lhs, rhs) {
@@ -70,26 +45,17 @@ final class ObjectGraphNode<T: Codable> {
 //                return false
 //            }
 //        }
-    }
-    let mode: Mode<T>
-    let children: [ObjectGraphNode]
-    
-    init(mode: Mode<T> = .root(type: T.self),
-         children: [ObjectGraphNode] = []) {
-        
-        self.mode = mode
-        self.children = children
-    }
-}
-
-
-
-
-
-
-
-
-
+//    }
+//    let mode: Mode<T>
+//    let children: [ObjectGraphNode]
+//
+//    init(mode: Mode<T> = .root(type: T.self),
+//         children: [ObjectGraphNode] = []) {
+//
+//        self.mode = mode
+//        self.children = children
+//    }
+//}
 
 
 //struct Dependency<T> {
@@ -116,21 +82,97 @@ final class ObjectGraphNode<T: Codable> {
 //extension User {
 //}
 
-struct WorkoutType: Codable {
-    let title: String
+struct FirebaseData {
     
-    let createdAt: Date
-    let createdBy: String // User
+    struct User: Codable {
+        let name: String
+        
+        let createdAt: Date
+        let createdBy: String
+    }
+    
+    struct WorkoutType: Codable {
+        let title: String
+        
+        let createdAt: Date
+        let createdBy: String // User
+    }
+
+    struct Goal: Codable {
+        let count: Int
+        let type: String // WorkoutType
+        let user: String // User
+        
+        let createdAt: Date
+        let createdBy: String // User
+    }
 }
 
-struct Goal: Codable {
-    let count: Int
-    let type: String // WorkoutType
-    let user: String // User
+
+final class User {
     
-    let createdAt: Date
-    let createdBy: String // User
+    private let firebaseData: FirebaseData.User
+    init(
+        firebaseData: FirebaseData.User,
+        createdBy: User?)
+    {
+        self.firebaseData = firebaseData
+        self.createdBy = createdBy
+    }
+    
+    // Proxies
+    var name: String { firebaseData.name }
+    var createdAt: Date { firebaseData.createdAt }
+    
+    // Dependencies
+    let createdBy: User?
 }
+
+final class Goal {
+    
+    private let firebaseData: FirebaseData.Goal
+    init(
+        firebaseData: FirebaseData.Goal,
+        type: WorkoutType?,
+        user: User?,
+        createdBy: User?)
+    {
+        self.firebaseData = firebaseData
+        self.type = type
+        self.user = user
+        self.createdBy = createdBy
+    }
+    
+    // Proxies
+    var count: Int { firebaseData.count }
+    var createdAt: Date { firebaseData.createdAt }
+    
+    // Dependencies
+    let type: WorkoutType?
+    let user: User?
+    let createdBy: User?
+}
+
+final class WorkoutType {
+    
+    private let firebaseData: FirebaseData.WorkoutType
+    init(
+        firebaseData: FirebaseData.WorkoutType,
+        createdBy: User?)
+    {
+        self.firebaseData = firebaseData
+        self.createdBy = createdBy
+    }
+    
+    // Proxies
+    var title: String { firebaseData.title }
+    var createdAt: Date { firebaseData.createdAt }
+    
+    // Dependencies
+    let createdBy: User?
+}
+
+
 
 /*
  

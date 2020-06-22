@@ -24,6 +24,8 @@
 		C4314FF824A0A55000DC443A /* FirebaseListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4314FF724A0A55000DC443A /* FirebaseListViewController.swift */; };
 		C4314FF924A0A8D400DC443A /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47D37491EA29FB30047C95F /* UserCell.swift */; };
 		C4314FFA24A0A8D900DC443A /* UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C47D37601EA3366B0047C95F /* UserCell.xib */; };
+		C4314FFC24A0B75E00DC443A /* GoalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4314FFB24A0B75E00DC443A /* GoalCell.xib */; };
+		C4314FFE24A0B76E00DC443A /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4314FFD24A0B76E00DC443A /* Goals.swift */; };
 		C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBD01EA7DDA200751707 /* Profile.storyboard */; };
 		C44EDBD31EA7DDC000751707 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBD21EA7DDC000751707 /* ProfileCoordinator.swift */; };
 		C44EDBD51EA7DE3100751707 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBD41EA7DE3100751707 /* ProfileViewController.swift */; };
@@ -57,6 +59,8 @@
 		C4314FF3249FEFC800DC443A /* FirebaseEverything.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEverything.swift; sourceTree = "<group>"; };
 		C4314FF5249FF01F00DC443A /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		C4314FF724A0A55000DC443A /* FirebaseListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseListViewController.swift; sourceTree = "<group>"; };
+		C4314FFB24A0B75E00DC443A /* GoalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoalCell.xib; sourceTree = "<group>"; };
+		C4314FFD24A0B76E00DC443A /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
 		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
 		C44EDBC31EA68A2300751707 /* WorkoutCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCounter.entitlements; sourceTree = "<group>"; };
@@ -151,6 +155,15 @@
 				C44EDBC41EA6A94D00751707 /* Firebase */,
 			);
 			name = Legacy;
+			sourceTree = "<group>";
+		};
+		C4314FFF24A0B77500DC443A /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				C4314FFD24A0B76E00DC443A /* Goals.swift */,
+				C4314FFB24A0B75E00DC443A /* GoalCell.xib */,
+			);
+			name = Goals;
 			sourceTree = "<group>";
 		};
 		C44EDBC41EA6A94D00751707 /* Firebase */ = {
@@ -333,6 +346,7 @@
 				C47D37601EA3366B0047C95F /* UserCell.xib */,
 				C47D37491EA29FB30047C95F /* UserCell.swift */,
 				C4314FF5249FF01F00DC443A /* Models.swift */,
+				C4314FFF24A0B77500DC443A /* Goals */,
 			);
 			path = WorkoutCounter;
 			sourceTree = "<group>";
@@ -406,6 +420,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4314FFC24A0B75E00DC443A /* GoalCell.xib in Resources */,
 				D5566DAE1E9BB34E00503C91 /* LaunchScreen.storyboard in Resources */,
 				C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */,
 				C4314FFA24A0A8D900DC443A /* UserCell.xib in Resources */,
@@ -521,6 +536,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4314FFE24A0B76E00DC443A /* Goals.swift in Sources */,
 				C44EDBD31EA7DDC000751707 /* ProfileCoordinator.swift in Sources */,
 				C4314FF924A0A8D400DC443A /* UserCell.swift in Sources */,
 				C4314FF824A0A55000DC443A /* FirebaseListViewController.swift in Sources */,
