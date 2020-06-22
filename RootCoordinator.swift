@@ -34,8 +34,8 @@ final class RootCoordinator {
             
             _ = Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
                 switch result {
-                case let .success(user):
-                    self?.showApplication(user: User(firebaseData: user.1))
+                case .success:
+                    self?.showApplication()
                 case let .failure(error):
                     switch error {
                     case FirebaseError.documentDoesNotExist:
@@ -46,8 +46,8 @@ final class RootCoordinator {
                         )
                         Firestore.firestore().upload(object: newUser, underId: userId) { storingResult in
                             switch storingResult {
-                            case let .success(user):
-                                self?.showApplication(user: User(firebaseData: user.1))
+                            case .success:
+                                self?.showApplication()
                             case .failure:
                                 break
 // TODO: handle unknown error
@@ -163,11 +163,8 @@ final class RootCoordinator {
         }
     }
     
-    private func showApplication(user: User) {
-        applicationCoordinator = ApplicationCoordinator(
-            authProvider: authProvider,
-            user: user
-        )
+    private func showApplication() {
+        applicationCoordinator = ApplicationCoordinator(authProvider: authProvider)
         applicationCoordinator?.onLogout = { [weak self] in
             self?.authProvider.logout()
         }

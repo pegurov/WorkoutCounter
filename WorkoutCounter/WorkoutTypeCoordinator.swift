@@ -31,11 +31,11 @@ final class WorkoutTypeCoordinator: StoryboardCoordinator<WorkoutTypeListViewCon
 //                sender: nil
 //            )
 //        }
-//        controller.onPrepareForSegue = { [weak self] segue, _, _ in
-//            if let createVC = segue.destination as? WorkoutTypeCreateViewController {
-//                self?.configureCreateViewController(createVC)
-//            }
-//        }
+        controller.onPrepareForSegue = { [weak self] segue, _ in
+            if let createVC = segue.destination as? WorkoutTypeCreateViewController {
+                self?.configureCreateViewController(createVC)
+            }
+        }
     }
     
     private func configureCreateViewController(_ controller: WorkoutTypeCreateViewController) {

@@ -1,22 +1,23 @@
 import UIKit
 import Firebase
 
+// чтобы цель можно было удалить через detail
+// а так же отредактировать
+// 2. надо сделать так, чтобы нельзя было выбрать в цель повторно одно и то-же
+
 final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
     
     // MARK: - Private
     let userId: String
-    let user: User
     var selectTypeCoordinator: WorkoutTypeCoordinator?
     
     // MARK: - Init
     init(
         storyboard: UIStoryboard,
         startInNavigation: Bool = true,
-        userId: String,
-        user: User)
+        userId: String)
     {
         self.userId = userId
-        self.user = user
         super.init(storyboard: storyboard, startInNavigation: startInNavigation)
     }
     
@@ -28,30 +29,33 @@ final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
     
     override func configureRootViewController(_ controller: ProfileViewController) {
         controller.userId = userId
-        controller.userName = user.name
         controller.onPrepareForSegue = { [weak self, userId] segue, sender in
             if segue.identifier == SegueId.create.rawValue,
                 let destination = segue.destination as? GoalCreateViewController
             {
-                destination.onAddTap = { type, count in
-                    let newGoal = FirebaseData.Goal(
-                        count: count,
-                        type: type.remoteId,
-                        user: userId,
-                        createdAt: Date(),
-                        createdBy: userId
-                    )
-                    self?.navigationController?.showProgressHUD()
-                    Firestore.firestore().upload(object: newGoal) { result in
-                        self?.navigationController?.hideProgressHUD()
-                        self?.navigationController?.popToRootViewController(animated: true)
-                    }
-                }
-                destination.onSelectTypeTap = { [weak weakDestination = destination] in
-                    guard let strongDestination = weakDestination else { return }
-                    self?.showSelectType(from: strongDestination)
-                }
+                self?.configureGoalCreate(controller: destination, userId: userId)
             }
+        }
+    }
+    
+    private func configureGoalCreate(controller: GoalCreateViewController, userId: String) {
+        controller.onAddTap = { [weak self] type, count in
+            let newGoal = FirebaseData.Goal(
+                count: count,
+                type: type.remoteId,
+                user: userId,
+                createdAt: Date(),
+                createdBy: userId
+            )
+            self?.navigationController?.showProgressHUD()
+            Firestore.firestore().upload(object: newGoal) { result in
+                self?.navigationController?.hideProgressHUD()
+                self?.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+        controller.onSelectTypeTap = { [weak weakController = controller, weak self] in
+            guard let strongController = weakController else { return }
+            self?.showSelectType(from: strongController)
         }
     }
     

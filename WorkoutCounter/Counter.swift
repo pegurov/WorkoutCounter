@@ -4,7 +4,7 @@ class Counter {
     
     private(set) var number: Int
     var isReady: Bool {
-        return number == 0
+        return number <= 0
     }
     
     init(number: Int = 0) {

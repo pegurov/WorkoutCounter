@@ -20,6 +20,13 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
     var dataSource: [T] = []
     var listeners: [ListenerRegistration] = []
     
+    // MARK: - NAVIGATION
+    var onPrepareForSegue: ((_ segue: UIStoryboardSegue, _ sender: Any?) -> Void)?
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        onPrepareForSegue?(segue, sender)
+    }
+    
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()

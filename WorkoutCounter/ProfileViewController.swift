@@ -1,4 +1,5 @@
 import UIKit
+import Firebase
 
 final class ProfileViewController: UIViewController {
     
@@ -7,7 +8,6 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Input
     var userId: String!
-    var userName: String?
     
     // MARK: - Output
     var onLogout: (() -> Void)?
@@ -24,7 +24,17 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        nameLabel.text = userName
+        createUserSubscription()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        createUserSubscription()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        killUserSubscription()
     }
     
     // MARK: - NAVIGATION
@@ -39,5 +49,24 @@ final class ProfileViewController: UIViewController {
         } else {
             onPrepareForSegue?(segue, sender)
         }
+    }
+    
+    private var userSubscription: ListenerRegistration?
+    private func createUserSubscription() {
+        guard userSubscription == nil else { return }
+        
+        userSubscription = Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
+            switch result {
+            case let .success(_, user):
+                self?.nameLabel.text = user.name
+            case .failure:
+                self?.nameLabel.text = "Ошибка загрузки пользователя"
+            }
+        }
+    }
+    
+    private func killUserSubscription() {
+        userSubscription?.remove()
+        userSubscription = nil
     }
 }

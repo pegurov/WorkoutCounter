@@ -39,10 +39,13 @@
                             <outlet property="delegate" destination="37l-MW-XaB" id="kKZ-hL-bjv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Тип активности" id="mKf-sB-cIg"/>
-                    <connections>
-                        <segue destination="eke-nG-sFA" kind="show" identifier="create" id="NcE-eS-rGw"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="Тип активности" id="mKf-sB-cIg">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Ru-1M-AXm">
+                            <connections>
+                                <segue destination="eke-nG-sFA" kind="show" id="scg-Np-Dut"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jkW-jf-zl7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -105,7 +108,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xhu-NK-dcZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1612" y="-161"/>
+            <point key="canvasLocation" x="1633" y="-161"/>
         </scene>
     </scenes>
 </document>
