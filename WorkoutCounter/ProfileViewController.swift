@@ -8,19 +8,3 @@ final class ProfileViewController: UIViewController {
         onLogout?()
     }
 }
-
-protocol ConfigurableCell {
-    
-    associatedtype T
-    
-    func configure(with object: T)
-    static var identifier: String { get }
-}
-
-class FirebaseListViewController<T, C: ConfigurableCell, UITableViewCell>:
-    UITableViewController
-//    where C: UITableViewCell
-{
-
-    
-}

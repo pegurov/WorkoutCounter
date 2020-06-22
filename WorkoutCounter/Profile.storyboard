@@ -38,17 +38,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Профиль" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Scc-cl-sJX">
-                                <rect key="frame" x="151" y="323" width="73" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zf3-od-ehP">
+                                <rect key="frame" x="16" y="44" width="343" height="623"/>
+                                <connections>
+                                    <segue destination="PLZ-OG-7Jn" kind="embed" identifier="embed" id="qcS-NS-d2X"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Scc-cl-sJX" firstAttribute="centerY" secondItem="IjU-TS-hAp" secondAttribute="centerY" id="Geb-Zi-yck"/>
-                            <constraint firstItem="Scc-cl-sJX" firstAttribute="centerX" secondItem="IjU-TS-hAp" secondAttribute="centerX" id="SVS-ce-WlC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zf3-od-ehP" secondAttribute="trailing" id="3UG-N1-YRt"/>
+                            <constraint firstItem="Zf3-od-ehP" firstAttribute="top" secondItem="UcD-QI-HCd" secondAttribute="bottom" id="Qa4-tx-s57"/>
+                            <constraint firstItem="Zf3-od-ehP" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leadingMargin" id="Qfp-2T-y5i"/>
+                            <constraint firstItem="8h6-5Z-pFx" firstAttribute="top" secondItem="Zf3-od-ehP" secondAttribute="bottom" id="gmi-WQ-cLc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Профиль" id="1b4-Iu-5i4">
@@ -62,6 +64,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E95-Fh-pUs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-329" y="100"/>
+        </scene>
+        <!--All Users View Controller-->
+        <scene sceneID="CTp-6M-esI">
+            <objects>
+                <tableViewController id="PLZ-OG-7Jn" customClass="AllUsersViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mgh-Dz-A2y">
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="623"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="9wq-P4-pr5">
+                                <rect key="frame" x="0.0" y="28" width="343" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9wq-P4-pr5" id="NwU-2I-3xc">
+                                    <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="PLZ-OG-7Jn" id="B7W-mq-jEy"/>
+                            <outlet property="delegate" destination="PLZ-OG-7Jn" id="D6n-Gy-SW6"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yHV-Ue-OwS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="439" y="99"/>
         </scene>
     </scenes>
     <resources>

@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // this is needed so that these controllers can
         // be used via storyboard
-//        _ = UsersViewController()
+        _ = AllUsersViewController()
 //        _ = WorkoutsViewController()
 //        _ = SessionsViewController()
     }

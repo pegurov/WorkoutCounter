@@ -36,16 +36,17 @@ extension Firestore {
     
     func getObjects<T: Codable>(
         query: ((CollectionReference) -> (Query))? = nil,
-        completion: @escaping (Result<[T], Error>) -> ())
+        onUpdate: @escaping (Result<[T], Error>) -> ())
+        -> ListenerRegistration
     {
         
         let snapshotHandler: FIRQuerySnapshotBlock = { snapshot, error in
             if let error = error {
-                completion(.failure(error))
+                onUpdate(.failure(error))
                 return
             }
             guard let documents = snapshot?.documents else {
-                completion(.failure(FirebaseError.documentDoesNotExist))
+                onUpdate(.failure(FirebaseError.documentDoesNotExist))
                 return
             }
             
@@ -55,15 +56,15 @@ extension Firestore {
                     let data = try JSONSerialization.data(withJSONObject: $0.data())
                     return try decoder.decode(T.self, from: data)
                 }
-                completion(.success(result))
+                onUpdate(.success(result))
             } catch {
-                completion(.failure(error))
+                onUpdate(.failure(error))
             }
         }
         if let query = query {
-            query(collection("\(T.self)")).getDocuments(completion: snapshotHandler)
+            return query(collection("\(T.self)")).addSnapshotListener(snapshotHandler)
         } else {
-            collection("\(T.self)").getDocuments(completion: snapshotHandler)
+            return collection("\(T.self)").addSnapshotListener(snapshotHandler)
         }
     }
     
