@@ -103,7 +103,7 @@
         <!--Цель-->
         <scene sceneID="Q2v-3I-bl5">
             <objects>
-                <viewController id="mLK-JV-SwZ" customClass="GoalCreateViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="mLK-JV-SwZ" customClass="GoalViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="IFw-0L-MXP"/>
                         <viewControllerLayoutGuide type="bottom" id="w4B-UJ-SV5"/>

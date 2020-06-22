@@ -4,6 +4,8 @@ import Firebase
 // чтобы цель можно было удалить через detail
 // а так же отредактировать
 // 2. надо сделать так, чтобы нельзя было выбрать в цель повторно одно и то-же
+// чтобы можно было просматривать чужой профиль
+//  - отключены: кнопка добавления, кнопка выйти и нажатие на ячейку в таблице
 
 final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
     
@@ -31,14 +33,14 @@ final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
         controller.userId = userId
         controller.onPrepareForSegue = { [weak self, userId] segue, sender in
             if segue.identifier == SegueId.create.rawValue,
-                let destination = segue.destination as? GoalCreateViewController
+                let destination = segue.destination as? GoalViewController
             {
-                self?.configureGoalCreate(controller: destination, userId: userId)
+                self?.configureGoal(controller: destination, userId: userId)
             }
         }
     }
     
-    private func configureGoalCreate(controller: GoalCreateViewController, userId: String) {
+    private func configureGoal(controller: GoalViewController, userId: String) {
         controller.onAddTap = { [weak self] type, count in
             let newGoal = FirebaseData.Goal(
                 count: count,
@@ -60,7 +62,7 @@ final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
     }
     
     // MARK: - Starting select type
-    private func showSelectType(from controller: GoalCreateViewController) {
+    private func showSelectType(from controller: GoalViewController) {
         
         selectTypeCoordinator = WorkoutTypeCoordinator(
             storyboard: .workoutType,

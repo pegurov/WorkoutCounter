@@ -1,6 +1,6 @@
 import UIKit
 
-final class GoalCreateViewController: UIViewController {
+final class GoalViewController: UIViewController {
     
     // MARK: - Input
     var type: WorkoutType? {
