@@ -19,6 +19,8 @@
 		C4314FF0249FEDB400DC443A /* Extensions_.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4314FEF249FEDB400DC443A /* Extensions_.swift */; };
 		C4314FF1249FEE4600DC443A /* AuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBDC1EA7E07600751707 /* AuthProvider.swift */; };
 		C4314FF2249FEE9600DC443A /* ActivityView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4270E3C1EACE94600F11809 /* ActivityView.xib */; };
+		C4314FF4249FEFC800DC443A /* FirebaseEverything.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4314FF3249FEFC800DC443A /* FirebaseEverything.swift */; };
+		C4314FF6249FF01F00DC443A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4314FF5249FF01F00DC443A /* Models.swift */; };
 		C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C44EDBD01EA7DDA200751707 /* Profile.storyboard */; };
 		C44EDBD31EA7DDC000751707 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBD21EA7DDC000751707 /* ProfileCoordinator.swift */; };
 		C44EDBD51EA7DE3100751707 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBD41EA7DE3100751707 /* ProfileViewController.swift */; };
@@ -49,6 +51,8 @@
 		C4314FE7249E3D4E00DC443A /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		C4314FE9249E68D300DC443A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C4314FEF249FEDB400DC443A /* Extensions_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions_.swift; sourceTree = "<group>"; };
+		C4314FF3249FEFC800DC443A /* FirebaseEverything.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEverything.swift; sourceTree = "<group>"; };
+		C4314FF5249FF01F00DC443A /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
 		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
 		C44EDBC31EA68A2300751707 /* WorkoutCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCounter.entitlements; sourceTree = "<group>"; };
@@ -322,6 +326,8 @@
 				D5566D9E1E9BB34E00503C91 /* AppDelegate.swift */,
 				C4314FEF249FEDB400DC443A /* Extensions_.swift */,
 				C4270E3C1EACE94600F11809 /* ActivityView.xib */,
+				C4314FF3249FEFC800DC443A /* FirebaseEverything.swift */,
+				C4314FF5249FF01F00DC443A /* Models.swift */,
 			);
 			path = WorkoutCounter;
 			sourceTree = "<group>";
@@ -512,11 +518,13 @@
 				C44EDBD31EA7DDC000751707 /* ProfileCoordinator.swift in Sources */,
 				C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */,
 				C4314FE8249E3D4E00DC443A /* RootCoordinator.swift in Sources */,
+				C4314FF4249FEFC800DC443A /* FirebaseEverything.swift in Sources */,
 				C4314FF0249FEDB400DC443A /* Extensions_.swift in Sources */,
 				C44EDBD51EA7DE3100751707 /* ProfileViewController.swift in Sources */,
 				D5566D9F1E9BB34E00503C91 /* AppDelegate.swift in Sources */,
 				C4314FF1249FEE4600DC443A /* AuthProvider.swift in Sources */,
 				C44EDBDB1EA7DF8800751707 /* ApplicationCoordinator.swift in Sources */,
+				C4314FF6249FF01F00DC443A /* Models.swift in Sources */,
 				C4314FEE249FED8700DC443A /* StoryboardCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

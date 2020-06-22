@@ -1,23 +1,17 @@
 import UIKit
-import FirebaseAuth
+import Firebase
 
 final class RootCoordinator {
     
     private var authProvider: AuthProvider
-//    private var coreDataStack: CoreDataStack
-//    private var firebaseManager: FirebaseManager
     private var applicationCoordinator: ApplicationCoordinator?
     private var authCoordinator: AuthCoordinator?
     private weak var window: UIWindow!
 
     init(
         authProvider: AuthProvider,
-//        coreDataStack: CoreDataStack,
-//        firebaseManager: FirebaseManager,
         window: UIWindow) {
         
-//        self.coreDataStack = coreDataStack
-//        self.firebaseManager = firebaseManager
         self.authProvider = authProvider
         self.authProvider.onAuthStateChanged = { [weak self] in
             self?.checkAuth()
@@ -27,28 +21,64 @@ final class RootCoordinator {
         window.rootViewController = UIViewController()
     }
     
-    func start() {
-        checkAuth()
-    }
-    
     private func checkAuth() {
         
         if authProvider.authorized, let userId = authProvider.firebaseUser?.uid {
+
+// На каждый старт конечно невыгодно чекать юзера, кажется это надо делать только один раз после авторизации и все
+// И потом где-то какой-то флаг запоминать про то, что такого юзера уже создали
+            
+// Кейс - авторизуешься юзером, потом сносишь его на сервере из таблицы User
+// открываешь приложение и он все еще тут, хотя на сервере его уже нет
+// и он не загружается
+            
+            Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<User, Error>) in
+                switch result {
+                case .success:
+                    self?.showApplication()
+                case let .failure(error):
+                    switch error {
+                    case FirebaseError.documentDoesNotExist:
+                        let newUser = User(
+                            name: self?.authProvider.firebaseUser?.displayName ?? userId,
+                            createdAt: Date(),
+                            createdBy: userId
+                        )
+                        Firestore.firestore().store(object: newUser, underId: userId) { storingResult in
+                            switch storingResult {
+                            case .success:
+                                self?.showApplication()
+                            case .failure:
+                                break
+// TODO: handle unknown error
+                            }
+                        }
+                    default:
+                        break
+// TODO: handle unknown error
+                    }
+                }
+            }
             
 // Все вот это добро не будет работать без интернета
-            authProvider.updateCurrentUser { [weak self] wasUserUpdateSuccessfull in
-                guard
-                    let user = self?.authProvider.firebaseUser,
-                    wasUserUpdateSuccessfull
-                else {
-// TODO: - Show alert that the user cannot be updated
-                    return
-                }
+//            authProvider.updateCurrentUser { [weak self] wasUserUpdateSuccessfull in
+//                guard
+//                    let firebaseUser = self?.authProvider.firebaseUser,
+//                    wasUserUpdateSuccessfull
+//                else {
+//// TODO: - Show alert that the user cannot be updated
+//                    return
+//                }
 // TODO: -
 // Короче updateCurrentUser не помогает и юзер все равно не имеет user.displayName
 // Поэтому в поле name залетает сразу uuid и все
 
-                self?.showApplication()
+//                self?.showApplication()
+                
+
+                
+                
+                
                 
 //                if self?.checkUserExistsLocally(userId: userId) == true {
 //                    self?.showApplication()
@@ -76,7 +106,7 @@ final class RootCoordinator {
 //                        }
 //                    }
 //                }
-            }
+//            }
         } else {
             authCoordinator = AuthCoordinator()
             window.rootViewController = authCoordinator?.navigationController
