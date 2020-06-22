@@ -130,18 +130,22 @@ final class User {
 
 final class Goal {
     
-    private let firebaseData: FirebaseData.Goal
     init(
         firebaseData: FirebaseData.Goal,
+        remoteId: String,
         type: WorkoutType? = nil,
         user: User? = nil,
         createdBy: User? = nil)
     {
         self.firebaseData = firebaseData
+        self.remoteId = remoteId
         self.type = type
         self.user = user
         self.createdBy = createdBy
     }
+    
+    let firebaseData: FirebaseData.Goal
+    let remoteId: String
     
     // Proxies
     var count: Int { firebaseData.count }
@@ -155,7 +159,6 @@ final class Goal {
 
 final class WorkoutType {
     
-    private let firebaseData: FirebaseData.WorkoutType
     init(
         firebaseData: FirebaseData.WorkoutType,
         remoteId: String,
@@ -166,6 +169,7 @@ final class WorkoutType {
         self.remoteId = remoteId
     }
     
+    let firebaseData: FirebaseData.WorkoutType
     let remoteId: String
     
     // Proxies

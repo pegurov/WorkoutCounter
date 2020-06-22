@@ -12,6 +12,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Output
     var onLogout: (() -> Void)?
     var onAddGoal: (() -> Void)?
+    var onGoalSelected: ((Goal) -> ())?
     
     @IBAction func logoutTap(_ sender: UIBarButtonItem) {
         onLogout?()
@@ -46,6 +47,9 @@ final class ProfileViewController: UIViewController {
             let destination = segue.destination as? GoalsListViewController
         {
             destination.userId = userId
+            destination.onObjectSelected = { [weak self] in
+                self?.onGoalSelected?($0)
+            }
         } else {
             onPrepareForSegue?(segue, sender)
         }

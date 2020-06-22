@@ -1,15 +1,6 @@
 import Firebase
 import UIKit
 
-// Так чего хочется
-// Чтобы можно было описать список как
-// 1. тип сущности + опционально qeury
-// 2. Graph, по которому нужно зарезолвить все dependencies
-// 3. Чтобы dataSource собирался из этого всего автоматически и наружу торчал только он.
-// При любых изменениях всех отображаемых данных они должны автоматом долетать до клиента
-// dataSource перегенерироваться и долетать до view controller
-// Чтобы можно было отписаться и подписаться на все зависимости при уходе/приходе на экран
-
 final class GoalCell: UITableViewCell, ConfigurableCell {
     
     typealias T = Goal
@@ -24,7 +15,7 @@ final class GoalCell: UITableViewCell, ConfigurableCell {
 final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> {
     
     var userId: String!
-    var mainData: [Any] = []
+    var mainData: [(String, FirebaseData.Goal)] = []
     var dependenciesContainer: [String: [String: Any]] = [:]
     
     override func viewDidLoad() {
@@ -48,8 +39,7 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
             onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Goal)], Error>) in
                 switch result {
                 case .success(let value):
-                    let goals: [FirebaseData.Goal] = value.map { $0.1 }
-                    self?.mainData = goals
+                    self?.mainData = value.map { ($0.0, $0.1) }
                     self?.signupForWorkoutTypesUpdates(ids: value.map { $0.1.type })
                     
                 case .failure:
@@ -84,22 +74,23 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
     }
     
     private func makeDataSource() {
-        guard let goals = mainData as? [FirebaseData.Goal] else { return }
         guard let types = dependenciesContainer["types"] as? [String: FirebaseData.WorkoutType] else { return }
         
-        dataSource = goals.map {
+        dataSource = mainData.map { (id, goal) in
+            
             let workoutType: WorkoutType?
-            if let firebaseData = types[$0.type] {
+            if let firebaseData = types[goal.type] {
                 workoutType = WorkoutType(
                     firebaseData: firebaseData,
-                    remoteId: $0.type,
+                    remoteId: goal.type,
                     createdBy: nil
                 )
             } else {
                 workoutType = nil
             }
             return Goal(
-                firebaseData: $0,
+                firebaseData: goal,
+                remoteId: id,
                 type: workoutType,
                 user: nil,
                 createdBy: nil

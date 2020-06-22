@@ -28,7 +28,7 @@
 		C4314FFE24A0B76E00DC443A /* GoalsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4314FFD24A0B76E00DC443A /* GoalsListViewController.swift */; };
 		C431500024A0F08F00DC443A /* SegueId.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9361EAA9E540094962C /* SegueId.swift */; };
 		C431500324A0F85500DC443A /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431500224A0F85500DC443A /* Counter.swift */; };
-		C431500724A0FDE200DC443A /* GoalCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431500624A0FDE200DC443A /* GoalCreateViewController.swift */; };
+		C431500724A0FDE200DC443A /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431500624A0FDE200DC443A /* GoalViewController.swift */; };
 		C431500924A1172900DC443A /* WorkoutTypeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9271EAA91390094962C /* WorkoutTypeCoordinator.swift */; };
 		C431500A24A1172900DC443A /* WorkoutTypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F92B1EAA94DE0094962C /* WorkoutTypeListViewController.swift */; };
 		C431500B24A1172900DC443A /* WorkoutTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F92D1EAA95140094962C /* WorkoutTypeCell.swift */; };
@@ -71,7 +71,7 @@
 		C4314FFB24A0B75E00DC443A /* GoalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoalCell.xib; sourceTree = "<group>"; };
 		C4314FFD24A0B76E00DC443A /* GoalsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsListViewController.swift; sourceTree = "<group>"; };
 		C431500224A0F85500DC443A /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
-		C431500624A0FDE200DC443A /* GoalCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreateViewController.swift; sourceTree = "<group>"; };
+		C431500624A0FDE200DC443A /* GoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		C431500E24A1189300DC443A /* AllUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUsers.swift; sourceTree = "<group>"; };
 		C44EDBBD1EA3E1E500751707 /* WorkoutDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewController.swift; sourceTree = "<group>"; };
 		C44EDBBF1EA40D8400751707 /* SessionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionCell.swift; path = WorkoutCounter/SessionCell.swift; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 				C44EDBD01EA7DDA200751707 /* Profile.storyboard */,
 				C44EDBD21EA7DDC000751707 /* ProfileCoordinator.swift */,
 				C44EDBD41EA7DE3100751707 /* ProfileViewController.swift */,
-				C431500624A0FDE200DC443A /* GoalCreateViewController.swift */,
+				C431500624A0FDE200DC443A /* GoalViewController.swift */,
 				C4314FFD24A0B76E00DC443A /* GoalsListViewController.swift */,
 				C4314FFB24A0B75E00DC443A /* GoalCell.xib */,
 			);
@@ -566,7 +566,7 @@
 				C4314FF824A0A55000DC443A /* FirebaseListViewController.swift in Sources */,
 				C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */,
 				C431500324A0F85500DC443A /* Counter.swift in Sources */,
-				C431500724A0FDE200DC443A /* GoalCreateViewController.swift in Sources */,
+				C431500724A0FDE200DC443A /* GoalViewController.swift in Sources */,
 				C431500B24A1172900DC443A /* WorkoutTypeCell.swift in Sources */,
 				C431500A24A1172900DC443A /* WorkoutTypeListViewController.swift in Sources */,
 				C4314FE8249E3D4E00DC443A /* RootCoordinator.swift in Sources */,
