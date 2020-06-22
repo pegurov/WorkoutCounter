@@ -8,8 +8,8 @@ extension UIStoryboard {
 //    static let workoutCreate = UIStoryboard(name: "WorkoutCreate", bundle: Bundle.main)
 //    static let tabbar = UIStoryboard(name: "Tabbar", bundle: Bundle.main)
 //    static let auth = UIStoryboard(name: "Auth", bundle: Bundle.main)
-//    static let workoutType = UIStoryboard(name: "WorkoutType", bundle: Bundle.main)
-
+    
+    static let workoutType = UIStoryboard(name: "WorkoutType", bundle: Bundle.main)
     static let profile = UIStoryboard(name: "Profile", bundle: Bundle.main)
     
     var initialNavigation: UINavigationController {

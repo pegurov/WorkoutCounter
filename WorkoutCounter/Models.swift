@@ -114,7 +114,7 @@ final class User {
     private let firebaseData: FirebaseData.User
     init(
         firebaseData: FirebaseData.User,
-        createdBy: User?)
+        createdBy: User? = nil)
     {
         self.firebaseData = firebaseData
         self.createdBy = createdBy
@@ -133,9 +133,9 @@ final class Goal {
     private let firebaseData: FirebaseData.Goal
     init(
         firebaseData: FirebaseData.Goal,
-        type: WorkoutType?,
-        user: User?,
-        createdBy: User?)
+        type: WorkoutType? = nil,
+        user: User? = nil,
+        createdBy: User? = nil)
     {
         self.firebaseData = firebaseData
         self.type = type
@@ -158,11 +158,15 @@ final class WorkoutType {
     private let firebaseData: FirebaseData.WorkoutType
     init(
         firebaseData: FirebaseData.WorkoutType,
-        createdBy: User?)
+        remoteId: String,
+        createdBy: User? = nil)
     {
         self.firebaseData = firebaseData
         self.createdBy = createdBy
+        self.remoteId = remoteId
     }
+    
+    let remoteId: String
     
     // Proxies
     var title: String { firebaseData.title }

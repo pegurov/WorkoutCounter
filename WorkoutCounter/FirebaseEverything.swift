@@ -11,14 +11,18 @@ extension Firestore {
     // MARK: - Getting objects
     func getObject<T: Codable>(
         id: String,
-        completion: @escaping (Result<T, Error>) -> ())
+        completion: @escaping (Result<(String, T), Error>) -> ())
+        -> ListenerRegistration
     {
-        collection("\(T.self)").document(id).getDocument { document, error in
+        return collection("\(T.self)").document(id).addSnapshotListener { document, error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-            guard let json = document?.data() else {
+            guard
+                let document = document,
+                let json = document.data()
+            else {
                 completion(.failure(FirebaseError.documentDoesNotExist))
                 return
             }
@@ -27,7 +31,7 @@ extension Firestore {
                 let data = try JSONSerialization.data(withJSONObject: json)
                 let decoder = JSONDecoder()
                 let returnValue: T = try decoder.decode(T.self, from: data)
-                completion(.success(returnValue))
+                completion(.success((document.documentID, returnValue)))
             } catch {
                 completion(.failure(error))
             }
@@ -36,7 +40,7 @@ extension Firestore {
     
     func getObjects<T: Codable>(
         query: ((CollectionReference) -> (Query))? = nil,
-        onUpdate: @escaping (Result<[T], Error>) -> ())
+        onUpdate: @escaping (Result<[(String, T)], Error>) -> ())
         -> ListenerRegistration
     {
         
@@ -52,9 +56,10 @@ extension Firestore {
             
             do {
                 let decoder = JSONDecoder()
-                let result: [T] = try documents.compactMap {
+                let result: [(String, T)] = try documents.compactMap {
                     let data = try JSONSerialization.data(withJSONObject: $0.data())
-                    return try decoder.decode(T.self, from: data)
+                    let decodedObject = try decoder.decode(T.self, from: data)
+                    return ($0.documentID, decodedObject)
                 }
                 onUpdate(.success(result))
             } catch {
@@ -69,10 +74,10 @@ extension Firestore {
     }
     
     // MARK: - Storing objects
-    func store<T: Codable>(
+    func upload<T: Codable>(
         object: T,
         underId id: String? = nil,
-        completion: @escaping (Result<T, Error>) -> ())
+        completion: @escaping (Result<(String, T), Error>) -> ())
     {
         let collectionName = "\(T.self)"
         
@@ -90,17 +95,19 @@ extension Firestore {
                     if let error = error {
                         completion(.failure(error))
                     } else {
-                        completion(.success(object))
+                        completion(.success((id, object)))
                     }
                 }
             } else {
-                collection(collectionName).addDocument(data: json) { error in
+                var documentId: String = ""
+                let something = collection(collectionName).addDocument(data: json) { error in
                     if let error = error {
                         completion(.failure(error))
                     } else {
-                        completion(.success(object))
+                        completion(.success((documentId, object)))
                     }
                 }
+                documentId = something.documentID
             }
             
         } catch {

@@ -32,10 +32,10 @@ final class RootCoordinator {
 // открываешь приложение и он все еще тут, хотя на сервере его уже нет
 // и он не загружается
             
-            Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<FirebaseData.User, Error>) in
+            _ = Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
                 switch result {
-                case .success:
-                    self?.showApplication()
+                case let .success(user):
+                    self?.showApplication(user: User(firebaseData: user.1))
                 case let .failure(error):
                     switch error {
                     case FirebaseError.documentDoesNotExist:
@@ -44,10 +44,10 @@ final class RootCoordinator {
                             createdAt: Date(),
                             createdBy: userId
                         )
-                        Firestore.firestore().store(object: newUser, underId: userId) { storingResult in
+                        Firestore.firestore().upload(object: newUser, underId: userId) { storingResult in
                             switch storingResult {
-                            case .success:
-                                self?.showApplication()
+                            case let .success(user):
+                                self?.showApplication(user: User(firebaseData: user.1))
                             case .failure:
                                 break
 // TODO: handle unknown error
@@ -59,6 +59,56 @@ final class RootCoordinator {
                     }
                 }
             }
+            
+//            [
+//                FirebaseData.WorkoutType(
+//                    title: "Подтягивания",
+//                    createdAt: Date(),
+//                    createdBy: userId
+//                ),
+//                FirebaseData.WorkoutType(
+//                    title: "Отжимания",
+//                    createdAt: Date(),
+//                    createdBy: userId
+//                ),
+//                FirebaseData.WorkoutType(
+//                    title: "Приседания",
+//                    createdAt: Date(),
+//                    createdBy: userId
+//                )
+//            ].forEach {
+//                Firestore.firestore().store(object: $0, completion: { _ in })
+//            }
+            
+          
+//            [
+//                FirebaseData.Goal(
+//                    count: 100,
+//                    type: "7LPfVJk5DYsGcxzJu5Vt",
+//                    user: userId,
+//                    createdAt: Date(),
+//                    createdBy: userId
+//                ),
+//                FirebaseData.Goal(
+//                    count: 100,
+//                    type: "CUC3SBKZlQRnrezow475",
+//                    user: userId,
+//                    createdAt: Date(),
+//                    createdBy: userId
+//                ),
+//                FirebaseData.Goal(
+//                    count: 100,
+//                    type: "RvWYwPmvUtIPyMLqftLx",
+//                    user: userId,
+//                    createdAt: Date(),
+//                    createdBy: userId
+//                )
+//                 
+//            ].forEach {
+//                Firestore.firestore().store(object: $0, completion: { _ in })
+//            }
+            
+            
             
 // Все вот это добро не будет работать без интернета
 //            authProvider.updateCurrentUser { [weak self] wasUserUpdateSuccessfull in
@@ -113,9 +163,10 @@ final class RootCoordinator {
         }
     }
     
-    private func showApplication() {
+    private func showApplication(user: User) {
         applicationCoordinator = ApplicationCoordinator(
-//            coreDataStack: coreDataStack
+            authProvider: authProvider,
+            user: user
         )
         applicationCoordinator?.onLogout = { [weak self] in
             self?.authProvider.logout()

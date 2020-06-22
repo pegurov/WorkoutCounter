@@ -17,11 +17,13 @@ final class ApplicationCoordinator {
     // MARK: - Private
     private let profileCoordinator: ProfileCoordinator
     
-    init() {
+    init(authProvider: AuthProvider, user: User) {
         
         profileCoordinator = ProfileCoordinator(
             storyboard: .profile,
-            startInNavigation: true
+            startInNavigation: true,
+            userId: authProvider.firebaseUser!.uid,
+            user: user
         )
         
         rootViewController.viewControllers = [

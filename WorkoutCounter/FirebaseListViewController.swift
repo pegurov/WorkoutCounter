@@ -13,6 +13,10 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
     UITableViewController
     where C: UITableViewCell
 {
+    
+    // MARK: - Output
+    var onObjectSelected: ((_ object: T) -> Void)?
+    
     var dataSource: [T] = []
     var listeners: [ListenerRegistration] = []
     
@@ -56,6 +60,11 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
         cell.configure(with: withObject as! C.T)
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        onObjectSelected?(dataSource[indexPath.row])
+    }
+    
     // MARK: - Listening to updates
     func signupForUpdates() {
         assertionFailure("override in subclasses")
@@ -64,35 +73,5 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
     private func resignFromUpdates() {
         listeners.forEach { $0.remove() }
         listeners = []
-    }
-}
-
-final class AllUsersViewController: FirebaseListViewController<User, UserCell> {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        tableView.register(
-            UINib(nibName: "UserCell", bundle: .main),
-            forCellReuseIdentifier: UserCell.identifier
-        )
-    }
-    
-    override func signupForUpdates() {
-        signupForUsersUpdates()
-        
-    }
-    
-    func signupForUsersUpdates() {
-        listeners.append(Firestore.firestore().getObjects { [weak self] (result: Result<[FirebaseData.User], Error>) in
-            switch result {
-            case .success(let value):
-                self?.dataSource = value.map { User(firebaseData: $0, createdBy: nil) }
-                self?.tableView.reloadData()
-            case .failure:
-                // TODO: - Handle error
-                break
-            }
-        })
     }
 }
