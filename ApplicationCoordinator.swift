@@ -16,6 +16,7 @@ final class ApplicationCoordinator {
     
     // MARK: - Private
     private let profileCoordinator: ProfileCoordinator
+    private let todayCoordinator: TodayCoordinator
     
     init(authProvider: AuthProvider) {
         
@@ -25,7 +26,13 @@ final class ApplicationCoordinator {
             userId: authProvider.firebaseUser!.uid
         )
         
+        todayCoordinator = TodayCoordinator(
+            storyboard: .today,
+            startInNavigation: true
+        )
+        
         rootViewController.viewControllers = [
+            todayCoordinator.navigationController!,
             profileCoordinator.navigationController!
         ]
     }

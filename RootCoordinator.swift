@@ -29,13 +29,10 @@ final class RootCoordinator {
 // На каждый старт конечно невыгодно чекать юзера, кажется это надо делать только один раз после авторизации и все
 // И потом где-то какой-то флаг запоминать про то, что такого юзера уже создали
             
-// Кейс - авторизуешься юзером, потом сносишь его на сервере из таблицы User
-// открываешь приложение и он все еще тут, хотя на сервере его уже нет
-// и он не загружается
-            
             subscriptions.append(Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
                 switch result {
                 case .success:
+// Го проверять есть ли цели, чтобы понять с какой вкладки стартовать
                     self?.showApplication()
                 case let .failure(error):
                     switch error {
@@ -61,103 +58,6 @@ final class RootCoordinator {
                 }
             })
             
-//            [
-//                FirebaseData.WorkoutType(
-//                    title: "Подтягивания",
-//                    createdAt: Date(),
-//                    createdBy: userId
-//                ),
-//                FirebaseData.WorkoutType(
-//                    title: "Отжимания",
-//                    createdAt: Date(),
-//                    createdBy: userId
-//                ),
-//                FirebaseData.WorkoutType(
-//                    title: "Приседания",
-//                    createdAt: Date(),
-//                    createdBy: userId
-//                )
-//            ].forEach {
-//                Firestore.firestore().store(object: $0, completion: { _ in })
-//            }
-            
-          
-//            [
-//                FirebaseData.Goal(
-//                    count: 100,
-//                    type: "7LPfVJk5DYsGcxzJu5Vt",
-//                    user: userId,
-//                    createdAt: Date(),
-//                    createdBy: userId
-//                ),
-//                FirebaseData.Goal(
-//                    count: 100,
-//                    type: "CUC3SBKZlQRnrezow475",
-//                    user: userId,
-//                    createdAt: Date(),
-//                    createdBy: userId
-//                ),
-//                FirebaseData.Goal(
-//                    count: 100,
-//                    type: "RvWYwPmvUtIPyMLqftLx",
-//                    user: userId,
-//                    createdAt: Date(),
-//                    createdBy: userId
-//                )
-//                 
-//            ].forEach {
-//                Firestore.firestore().store(object: $0, completion: { _ in })
-//            }
-            
-            
-            
-// Все вот это добро не будет работать без интернета
-//            authProvider.updateCurrentUser { [weak self] wasUserUpdateSuccessfull in
-//                guard
-//                    let firebaseUser = self?.authProvider.firebaseUser,
-//                    wasUserUpdateSuccessfull
-//                else {
-//// TODO: - Show alert that the user cannot be updated
-//                    return
-//                }
-// TODO: -
-// Короче updateCurrentUser не помогает и юзер все равно не имеет user.displayName
-// Поэтому в поле name залетает сразу uuid и все
-
-//                self?.showApplication()
-                
-
-                
-                
-                
-                
-//                if self?.checkUserExistsLocally(userId: userId) == true {
-//                    self?.showApplication()
-//                    return
-//                }
-
-//                self?.window.rootViewController?.showProgressHUD()
-                
-//                let request = ObjectsRequest(
-//                    entityName: "User",
-//                    mode: .ids([userId])
-//                )
-//                self?.firebaseManager.loadRequest(request) { users in
-//                    if let _ = users.first {
-//                        self?.window?.rootViewController?.hideProgressHUD()
-//                        self?.showApplication()
-//                    } else {
-//                        FirebaseManager.sharedInstance.makeUser(firebaseId: user.uid, firebaseName: user.displayName) { user in
-//                            if user != nil {
-//                                self?.window?.rootViewController?.hideProgressHUD()
-//                                self?.showApplication()
-//                            } else {
-//// TODO: - Show alert that the user cannot be created
-//                            }
-//                        }
-//                    }
-//                }
-//            }
         } else {
             subscriptions.forEach { $0.remove() }
             authCoordinator = AuthCoordinator()
@@ -172,14 +72,4 @@ final class RootCoordinator {
         }
         window.rootViewController = applicationCoordinator?.rootViewController
     }
-    
-    
-//    private func checkUserExistsLocally(userId: String) -> Bool {
-//        guard let result: [User] = coreDataStack.fetch(
-//            entityName: "User",
-//            predicate: NSPredicate(format: "remoteId == %@", userId)
-//        ) else { return false}
-//
-//        return result.count > 0
-//    }
 }

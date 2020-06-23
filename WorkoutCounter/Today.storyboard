@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I1I-LE-DUM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="qlV-q3-xSc">
+            <objects>
+                <navigationController id="I1I-LE-DUM" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mQ0-LC-K57">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="tabBarItem.title" value="Сегодня"/>
+                        <userDefinedRuntimeAttribute type="image" keyPath="tabBarItem.image" value="today"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="lra-xS-AZh" kind="relationship" relationship="rootViewController" id="MeO-1l-9Ei"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F0b-gv-pEy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="1747"/>
+        </scene>
+        <!--Сегодня-->
+        <scene sceneID="ApQ-2l-1LT">
+            <objects>
+                <viewController id="lra-xS-AZh" customClass="TodayViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HNc-8H-FV2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="EtE-TR-hhm"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Сегодня" id="vcj-xQ-65h"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zzz-uJ-x80" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1806" y="1746"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="today" width="21" height="24"/>
+    </resources>
+</document>
