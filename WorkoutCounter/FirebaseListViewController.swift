@@ -36,6 +36,10 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
         onPrepareForSegue?(segue, sender)
     }
     
+    deinit {
+        listeners.forEach { $0.remove() }
+    }
+    
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -7,7 +7,8 @@ final class RootCoordinator {
     private var applicationCoordinator: ApplicationCoordinator?
     private var authCoordinator: AuthCoordinator?
     private weak var window: UIWindow!
-
+    var subscriptions: [ListenerRegistration] = []
+    
     init(
         authProvider: AuthProvider,
         window: UIWindow) {
@@ -32,7 +33,7 @@ final class RootCoordinator {
 // открываешь приложение и он все еще тут, хотя на сервере его уже нет
 // и он не загружается
             
-            _ = Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
+            subscriptions.append(Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
                 switch result {
                 case .success:
                     self?.showApplication()
@@ -58,7 +59,7 @@ final class RootCoordinator {
 // TODO: handle unknown error
                     }
                 }
-            }
+            })
             
 //            [
 //                FirebaseData.WorkoutType(
@@ -158,6 +159,7 @@ final class RootCoordinator {
 //                }
 //            }
         } else {
+            subscriptions.forEach { $0.remove() }
             authCoordinator = AuthCoordinator()
             window.rootViewController = authCoordinator?.navigationController
         }

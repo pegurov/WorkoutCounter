@@ -21,6 +21,10 @@ final class ProfileViewController: UIViewController {
         onAddGoal?()
     }
     
+    deinit {
+        killUserSubscription()
+    }
+    
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()

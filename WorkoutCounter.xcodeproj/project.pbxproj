@@ -31,7 +31,6 @@
 		C431500724A0FDE200DC443A /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431500624A0FDE200DC443A /* GoalViewController.swift */; };
 		C431500924A1172900DC443A /* WorkoutTypeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9271EAA91390094962C /* WorkoutTypeCoordinator.swift */; };
 		C431500A24A1172900DC443A /* WorkoutTypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F92B1EAA94DE0094962C /* WorkoutTypeListViewController.swift */; };
-		C431500B24A1172900DC443A /* WorkoutTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F92D1EAA95140094962C /* WorkoutTypeCell.swift */; };
 		C431500C24A1172900DC443A /* WorkoutType.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C462F9291EAA91CE0094962C /* WorkoutType.storyboard */; };
 		C431500D24A1172900DC443A /* WorkoutTypeCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */; };
 		C431500F24A1189300DC443A /* AllUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C431500E24A1189300DC443A /* AllUsers.swift */; };
@@ -86,7 +85,6 @@
 		C462F9271EAA91390094962C /* WorkoutTypeCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypeCoordinator.swift; sourceTree = "<group>"; };
 		C462F9291EAA91CE0094962C /* WorkoutType.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = WorkoutType.storyboard; sourceTree = "<group>"; };
 		C462F92B1EAA94DE0094962C /* WorkoutTypeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypeListViewController.swift; sourceTree = "<group>"; };
-		C462F92D1EAA95140094962C /* WorkoutTypeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypeCell.swift; sourceTree = "<group>"; };
 		C462F9301EAA993B0094962C /* WorkoutCreate.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = WorkoutCreate.storyboard; path = WorkoutCounter/WorkoutCreate.storyboard; sourceTree = "<group>"; };
 		C462F9321EAA99770094962C /* WorkoutCreateCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutCreateCoordinator.swift; path = WorkoutCounter/WorkoutCreateCoordinator.swift; sourceTree = "<group>"; };
 		C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardCoordinator.swift; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 			children = (
 				C462F9271EAA91390094962C /* WorkoutTypeCoordinator.swift */,
 				C462F92B1EAA94DE0094962C /* WorkoutTypeListViewController.swift */,
-				C462F92D1EAA95140094962C /* WorkoutTypeCell.swift */,
 				C462F9291EAA91CE0094962C /* WorkoutType.storyboard */,
 				C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */,
 			);
@@ -567,7 +564,6 @@
 				C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */,
 				C431500324A0F85500DC443A /* Counter.swift in Sources */,
 				C431500724A0FDE200DC443A /* GoalViewController.swift in Sources */,
-				C431500B24A1172900DC443A /* WorkoutTypeCell.swift in Sources */,
 				C431500A24A1172900DC443A /* WorkoutTypeListViewController.swift in Sources */,
 				C4314FE8249E3D4E00DC443A /* RootCoordinator.swift in Sources */,
 				C4314FF4249FEFC800DC443A /* FirebaseEverything.swift in Sources */,

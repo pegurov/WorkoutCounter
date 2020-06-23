@@ -1,4 +1,5 @@
 import UIKit
+import Firebase
 
 class StoryboardCoordinator<RootType: UIViewController> {
     
@@ -6,6 +7,7 @@ class StoryboardCoordinator<RootType: UIViewController> {
     let navigationController: UINavigationController?
     let rootViewController: RootType
     let storyboard: UIStoryboard
+    var subscriptions: [ListenerRegistration] = []
     
     // MARK: - Init -
     init(
@@ -27,6 +29,9 @@ class StoryboardCoordinator<RootType: UIViewController> {
             ) as! RootType
             configureRootViewController(rootViewController)
         }
+    }
+    deinit {
+        subscriptions.forEach { $0.remove() }
     }
     
     func configureRootViewController(_ controller: RootType) { }

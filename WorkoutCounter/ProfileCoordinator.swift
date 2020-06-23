@@ -1,8 +1,6 @@
 import UIKit
 import Firebase
 
-// чтобы цель можно было удалить через detail
-
 // чтобы можно было просматривать чужой профиль
 //  - отключены: кнопка добавления, кнопка выйти и нажатие на ячейку в таблице
 
@@ -95,7 +93,7 @@ final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
             self?.showSelectType { newType in
                 
                 self?.navigationController?.showProgressHUD()
-                _ = Firestore.firestore().getObjects(
+                self?.subscriptions.append(Firestore.firestore().getObjects(
                     query: {
                         $0.whereField("user", isEqualTo: userId)
                             .whereField("type", isEqualTo: newType.remoteId)
@@ -107,8 +105,8 @@ final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
                             if let (id, goal) = searchResults.first {
                                 weakController?.goal = Goal(
                                     firebaseData: goal,
-                                    remoteId: id, type:
-                                    newType,
+                                    remoteId: id,
+                                    type: newType,
                                     user: nil,
                                     createdBy: nil
                                 )
@@ -121,9 +119,21 @@ final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
 // TODO: - Handle error
                         }
                     }
-                )
+                ))
                 guard let strongController = weakController else { return }
                 self?.navigationController?.popToViewController(strongController, animated: true)
+            }
+        }
+        controller.onDeleteTap = { [weak self] goalToDelete in
+            self?.navigationController?.showProgressHUD()
+// MOVE FIREBASE EVERYTHING
+            Firestore.firestore().collection("Goal").document(goalToDelete.remoteId).delete { error in
+                self?.navigationController?.hideProgressHUD()
+                if let _ = error {
+// TODO: - Handle error
+                } else {
+                    self?.navigationController?.popToRootViewController(animated: true)
+                }
             }
         }
     }

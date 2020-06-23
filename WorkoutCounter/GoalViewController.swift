@@ -4,13 +4,18 @@ final class GoalViewController: UIViewController {
     
     // MARK: - Input
     var goal: Goal? { didSet { updateLabelWithGoal() } }
-    var type: WorkoutType? { didSet { typeLabel?.text = nil } }
+    var type: WorkoutType? {
+        didSet {
+            typeLabel?.text = type?.title
+            countTextField.text = nil
+        }
+    }
     
     // MARK: - Output
     var onCreate: ((WorkoutType, Int) -> ())?
     var onSave: ((Goal, Int) -> ())?
-    
     var onSelectTypeTap: (() -> ())?
+    var onDeleteTap: ((Goal) -> ())?
     
     // MARK: - IBOutlets + actions
     @IBOutlet weak var typeLabel: UILabel!
@@ -30,6 +35,11 @@ final class GoalViewController: UIViewController {
         } else if let type = type {
             onCreate?(type, count)
         }
+    }
+    
+    @IBAction func onDeleteTap(_ sender: UIBarButtonItem) {
+        guard let goal = goal else { return }
+        onDeleteTap?(goal)
     }
     
     override func viewDidLoad() {

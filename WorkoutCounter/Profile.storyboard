@@ -161,7 +161,13 @@
                             <constraint firstItem="WU1-U6-z1L" firstAttribute="centerY" secondItem="mEO-aH-0Th" secondAttribute="centerY" id="kmK-8M-3EM"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Цель" id="S1n-yv-Zvc"/>
+                    <navigationItem key="navigationItem" title="Цель" id="S1n-yv-Zvc">
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="gWM-N5-SKq">
+                            <connections>
+                                <action selector="onDeleteTap:" destination="mLK-JV-SwZ" id="H2H-aU-JDu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="countTextField" destination="WU1-U6-z1L" id="qyF-7e-rAs"/>
                         <outlet property="typeLabel" destination="oTu-x9-8OV" id="TuT-CY-brY"/>
