@@ -41,6 +41,9 @@
                                     <constraint firstAttribute="width" constant="50" id="MG3-1y-Tdb"/>
                                     <constraint firstAttribute="height" constant="50" id="msz-lo-MlP"/>
                                 </constraints>
+                                <connections>
+                                    <action selector="addActivityTap:" destination="lra-xS-AZh" eventType="touchUpInside" id="fpT-RE-v9l"/>
+                                </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CE0-hV-77n">
                                 <rect key="frame" x="0.0" y="137" width="414" height="725"/>

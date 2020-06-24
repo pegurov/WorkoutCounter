@@ -93,6 +93,7 @@ class WorkoutCreateCoordinator:
                 controller,
                 animated: true
             )
+            self?.selectTypeCoordinator = nil
         }
         if let selectedType = selectedType {
             selectTypeCoordinator?.selectedTypeId = selectedType.objectID

@@ -122,6 +122,7 @@ final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
                 ))
                 guard let strongController = weakController else { return }
                 self?.navigationController?.popToViewController(strongController, animated: true)
+                self?.selectTypeCoordinator = nil
             }
         }
         controller.onDeleteTap = { [weak self] goalToDelete in
@@ -145,9 +146,7 @@ final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
             storyboard: .workoutType,
             startInNavigation: false
         )
-        selectTypeCoordinator?.onFinish = { workoutType in
-            completion(workoutType)
-        }
+        selectTypeCoordinator?.onFinish = completion
         navigationController?.pushViewController(
             selectTypeCoordinator!.rootViewController,
             animated: true

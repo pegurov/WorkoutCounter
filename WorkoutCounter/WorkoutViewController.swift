@@ -11,6 +11,15 @@ final class WorkoutViewController: UIViewController {
     // MARK: - Input
     var mode: Mode!
     
+    // MARK: - Output
+    var onAddActivity: ((_ workoutId: String, _ existingTypes: [String]) -> ())?
+    
+    // MARK: - User actions
+    @IBAction func addActivityTap(_ sender: UIButton) {
+        guard let workout = workout else { assertionFailure(); return }
+        onAddActivity?(workout.0, types.keys.map{ $0 })
+    }
+    
     // MARK: - Private
     private var activitiesList: ActivitiesListViewController?
         
