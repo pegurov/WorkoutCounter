@@ -162,7 +162,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Цель" id="S1n-yv-Zvc">
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="gWM-N5-SKq">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="trash" id="gWM-N5-SKq">
                             <connections>
                                 <action selector="onDeleteTap:" destination="mLK-JV-SwZ" id="H2H-aU-JDu"/>
                             </connections>

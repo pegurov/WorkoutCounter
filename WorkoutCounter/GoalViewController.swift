@@ -51,6 +51,7 @@ final class GoalViewController: UIViewController {
     }
     
     private func updateLabelWithGoal() {
+        navigationItem.rightBarButtonItem?.isEnabled = (goal != nil)
         guard let goal = goal else { return }
         
         countTextField?.text = "\(goal.count)"
