@@ -18,7 +18,7 @@ final class ApplicationCoordinator {
     private let profileCoordinator: ProfileCoordinator
     private let todayCoordinator: TodayCoordinator
     
-    init(authProvider: AuthProvider) {
+    init(authProvider: AuthProvider, startWithProfile: Bool) {
         guard let user = authProvider.firebaseUser else { fatalError() }
         
         profileCoordinator = ProfileCoordinator(
@@ -37,5 +37,8 @@ final class ApplicationCoordinator {
             todayCoordinator.navigationController!,
             profileCoordinator.navigationController!
         ]
+        if startWithProfile {
+            rootViewController.selectedIndex = (rootViewController.viewControllers?.count ?? 1) - 1
+        }
     }
 }

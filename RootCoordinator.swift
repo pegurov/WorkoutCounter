@@ -8,6 +8,7 @@ final class RootCoordinator {
     private var authCoordinator: AuthCoordinator?
     private weak var window: UIWindow!
     var subscriptions: [ListenerRegistration] = []
+    var hasNeverBeenDeauthorized = true
     
     init(
         authProvider: AuthProvider,
@@ -25,15 +26,15 @@ final class RootCoordinator {
     private func checkAuth() {
         
         if authProvider.authorized, let userId = authProvider.firebaseUser?.uid {
-
-// На каждый старт конечно невыгодно чекать юзера, кажется это надо делать только один раз после авторизации и все
-// И потом где-то какой-то флаг запоминать про то, что такого юзера уже создали
+            if hasNeverBeenDeauthorized {
+                showApplication()
+                return
+            }
             
             subscriptions.append(Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
                 switch result {
                 case .success:
-// Го проверять есть ли цели, чтобы понять с какой вкладки стартовать
-                    self?.showApplication()
+                    self?.showApplication(startWithProfile: true)
                 case let .failure(error):
                     switch error {
                     case FirebaseError.documentDoesNotExist:
@@ -45,7 +46,7 @@ final class RootCoordinator {
                         Firestore.firestore().upload(object: newUser, underId: userId) { storingResult in
                             switch storingResult {
                             case .success:
-                                self?.showApplication()
+                                self?.showApplication(startWithProfile: true)
                             case .failure:
                                 break
 // TODO: handle unknown error
@@ -59,14 +60,16 @@ final class RootCoordinator {
             })
             
         } else {
+            hasNeverBeenDeauthorized = false
             subscriptions.forEach { $0.remove() }
             authCoordinator = AuthCoordinator()
             window.rootViewController = authCoordinator?.navigationController
         }
     }
     
-    private func showApplication() {
-        applicationCoordinator = ApplicationCoordinator(authProvider: authProvider)
+    private func showApplication(startWithProfile: Bool = false) {
+        subscriptions.forEach { $0.remove() }
+        applicationCoordinator = ApplicationCoordinator(authProvider: authProvider, startWithProfile: startWithProfile)
         applicationCoordinator?.onLogout = { [weak self] in
             self?.authProvider.logout()
         }
