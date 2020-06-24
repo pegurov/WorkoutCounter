@@ -96,15 +96,15 @@
             <objects>
                 <tableViewController id="dI0-eT-TOp" customClass="ActivitiesListViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5xd-R9-NAW">
-                        <rect key="frame" x="0.0" y="0.0" width="226" height="387"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ActicityCell" textLabel="xn9-be-qsi" detailTextLabel="eUG-U4-6Ng" style="IBUITableViewCellStyleSubtitle" id="Kma-al-iZz" customClass="ActicityCell" customModule="WorkoutCounter" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="226" height="55.5"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="55.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kma-al-iZz" id="U4x-AM-Ram">
-                                    <rect key="frame" x="0.0" y="0.0" width="199" height="55.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="293" height="55.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xn9-be-qsi">
@@ -118,7 +118,7 @@
                                             <rect key="frame" x="16" y="31.5" width="44" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>

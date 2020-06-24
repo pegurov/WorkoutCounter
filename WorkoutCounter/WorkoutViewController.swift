@@ -310,7 +310,7 @@ final class WorkoutViewController: UIViewController {
         activitiesIds.forEach { activityId in
             counter.increment()
             setsSubscriptions.append(Firestore.firestore().getObjects(
-                query: { $0.whereField("activity", isEqualTo: activityId) },
+                query: { $0.whereField("activity", isEqualTo: activityId).order(by: "createdAt") },
                 onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Set)], Error>) in
                     switch result {
                     case let .success(incomingSets):
@@ -396,7 +396,8 @@ final class WorkoutViewController: UIViewController {
     }
     
     private func makeSets(activityId: String) -> [Activity.Set] {
-        guard let setsData = sets[activityId] else { assertionFailure(); return [] }
+        // Тут нет assertion, так как sets может спокойно и не быть по activity
+        guard let setsData = sets[activityId] else { return [] }
         return setsData.map { Activity.Set(firebaseData: $0.1, remoteId: $0.0) }
     }
     

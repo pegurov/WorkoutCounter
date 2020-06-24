@@ -24,7 +24,6 @@ final class RootCoordinator {
         checkVersion()
         
         self.window = window
-        window.backgroundColor = .white
         window.rootViewController = UIViewController()
     }
     

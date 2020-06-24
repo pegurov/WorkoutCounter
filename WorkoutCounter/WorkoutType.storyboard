@@ -92,7 +92,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="M89-FL-oIO" firstAttribute="top" secondItem="Uaf-PM-iH0" secondAttribute="bottom" constant="26" id="1dJ-k4-8p5"/>
                             <constraint firstItem="M89-FL-oIO" firstAttribute="centerX" secondItem="H2C-ze-Jd6" secondAttribute="centerX" id="1sc-XH-eRM"/>
