@@ -17,6 +17,7 @@
 		C40A976524A1D8D9000CA9C6 /* WorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40A976424A1D8D9000CA9C6 /* WorkoutViewController.swift */; };
 		C40A976724A1D8E5000CA9C6 /* TodayCoordintor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40A976624A1D8E5000CA9C6 /* TodayCoordintor.swift */; };
 		C40A976924A1D934000CA9C6 /* ActivitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40A976824A1D934000CA9C6 /* ActivitiesListViewController.swift */; };
+		C40A976B24A3484B000CA9C6 /* UnsupportedVersion.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C40A976A24A3484B000CA9C6 /* UnsupportedVersion.storyboard */; };
 		C4314FE8249E3D4E00DC443A /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4314FE7249E3D4E00DC443A /* RootCoordinator.swift */; };
 		C4314FEA249E68D300DC443A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4314FE9249E68D300DC443A /* GoogleService-Info.plist */; };
 		C4314FEE249FED8700DC443A /* StoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */; };
@@ -65,6 +66,7 @@
 		C40A976424A1D8D9000CA9C6 /* WorkoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewController.swift; sourceTree = "<group>"; };
 		C40A976624A1D8E5000CA9C6 /* TodayCoordintor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayCoordintor.swift; sourceTree = "<group>"; };
 		C40A976824A1D934000CA9C6 /* ActivitiesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesListViewController.swift; sourceTree = "<group>"; };
+		C40A976A24A3484B000CA9C6 /* UnsupportedVersion.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UnsupportedVersion.storyboard; sourceTree = "<group>"; };
 		C4270E381EACBA8E00F11809 /* FirebaseManager+Creation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FirebaseManager+Creation.swift"; sourceTree = "<group>"; };
 		C4270E3C1EACE94600F11809 /* ActivityView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityView.xib; sourceTree = "<group>"; };
 		C4270E3E1EACEF5E00F11809 /* WorkoutTypeCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutTypeCreateViewController.swift; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 				C44EDBCF1EA7DD7C00751707 /* Profile */,
 				C47D37501EA2A4DB0047C95F /* Supporting files */,
 				D5566D9E1E9BB34E00503C91 /* AppDelegate.swift */,
+				C40A976A24A3484B000CA9C6 /* UnsupportedVersion.storyboard */,
 				C4314FEF249FEDB400DC443A /* Extensions.swift */,
 				C4270E3C1EACE94600F11809 /* ActivityView.xib */,
 				C4314FF3249FEFC800DC443A /* FirebaseEverything.swift */,
@@ -467,6 +470,7 @@
 				C44EDBD11EA7DDA200751707 /* Profile.storyboard in Resources */,
 				C4314FFA24A0A8D900DC443A /* UserCell.xib in Resources */,
 				D5566DAB1E9BB34E00503C91 /* Assets.xcassets in Resources */,
+				C40A976B24A3484B000CA9C6 /* UnsupportedVersion.storyboard in Resources */,
 				C4314FF2249FEE9600DC443A /* ActivityView.xib in Resources */,
 				C4314FEA249E68D300DC443A /* GoogleService-Info.plist in Resources */,
 			);
@@ -750,6 +754,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CBL6595TUQ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -758,7 +763,7 @@
 				INFOPLIST_FILE = WorkoutCounter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pegurov.WorkoutCounter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -779,6 +784,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CBL6595TUQ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -787,7 +793,7 @@
 				INFOPLIST_FILE = WorkoutCounter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pegurov.WorkoutCounter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

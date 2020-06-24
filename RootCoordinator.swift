@@ -9,6 +9,9 @@ final class RootCoordinator {
     private weak var window: UIWindow!
     var subscriptions: [ListenerRegistration] = []
     var hasNeverBeenDeauthorized = true
+    var versionIsNotSupported: Bool = UserDefaults.standard.bool(forKey: "versionIsNotSupported") {
+        didSet { UserDefaults.standard.set(versionIsNotSupported, forKey: "versionIsNotSupported") }
+    }
     
     init(
         authProvider: AuthProvider,
@@ -18,12 +21,37 @@ final class RootCoordinator {
         self.authProvider.onAuthStateChanged = { [weak self] in
             self?.checkAuth()
         }
+        checkVersion()
+        
         self.window = window
         window.backgroundColor = .white
         window.rootViewController = UIViewController()
     }
     
+    private func checkVersion() {
+        Firestore.firestore().collection("Version").document("6pt83hsJltBAeUHnCWVM").getDocument { [weak self] snapshot, error in
+            if let data = snapshot?.data() as? [String: String],
+                let versionString = data["version"],
+                let buildString = data["build"],
+                let minimumSupportedVersion = Double(versionString),
+                let minimumSupportedBuild = Double(buildString),
+                let appVersionString = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
+                let buildNumberString = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String,
+                let appVersion = Double(appVersionString),
+                let buildNumber = Double(buildNumberString)
+            {
+                let versionIsSupported = (appVersion >= minimumSupportedVersion) && (buildNumber >= minimumSupportedBuild)
+                self?.versionIsNotSupported = !versionIsSupported
+            }
+            self?.checkAuth()
+        }
+    }
+    
     private func checkAuth() {
+        guard !versionIsNotSupported else {
+            window.rootViewController = UIStoryboard.unsupportedVersion.instantiateInitialViewController()
+            return
+        }
         
         if authProvider.authorized, let userId = authProvider.firebaseUser?.uid {
             if hasNeverBeenDeauthorized {

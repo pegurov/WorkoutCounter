@@ -6,6 +6,7 @@ extension UIStoryboard {
     static let today = UIStoryboard(name: "Today", bundle: Bundle.main)
     static let workoutType = UIStoryboard(name: "WorkoutType", bundle: Bundle.main)
     static let profile = UIStoryboard(name: "Profile", bundle: Bundle.main)
+    static let unsupportedVersion = UIStoryboard(name: "UnsupportedVersion", bundle: Bundle.main)
     
     var initialNavigation: UINavigationController {
         return instantiateInitialViewController() as! UINavigationController
