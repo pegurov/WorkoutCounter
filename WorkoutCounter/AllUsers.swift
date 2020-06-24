@@ -22,7 +22,6 @@ final class AllUsersViewController: FirebaseListViewController<User, UserCell> {
             switch result {
             case .success(let value):
                 self?.dataSource = value.map { User(firebaseData: $0.1, createdBy: nil) }
-                self?.tableView.reloadData()
             case .failure:
                 // TODO: - Handle error
                 break

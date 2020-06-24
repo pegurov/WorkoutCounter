@@ -19,6 +19,7 @@ final class ApplicationCoordinator {
     private let todayCoordinator: TodayCoordinator
     
     init(authProvider: AuthProvider) {
+        guard let user = authProvider.firebaseUser else { fatalError() }
         
         profileCoordinator = ProfileCoordinator(
             storyboard: .profile,
@@ -28,7 +29,8 @@ final class ApplicationCoordinator {
         
         todayCoordinator = TodayCoordinator(
             storyboard: .today,
-            startInNavigation: true
+            startInNavigation: true,
+            userId: user.uid
         )
         
         rootViewController.viewControllers = [

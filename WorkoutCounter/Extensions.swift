@@ -46,3 +46,34 @@ extension UIViewController {
         }
     }
 }
+
+extension Date {
+
+    var withoutTime: Date {
+        let components = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        let date = Calendar.current.date(from: components)
+        return date!
+    }
+}
+
+extension Activity {
+    
+    var setsDescription: String {
+        var description: String = ""
+        if sets.isEmpty {
+            description = "0"
+        } else {
+//            description = "[\(sets.count)] "
+            var totalCount = 0
+            sets.enumerated().forEach { index, set in
+                description += (index == 0 ? "" : " + ") + "\(set.count)"
+                totalCount += set.count
+            }
+            description += " = \(totalCount)"
+        }
+        if let goal = goal {
+            description += " из \(goal.count)"
+        }
+        return description
+    }
+}

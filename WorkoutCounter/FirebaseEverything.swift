@@ -30,6 +30,7 @@ extension Firestore {
             do {
                 let data = try JSONSerialization.data(withJSONObject: json)
                 let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .secondsSince1970
                 let returnValue: T = try decoder.decode(T.self, from: data)
                 completion(.success((document.documentID, returnValue)))
             } catch {
@@ -56,6 +57,7 @@ extension Firestore {
             
             do {
                 let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .secondsSince1970
                 let result: [(String, T)] = try documents.compactMap {
                     let data = try JSONSerialization.data(withJSONObject: $0.data())
                     let decodedObject = try decoder.decode(T.self, from: data)
@@ -83,6 +85,7 @@ extension Firestore {
         
         do {
             let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .secondsSince1970
             let data = try encoder.encode(object)
             let jsonAny = try JSONSerialization.jsonObject(with: data, options: [])
             guard let json = jsonAny as? [String: Any] else {

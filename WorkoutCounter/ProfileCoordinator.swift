@@ -139,7 +139,7 @@ final class ProfileCoordinator: StoryboardCoordinator<ProfileViewController> {
     }
     
     // MARK: - Starting select type
-    private func showSelectType(completion: @escaping (WorkoutType) -> ()) {
+    private func showSelectType(completion: @escaping (ActivityType) -> ()) {
         
         selectTypeCoordinator = WorkoutTypeCoordinator(
             storyboard: .workoutType,

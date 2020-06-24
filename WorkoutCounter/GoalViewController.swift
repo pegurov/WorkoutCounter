@@ -4,7 +4,7 @@ final class GoalViewController: UIViewController {
     
     // MARK: - Input
     var goal: Goal? { didSet { updateLabelWithGoal() } }
-    var type: WorkoutType? {
+    var type: ActivityType? {
         didSet {
             typeLabel?.text = type?.title
             countTextField.text = nil
@@ -12,7 +12,7 @@ final class GoalViewController: UIViewController {
     }
     
     // MARK: - Output
-    var onCreate: ((WorkoutType, Int) -> ())?
+    var onCreate: ((ActivityType, Int) -> ())?
     var onSave: ((Goal, Int) -> ())?
     var onSelectTypeTap: (() -> ())?
     var onDeleteTap: ((Goal) -> ())?

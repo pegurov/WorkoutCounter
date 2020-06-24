@@ -4,7 +4,7 @@ import Firebase
 final class WorkoutTypeCoordinator: StoryboardCoordinator<WorkoutTypeListViewController> {
 
     // MARK: - Output -
-    var onFinish: ((_ object: WorkoutType) -> Void)? {
+    var onFinish: ((_ object: ActivityType) -> Void)? {
         didSet { rootViewController.onObjectSelected = onFinish }
     }
 
@@ -25,7 +25,7 @@ final class WorkoutTypeCoordinator: StoryboardCoordinator<WorkoutTypeListViewCon
             if let title = title, !title.isEmpty {
                 
                 controller?.showProgressHUD()
-                let newWorkoutType = FirebaseData.WorkoutType(
+                let newWorkoutType = FirebaseData.ActivityType(
                     title: title,
                     createdAt: Date(),
                     createdBy: Auth.auth().currentUser?.uid ?? ""
@@ -35,7 +35,7 @@ final class WorkoutTypeCoordinator: StoryboardCoordinator<WorkoutTypeListViewCon
                     
                     switch result {
                     case let .success(createdType):
-                        self?.onFinish?(WorkoutType(firebaseData: createdType.1, remoteId: createdType.0))
+                        self?.onFinish?(ActivityType(firebaseData: createdType.1, remoteId: createdType.0))
                     case .failure:
                         break
 // TODO: -

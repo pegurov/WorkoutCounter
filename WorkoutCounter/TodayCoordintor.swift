@@ -1,15 +1,27 @@
 import UIKit
 import Firebase
 
-final class TodayCoordinator: StoryboardCoordinator<TodayViewController> {
+final class TodayCoordinator: StoryboardCoordinator<WorkoutViewController> {
 
 //    // MARK: - Output -
 //    var onFinish: ((_ object: WorkoutType) -> Void)? {
 //        didSet { rootViewController.onObjectSelected = onFinish }
 //    }
-
+    
+    private let userId: String
+    
+    init(
+        storyboard: UIStoryboard,
+        startInNavigation: Bool = true,
+        userId: String)
+    {
+        self.userId = userId
+        super.init(storyboard: storyboard, startInNavigation: startInNavigation)
+    }
+    
     // MARK: - StoryboardCoordinator -
-    override func configureRootViewController(_ controller: TodayViewController) {
+    override func configureRootViewController(_ controller: WorkoutViewController) {
+        controller.mode = .today(userId)
         
 //        controller.onPrepareForSegue = { [weak self] segue, _ in
 //            if let createVC = segue.destination as? WorkoutTypeCreateViewController {

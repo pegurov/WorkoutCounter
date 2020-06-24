@@ -1,9 +1,9 @@
 import Foundation
 
-class Counter {
+final class Counter {
     
     private(set) var number: Int
-    var isReady: Bool {
+    private var isReady: Bool {
         return number <= 0
     }
     
@@ -15,7 +15,10 @@ class Counter {
         number += 1
     }
     
-    func decrement() {
+    func decrement(_ performIfReady: () -> ()) {
         number -= 1
+        if isReady {
+            performIfReady()
+        }
     }
 }

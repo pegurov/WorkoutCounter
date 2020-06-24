@@ -55,7 +55,7 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
         
         ids.forEach { id in
             counter.increment()
-            listeners.append(Firestore.firestore().getObject(id: id) { [weak self] (result: Result<(String, FirebaseData.WorkoutType), Error>) in
+            listeners.append(Firestore.firestore().getObject(id: id) { [weak self] (result: Result<(String, FirebaseData.ActivityType), Error>) in
                 switch result {
                 case let .success(id, type):
                     var types: [String: Any] = self?.dependenciesContainer["types"] ?? [:]
@@ -65,8 +65,7 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
 // TODO: - Handle error
                     break
                 }
-                counter.decrement()
-                if counter.isReady {
+                counter.decrement {
                     self?.makeDataSource()
                 }
             })
@@ -74,13 +73,13 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
     }
     
     private func makeDataSource() {
-        guard let types = dependenciesContainer["types"] as? [String: FirebaseData.WorkoutType] else { return }
+        guard let types = dependenciesContainer["types"] as? [String: FirebaseData.ActivityType] else { return }
         
         dataSource = mainData.map { (id, goal) in
             
-            let workoutType: WorkoutType?
+            let workoutType: ActivityType?
             if let firebaseData = types[goal.type] {
-                workoutType = WorkoutType(
+                workoutType = ActivityType(
                     firebaseData: firebaseData,
                     remoteId: goal.type,
                     createdBy: nil
@@ -96,6 +95,5 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
                 createdBy: nil
             )
         }
-        tableView.reloadData()
     }
 }

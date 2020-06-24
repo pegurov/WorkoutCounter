@@ -87,8 +87,7 @@ extension FirebaseManager {
                 sessions.forEach {
                     counter.increment()
                     self.syncKeysOfManagedObject(of: $0) { _ in
-                        counter.decrement()
-                        if counter.isReady {
+                        counter.decrement {
                             self.syncRelationships(of: newObject) {
                                
                                 let sessionsCounter = Counter()

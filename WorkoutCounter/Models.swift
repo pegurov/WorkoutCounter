@@ -1,86 +1,4 @@
 import Foundation
-//
-//struct Dependency {
-//    enum Type {
-//        case toOne
-//        case toMany
-//    }
-//
-//}
-//
-//indirect enum Dependencies {
-//    case root([Dependency])
-//    case node(Dependencies)
-//}
-//
-//struct Dependency<Type, FieldType> {
-//    let keyPath: KeyPath<Type, FieldType>
-////
-////
-////    func test() {
-////        (\User.createdAt).
-////    }
-//}
-
-//final class User1: NSObject, Codable {
-//    let name: String
-//    
-//    let createdAt: Date
-//    let createdBy: String // User
-//}
-
-//final class ObjectGraphNode<T: Codable> {
-//
-//    enum Mode<T> {
-//        case root(type: T.Type)
-//        case leaf(key: String, type: T.Type)
-        
-//        static func ==( _ lhs: Mode, rhs: Mode) -> Bool {
-//            switch (lhs, rhs) {
-//            case (.root, .root):
-//                return true
-//            case (.leaf(let lhs), .leaf(let rhs)):
-//                return lhs == rhs
-//            default:
-//                return false
-//            }
-//        }
-//    }
-//    let mode: Mode<T>
-//    let children: [ObjectGraphNode]
-//
-//    init(mode: Mode<T> = .root(type: T.self),
-//         children: [ObjectGraphNode] = []) {
-//
-//        self.mode = mode
-//        self.children = children
-//    }
-//}
-
-
-//struct Dependency<T> {
-//    let key: String
-//    let type: T.Type
-//}
-//
-//indirect enum Dependencies {
-//
-//}
-//
-//struct DependencyResolver {
-//    let users: [String: User] = [:]
-//}
-//
-//extension User {
-//
-//}
-
-//struct GlobalStorage {
-//    static let users: [String: User] = [:]
-//}
-//
-//extension User {
-//}
 
 struct FirebaseData {
     
@@ -91,7 +9,7 @@ struct FirebaseData {
         let createdBy: String
     }
     
-    struct WorkoutType: Codable {
+    struct ActivityType: Codable {
         let title: String
         
         let createdAt: Date
@@ -100,14 +18,33 @@ struct FirebaseData {
 
     struct Goal: Codable {
         let count: Int
-        let type: String // WorkoutType
+        let type: String // ActivityType
         let user: String // User
         
         let createdAt: Date
         let createdBy: String // User
     }
+    
+    struct Workout: Codable {
+        let createdBy: String // User
+        let createdAt: Date
+    }
+    
+    struct Activity: Codable {
+        let type: String // ActivityType
+        let user: String // User
+        
+        let createdAt: Date
+        let workout: String // Workout
+    }
+    
+    struct Set: Codable {
+        let count: Int
+        let createdAt: Date
+        
+        let activity: String // Activity
+    }
 }
-
 
 final class User {
     
@@ -133,7 +70,7 @@ final class Goal {
     init(
         firebaseData: FirebaseData.Goal,
         remoteId: String,
-        type: WorkoutType? = nil,
+        type: ActivityType? = nil,
         user: User? = nil,
         createdBy: User? = nil)
     {
@@ -152,15 +89,15 @@ final class Goal {
     var createdAt: Date { firebaseData.createdAt }
     
     // Dependencies
-    let type: WorkoutType?
+    let type: ActivityType?
     let user: User?
     let createdBy: User?
 }
 
-final class WorkoutType {
+final class ActivityType {
     
     init(
-        firebaseData: FirebaseData.WorkoutType,
+        firebaseData: FirebaseData.ActivityType,
         remoteId: String,
         createdBy: User? = nil)
     {
@@ -169,7 +106,7 @@ final class WorkoutType {
         self.remoteId = remoteId
     }
     
-    let firebaseData: FirebaseData.WorkoutType
+    let firebaseData: FirebaseData.ActivityType
     let remoteId: String
     
     // Proxies
@@ -180,12 +117,85 @@ final class WorkoutType {
     let createdBy: User?
 }
 
+final class Workout {
+    
+    init(
+        firebaseData: FirebaseData.Workout,
+        remoteId: String,
+        createdBy: User? = nil)
+    {
+        self.firebaseData = firebaseData
+        self.remoteId = remoteId
+        self.createdBy = createdBy
+    }
+    
+    let firebaseData: FirebaseData.Workout
+    let remoteId: String
+    
+    // Proxies
+    var createdAt: Date { firebaseData.createdAt }
+    
+    // Dependencies
+    let createdBy: User?
+}
+
+final class Activity {
+    
+    init(
+        firebaseData: FirebaseData.Activity,
+        remoteId: String,
+        user: User? = nil,
+        type: ActivityType? = nil,
+        workout: Workout? = nil,
+        sets: [Set] = [],
+        goal: Goal?)
+    {
+        self.firebaseData = firebaseData
+        self.remoteId = remoteId
+        self.user = user
+        self.type = type
+        self.workout = workout
+        self.sets = sets
+        self.goal = goal
+    }
+    
+    let firebaseData: FirebaseData.Activity
+    let remoteId: String
+    
+    // Proxies
+    var createdAt: Date { firebaseData.createdAt }
+    
+    // Dependencies
+    let user: User?
+    let type: ActivityType?
+    let workout: Workout?
+    let sets: [Set]
+    let goal: Goal?
+    
+    final class Set {
+        
+        init(
+            firebaseData: FirebaseData.Set,
+            remoteId: String)
+        {
+            self.firebaseData = firebaseData
+            self.remoteId = remoteId
+        }
+        
+        let firebaseData: FirebaseData.Set
+        let remoteId: String
+        
+        // Proxies
+        var count: Int { firebaseData.count }
+        var createdAt: Date { firebaseData.createdAt }
+    }
+}
+
+
 
 
 /*
- 
  Нужно научиться резолвить dependencies
  
  чтобы ты запрашивал не просто список целей, а сразу список целей с вложенными в них workoutType, a у тех мог в свою очередь заставить разрезолвится createdBy и тд
- 
- */
+*/

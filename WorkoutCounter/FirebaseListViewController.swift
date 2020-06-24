@@ -26,7 +26,7 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
     // MARK: - Output
     var onObjectSelected: ((_ object: T) -> Void)?
     
-    var dataSource: [T] = []
+    var dataSource: [T] = [] { didSet { tableView.reloadData() } }
     var listeners: [ListenerRegistration] = []
     
     // MARK: - NAVIGATION
@@ -86,8 +86,7 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
     }
     
     // MARK: - Listening to updates
-    func signupForUpdates() {
-        assertionFailure("override in subclasses")
+    func signupForUpdates() {    
     }
     
     private func resignFromUpdates() {

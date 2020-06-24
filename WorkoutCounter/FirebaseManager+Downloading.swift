@@ -98,8 +98,7 @@ final class FirebaseManager {
             let counter = Counter(number: entityStubs.count)
             entityStubs.forEach {
                 self.resolveEntityStub($0, completion: {
-                    counter.decrement()
-                    if counter.isReady {
+                    counter.decrement {
                         completion()
                     }
                 })
@@ -128,8 +127,7 @@ final class FirebaseManager {
             let counter = Counter(number: relationships.count)
             relationships.forEach {
                 self.resolveRelationshipStub($0, completion: {
-                    counter.decrement()
-                    if counter.isReady {
+                    counter.decrement {
                         completion()
                     }
                 })
@@ -197,8 +195,7 @@ final class FirebaseManager {
                         if let loadedObject = loadedObject {
                             loaded.append(loadedObject)
                         }
-                        counter.decrement()
-                        if counter.isReady {
+                        counter.decrement {
                             completion(loaded)
                         }
                 })

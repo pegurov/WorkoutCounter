@@ -3,15 +3,15 @@ import Firebase
 
 final class WorkoutTypeCell: UITableViewCell, ConfigurableCell {
     
-    typealias T = WorkoutType
+    typealias T = ActivityType
     static let identifier = "WorkoutTypeCell"
     
-    func configure(with object: WorkoutType) {
+    func configure(with object: ActivityType) {
         textLabel?.text = object.title
     }
 }
 
-final class WorkoutTypeListViewController: FirebaseListViewController<WorkoutType, WorkoutTypeCell> {
+final class WorkoutTypeListViewController: FirebaseListViewController<ActivityType, WorkoutTypeCell> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +28,10 @@ final class WorkoutTypeListViewController: FirebaseListViewController<WorkoutTyp
     
     func signupForGoalsUpdates() {
         listeners.append(Firestore.firestore().getObjects(
-            onUpdate: { [weak self] (result: Result<[(String, FirebaseData.WorkoutType)], Error>) in
+            onUpdate: { [weak self] (result: Result<[(String, FirebaseData.ActivityType)], Error>) in
                 switch result {
                 case let .success(value):
-                    self?.dataSource = value.map { WorkoutType(firebaseData: $0.1, remoteId: $0.0, createdBy: nil) }
-                    self?.tableView.reloadData()
+                    self?.dataSource = value.map { ActivityType(firebaseData: $0.1, remoteId: $0.0, createdBy: nil) }
                 case .failure:
 // TODO: - Handle error
                     break

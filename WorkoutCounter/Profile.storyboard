@@ -51,13 +51,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ежедневные цели" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e5h-rZ-SM2">
-                                <rect key="frame" x="16" y="80" width="288" height="21"/>
+                                <rect key="frame" x="16" y="80" width="166" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xIA-Ia-kfV">
-                                <rect key="frame" x="254" y="65.5" width="50" height="50"/>
+                                <rect key="frame" x="182" y="65.5" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="wbK-ME-Cp8"/>
                                     <constraint firstAttribute="width" constant="50" id="xBX-en-icG"/>
@@ -72,16 +72,15 @@
                         <constraints>
                             <constraint firstItem="xIA-Ia-kfV" firstAttribute="centerY" secondItem="e5h-rZ-SM2" secondAttribute="centerY" id="3Xl-Wc-f1Y"/>
                             <constraint firstItem="4yI-QP-NRn" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leadingMargin" id="5S0-ql-aOf"/>
-                            <constraint firstItem="xIA-Ia-kfV" firstAttribute="trailing" secondItem="IjU-TS-hAp" secondAttribute="trailingMargin" id="7BZ-93-bZt"/>
                             <constraint firstItem="Zf3-od-ehP" firstAttribute="top" secondItem="e5h-rZ-SM2" secondAttribute="bottom" constant="8" id="HsP-zE-sdJ"/>
+                            <constraint firstItem="xIA-Ia-kfV" firstAttribute="leading" secondItem="e5h-rZ-SM2" secondAttribute="trailing" id="JI4-cu-ZXw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4yI-QP-NRn" secondAttribute="trailing" id="KF7-o2-tH6"/>
                             <constraint firstItem="Zf3-od-ehP" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leading" id="L7y-RM-YNc"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="e5h-rZ-SM2" secondAttribute="trailing" id="NWu-aK-GOk"/>
                             <constraint firstItem="e5h-rZ-SM2" firstAttribute="top" secondItem="4yI-QP-NRn" secondAttribute="bottom" constant="20" id="PKV-AW-J9T"/>
                             <constraint firstItem="4yI-QP-NRn" firstAttribute="top" secondItem="UcD-QI-HCd" secondAttribute="bottom" constant="16" id="UH1-yY-sQ5"/>
-                            <constraint firstItem="e5h-rZ-SM2" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leadingMargin" id="cdQ-HD-aqn"/>
                             <constraint firstAttribute="trailing" secondItem="Zf3-od-ehP" secondAttribute="trailing" id="eqH-Tz-Hat"/>
                             <constraint firstItem="8h6-5Z-pFx" firstAttribute="top" secondItem="Zf3-od-ehP" secondAttribute="bottom" id="gmi-WQ-cLc"/>
+                            <constraint firstItem="e5h-rZ-SM2" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leading" constant="16" id="zoR-9p-SEo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Профиль" id="1b4-Iu-5i4">
@@ -112,19 +111,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Тип активности" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTu-x9-8OV">
-                                <rect key="frame" x="16" y="60" width="125" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Тип активности" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTu-x9-8OV">
+                                <rect key="frame" x="16" y="60" width="125" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Повторений" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEO-aH-0Th">
-                                <rect key="frame" x="16" y="101" width="98" height="21"/>
+                                <rect key="frame" x="16" y="100.5" width="98" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pyn-mJ-bSJ">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pyn-mJ-bSJ">
                                 <rect key="frame" x="242" y="55.5" width="62" height="30"/>
                                 <state key="normal" title="Выбрать"/>
                                 <connections>
@@ -132,7 +131,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WU1-U6-z1L">
-                                <rect key="frame" x="244" y="94.5" width="60" height="34"/>
+                                <rect key="frame" x="244" y="94" width="60" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="5f6-x8-DF6"/>
                                 </constraints>
@@ -140,7 +139,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ta3-Mf-GAd">
-                                <rect key="frame" x="121.5" y="142" width="77" height="30"/>
+                                <rect key="frame" x="121.5" y="141.5" width="77" height="30"/>
                                 <state key="normal" title="Сохранить"/>
                                 <connections>
                                     <action selector="onAddTap:" destination="mLK-JV-SwZ" eventType="touchUpInside" id="khr-NF-xed"/>
@@ -151,6 +150,7 @@
                         <constraints>
                             <constraint firstItem="oTu-x9-8OV" firstAttribute="top" secondItem="IFw-0L-MXP" secondAttribute="bottom" constant="16" id="4Vs-TN-c5h"/>
                             <constraint firstItem="mEO-aH-0Th" firstAttribute="leading" secondItem="lk1-Ao-bn0" secondAttribute="leadingMargin" id="EUi-IM-xb4"/>
+                            <constraint firstItem="pyn-mJ-bSJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="oTu-x9-8OV" secondAttribute="trailing" priority="999" constant="16" id="G4Z-uS-kWb"/>
                             <constraint firstItem="oTu-x9-8OV" firstAttribute="leading" secondItem="lk1-Ao-bn0" secondAttribute="leadingMargin" id="JvB-tt-oKE"/>
                             <constraint firstItem="ta3-Mf-GAd" firstAttribute="centerX" secondItem="lk1-Ao-bn0" secondAttribute="centerX" id="KSC-RP-xYS"/>
                             <constraint firstItem="pyn-mJ-bSJ" firstAttribute="centerY" secondItem="oTu-x9-8OV" secondAttribute="centerY" id="Llv-gb-kdv"/>
@@ -197,6 +197,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="user" width="24" height="29"/>
+        <image name="user" width="21" height="24"/>
     </resources>
 </document>
