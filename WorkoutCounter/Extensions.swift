@@ -62,11 +62,12 @@ extension Activity {
         var description: String = ""
         if sets.isEmpty {
             description = "0"
+        } else if sets.count == 1 {
+            description = "\(sets[0].count)"
         } else {
-//            description = "[\(sets.count)] "
             var totalCount = 0
             sets.enumerated().forEach { index, set in
-                description += (index == 0 ? "" : " + ") + "\(set.count)"
+                description += (index == 0 ? "" : "+") + "\(set.count)"
                 totalCount += set.count
             }
             description += " = \(totalCount)"

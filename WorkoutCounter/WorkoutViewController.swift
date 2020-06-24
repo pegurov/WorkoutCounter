@@ -50,11 +50,52 @@ final class WorkoutViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? ActivitiesListViewController {
             destination.onObjectSelected = { [weak self] activity in
-// TODO: - add new set
+                self?.showAddSetToActivity(activity: activity)
             }
             activitiesList = destination
         } else {
             onPrepareForSegue?(segue, sender)
+        }
+    }
+    
+    private func showAddSetToActivity(activity: Activity) {
+        let alertController = UIAlertController(
+            title: "Повторений", message: nil, preferredStyle: .alert
+        )
+        
+        let saveAction = UIAlertAction(
+            title: "Сохранить", style: .default, handler: { [weak self] alert -> Void in
+            
+            let textField = alertController.textFields![0] as UITextField
+            if let text = textField.text, !text.isEmpty, let intValue = Int(text) {
+                self?.addSetToActivity(activity, count: intValue)
+            }
+        })
+        
+        let cancelAction = UIAlertAction(
+            title: "Отмена", style: .cancel, handler: { action -> Void in
+        })
+        
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Повторений"
+            textField.keyboardType = .numberPad
+        }
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func addSetToActivity(_ activity: Activity, count: Int) {
+        let newSet = FirebaseData.Set(count: count, createdAt: Date(), activity: activity.remoteId)
+        Firestore.firestore().upload(object: newSet) { result in
+            switch result {
+            case .success:
+                break
+            case .failure:
+                break
+// TODO: - handle error
+            }
         }
     }
     
