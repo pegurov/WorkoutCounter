@@ -15,6 +15,9 @@ final class WorkoutViewController: UIViewController {
     var onAddActivity: ((_ workoutId: String, _ existingTypes: [String]) -> ())?
     
     // MARK: - User actions
+    @IBOutlet weak var emptyState: UILabel!
+    @IBOutlet weak var containerView: UIView!
+    
     @IBAction func addActivityTap(_ sender: UIButton) {
         guard let workout = workout else { assertionFailure(); return }
         onAddActivity?(workout.0, types.keys.map{ $0 })
@@ -51,6 +54,10 @@ final class WorkoutViewController: UIViewController {
         if let destination = segue.destination as? ActivitiesListViewController {
             destination.onObjectSelected = { [weak self] activity in
                 self?.showAddSetToActivity(activity: activity)
+            }
+            destination.onUpdateEmptyState = { [weak self] isEmpty in
+                self?.containerView.isHidden = isEmpty
+                self?.emptyState.isHidden = !isEmpty
             }
             activitiesList = destination
         } else {

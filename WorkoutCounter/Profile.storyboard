@@ -38,7 +38,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zf3-od-ehP">
+                            <containerView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zf3-od-ehP">
                                 <rect key="frame" x="0.0" y="109" width="320" height="459"/>
                                 <connections>
                                     <segue destination="PLZ-OG-7Jn" kind="embed" identifier="embed" id="qcS-NS-d2X"/>
@@ -67,10 +67,20 @@
                                     <segue destination="mLK-JV-SwZ" kind="show" identifier="create" id="C2V-ly-c8u"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZB-Dd-Yob">
+                                <rect key="frame" x="23" y="259" width="274.5" height="50.5"/>
+                                <string key="text">Добавь цели, чтобы 
+1. Они всегда появлялись в 'Сегодня'
+2. Следить за прогрессом в течение дня</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="xIA-Ia-kfV" firstAttribute="centerY" secondItem="e5h-rZ-SM2" secondAttribute="centerY" id="3Xl-Wc-f1Y"/>
+                            <constraint firstItem="YZB-Dd-Yob" firstAttribute="centerX" secondItem="IjU-TS-hAp" secondAttribute="centerX" id="40U-Q9-d16"/>
                             <constraint firstItem="4yI-QP-NRn" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leadingMargin" id="5S0-ql-aOf"/>
                             <constraint firstItem="Zf3-od-ehP" firstAttribute="top" secondItem="e5h-rZ-SM2" secondAttribute="bottom" constant="8" id="HsP-zE-sdJ"/>
                             <constraint firstItem="xIA-Ia-kfV" firstAttribute="leading" secondItem="e5h-rZ-SM2" secondAttribute="trailing" id="JI4-cu-ZXw"/>
@@ -80,6 +90,7 @@
                             <constraint firstItem="4yI-QP-NRn" firstAttribute="top" secondItem="UcD-QI-HCd" secondAttribute="bottom" constant="16" id="UH1-yY-sQ5"/>
                             <constraint firstAttribute="trailing" secondItem="Zf3-od-ehP" secondAttribute="trailing" id="eqH-Tz-Hat"/>
                             <constraint firstItem="8h6-5Z-pFx" firstAttribute="top" secondItem="Zf3-od-ehP" secondAttribute="bottom" id="gmi-WQ-cLc"/>
+                            <constraint firstItem="YZB-Dd-Yob" firstAttribute="centerY" secondItem="IjU-TS-hAp" secondAttribute="centerY" id="poz-zR-Rug"/>
                             <constraint firstItem="e5h-rZ-SM2" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leading" constant="16" id="zoR-9p-SEo"/>
                         </constraints>
                     </view>
@@ -92,6 +103,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addGoalButton" destination="xIA-Ia-kfV" id="deH-Uq-4hS"/>
+                        <outlet property="containerView" destination="Zf3-od-ehP" id="J9e-se-xmJ"/>
+                        <outlet property="emptyState" destination="YZB-Dd-Yob" id="jfB-qY-vQa"/>
                         <outlet property="nameLabel" destination="4yI-QP-NRn" id="zbt-cn-kYM"/>
                     </connections>
                 </viewController>

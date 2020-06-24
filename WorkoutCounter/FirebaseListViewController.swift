@@ -25,8 +25,11 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
     
     // MARK: - Output
     var onObjectSelected: ((_ object: T) -> Void)?
-    
-    var dataSource: [T] = [] { didSet { tableView.reloadData() } }
+    var onUpdateEmptyState: ((_ isEmpty: Bool) -> ())?
+    var dataSource: [T] = [] { didSet {
+        onUpdateEmptyState?(dataSource.count == 0)
+        tableView.reloadData()
+    }}
     var listeners: [ListenerRegistration] = []
     
     // MARK: - NAVIGATION

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I1I-LE-DUM">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,7 +12,7 @@
             <objects>
                 <navigationController id="I1I-LE-DUM" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mQ0-LC-K57">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <userDefinedRuntimeAttributes>
@@ -32,11 +32,11 @@
             <objects>
                 <viewController id="lra-xS-AZh" customClass="WorkoutViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HNc-8H-FV2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eg1-h3-kd3">
-                                <rect key="frame" x="124" y="93.5" width="50" height="50"/>
+                                <rect key="frame" x="124" y="49.5" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="MG3-1y-Tdb"/>
                                     <constraint firstAttribute="height" constant="50" id="msz-lo-MlP"/>
@@ -45,14 +45,22 @@
                                     <action selector="addActivityTap:" destination="lra-xS-AZh" eventType="touchUpInside" id="fpT-RE-v9l"/>
                                 </connections>
                             </button>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CE0-hV-77n">
-                                <rect key="frame" x="0.0" y="137" width="414" height="725"/>
+                            <containerView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CE0-hV-77n">
+                                <rect key="frame" x="0.0" y="93" width="320" height="387"/>
                                 <connections>
                                     <segue destination="dI0-eT-TOp" kind="embed" identifier="embed" id="gAz-n1-MNg"/>
                                 </connections>
                             </containerView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hEW-uK-lfU">
+                                <rect key="frame" x="44" y="223.5" width="232" height="33.5"/>
+                                <string key="text">Добавь активности либо вручную,
+либо через цели в профиле</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Активности" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5V-gX-8XO">
-                                <rect key="frame" x="16" y="108" width="108" height="21"/>
+                                <rect key="frame" x="16" y="64" width="108" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -67,11 +75,17 @@
                             <constraint firstItem="eg1-h3-kd3" firstAttribute="centerY" secondItem="r5V-gX-8XO" secondAttribute="centerY" id="SXd-rF-pb3"/>
                             <constraint firstItem="EtE-TR-hhm" firstAttribute="bottom" secondItem="CE0-hV-77n" secondAttribute="bottom" id="WZk-yM-HjL"/>
                             <constraint firstItem="EtE-TR-hhm" firstAttribute="trailing" secondItem="CE0-hV-77n" secondAttribute="trailing" id="bVd-pS-x3h"/>
+                            <constraint firstItem="hEW-uK-lfU" firstAttribute="centerX" secondItem="HNc-8H-FV2" secondAttribute="centerX" id="fml-5h-1Ab"/>
+                            <constraint firstItem="hEW-uK-lfU" firstAttribute="centerY" secondItem="HNc-8H-FV2" secondAttribute="centerY" id="tCS-Fy-CyJ"/>
                             <constraint firstItem="r5V-gX-8XO" firstAttribute="top" secondItem="EtE-TR-hhm" secondAttribute="top" constant="20" id="yRm-Vo-P48"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="EtE-TR-hhm"/>
                     </view>
                     <navigationItem key="navigationItem" title="Сегодня" id="vcj-xQ-65h"/>
+                    <connections>
+                        <outlet property="containerView" destination="CE0-hV-77n" id="aDq-Si-cDs"/>
+                        <outlet property="emptyState" destination="hEW-uK-lfU" id="nRv-n8-Bdm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzz-uJ-x80" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -82,26 +96,26 @@
             <objects>
                 <tableViewController id="dI0-eT-TOp" customClass="ActivitiesListViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5xd-R9-NAW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                        <rect key="frame" x="0.0" y="0.0" width="226" height="387"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ActicityCell" textLabel="xn9-be-qsi" detailTextLabel="eUG-U4-6Ng" style="IBUITableViewCellStyleSubtitle" id="Kma-al-iZz" customClass="ActicityCell" customModule="WorkoutCounter" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="55.5"/>
+                                <rect key="frame" x="0.0" y="28" width="226" height="55.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kma-al-iZz" id="U4x-AM-Ram">
-                                    <rect key="frame" x="0.0" y="0.0" width="383" height="55.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="199" height="55.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xn9-be-qsi">
-                                            <rect key="frame" x="20" y="10" width="33.5" height="20.5"/>
+                                            <rect key="frame" x="16" y="10" width="33.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eUG-U4-6Ng">
-                                            <rect key="frame" x="20" y="31.5" width="44" height="14.5"/>
+                                            <rect key="frame" x="16" y="31.5" width="44" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

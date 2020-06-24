@@ -51,6 +51,10 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
     }
     
     func signupForWorkoutTypesUpdates(ids: [String]) {
+        guard !ids.isEmpty else {
+            makeDataSource()
+            return
+        }
         let counter = Counter()
         
         ids.forEach { id in
@@ -73,7 +77,10 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
     }
     
     private func makeDataSource() {
-        guard let types = dependenciesContainer["types"] as? [String: FirebaseData.ActivityType] else { return }
+        guard let types = dependenciesContainer["types"] as? [String: FirebaseData.ActivityType] else {
+            dataSource = []
+            return
+        }
         
         dataSource = mainData.map { (id, goal) in
             

@@ -5,6 +5,8 @@ final class ProfileViewController: UIViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addGoalButton: UIButton!
+    @IBOutlet weak var emptyState: UILabel!
+    @IBOutlet weak var containerView: UIView!
     
     // MARK: - Input
     var userId: String!
@@ -13,6 +15,7 @@ final class ProfileViewController: UIViewController {
     var onLogout: (() -> Void)?
     var onAddGoal: (() -> Void)?
     var onGoalSelected: ((Goal) -> ())?
+    var goalsList: GoalsListViewController?
     
     @IBAction func logoutTap(_ sender: UIBarButtonItem) {
         onLogout?()
@@ -54,6 +57,11 @@ final class ProfileViewController: UIViewController {
             destination.onObjectSelected = { [weak self] in
                 self?.onGoalSelected?($0)
             }
+            destination.onUpdateEmptyState = { [weak self] isEmpty in
+                self?.containerView.isHidden = isEmpty
+                self?.emptyState.isHidden = !isEmpty
+            }
+            goalsList = destination
         } else {
             onPrepareForSegue?(segue, sender)
         }
