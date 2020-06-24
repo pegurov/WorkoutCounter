@@ -95,7 +95,11 @@ final class RootCoordinator {
     }
     
     private func showApplication(startWithProfile: Bool = false) {
+        guard applicationCoordinator == nil else { return }
+        
         subscriptions.forEach { $0.remove() }
+        subscriptions = []
+        
         applicationCoordinator = ApplicationCoordinator(authProvider: authProvider, startWithProfile: startWithProfile)
         applicationCoordinator?.onLogout = { [weak self] in
             self?.authProvider.logout()
