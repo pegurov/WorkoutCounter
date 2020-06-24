@@ -15,17 +15,12 @@ final class ApplicationCoordinator {
     }
     
     // MARK: - Private
-    private let profileCoordinator: ProfileCoordinator
     private let todayCoordinator: TodayCoordinator
+    private let feedCoordinator: FeedCoordinator
+    private let profileCoordinator: ProfileCoordinator
     
     init(authProvider: AuthProvider, startWithProfile: Bool) {
         guard let user = authProvider.firebaseUser else { fatalError() }
-        
-        profileCoordinator = ProfileCoordinator(
-            storyboard: .profile,
-            startInNavigation: true,
-            userId: authProvider.firebaseUser!.uid
-        )
         
         todayCoordinator = TodayCoordinator(
             storyboard: .today,
@@ -33,8 +28,20 @@ final class ApplicationCoordinator {
             userId: user.uid
         )
         
+        feedCoordinator = FeedCoordinator(
+            storyboard: .feed,
+            startInNavigation: true
+        )
+        
+        profileCoordinator = ProfileCoordinator(
+            storyboard: .profile,
+            startInNavigation: true,
+            userId: authProvider.firebaseUser!.uid
+        )
+        
         rootViewController.viewControllers = [
             todayCoordinator.navigationController!,
+            feedCoordinator.navigationController!,
             profileCoordinator.navigationController!
         ]
         if startWithProfile {

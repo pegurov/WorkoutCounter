@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1vM-e5-Tf0">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="ixA-Gq-uoS">
+            <objects>
+                <navigationController id="1vM-e5-Tf0" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5l2-is-WWs">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="tabBarItem.title" value="Лента"/>
+                        <userDefinedRuntimeAttribute type="image" keyPath="tabBarItem.image" value="feed"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="9kY-Mf-Zw0" kind="relationship" relationship="rootViewController" id="WDT-cx-ZdY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p5B-zy-w0I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1243" y="60"/>
+        </scene>
+        <!--Лента-->
+        <scene sceneID="QfV-aq-avj">
+            <objects>
+                <viewController id="9kY-Mf-Zw0" customClass="FeedViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qbc-2X-xE2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Uf9-VD-wNX"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Лента" id="VIx-WX-MzL"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x7G-Yt-s1U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-352" y="60"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="feed" width="29" height="24"/>
+    </resources>
+</document>
