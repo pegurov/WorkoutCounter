@@ -257,14 +257,14 @@
 		D5566D9D1E9BB34E00503C91 /* WorkoutCounter */ = {
 			isa = PBXGroup;
 			children = (
-				C40A976E24A39CCD000CA9C6 /* Feed */,
 				C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */,
 				C44EDBDC1EA7E07600751707 /* AuthProvider.swift */,
 				C44EDBD91EA7DF6E00751707 /* Root+Application */,
-				C40A976124A1D81D000CA9C6 /* Today */,
-				C431500824A116C000DC443A /* Activities */,
 				C44EDBD81EA7DF5D00751707 /* Auth */,
+				C40A976124A1D81D000CA9C6 /* Today */,
+				C40A976E24A39CCD000CA9C6 /* Feed */,
 				C44EDBCF1EA7DD7C00751707 /* Profile */,
+				C431500824A116C000DC443A /* Activities */,
 				C47D37501EA2A4DB0047C95F /* Supporting files */,
 				D5566D9E1E9BB34E00503C91 /* AppDelegate.swift */,
 				C40A976A24A3484B000CA9C6 /* UnsupportedVersion.storyboard */,
@@ -638,7 +638,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = CBL6595TUQ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -668,7 +668,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = CBL6595TUQ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -107,11 +107,13 @@ final class Workout {
     init(
         firebaseData: FirebaseData.Workout,
         remoteId: String,
-        createdBy: User? = nil)
+        createdBy: User? = nil,
+        sessions: [Session] = [])
     {
         self.firebaseData = firebaseData
         self.remoteId = remoteId
         self.createdBy = createdBy
+        self.sessions = sessions
     }
     
     let firebaseData: FirebaseData.Workout
@@ -122,6 +124,7 @@ final class Workout {
     
     // Dependencies
     let createdBy: User?
+    let sessions: [Session]
 }
 
 extension Workout {
