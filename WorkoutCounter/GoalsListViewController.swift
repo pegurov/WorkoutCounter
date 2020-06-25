@@ -34,7 +34,7 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
     func signupForGoalsUpdates() {
         listeners.append(Firestore.firestore().getObjects(
             query: { [userId] collection in
-                collection.whereField("user", isEqualTo: userId!)
+                collection.whereField("user", isEqualTo: userId!).order(by: "createdAt")
             },
             onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Goal)], Error>) in
                 switch result {

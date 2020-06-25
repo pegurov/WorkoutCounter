@@ -30,7 +30,7 @@ extension UIViewController {
     
     func showProgressHUD() {
         
-        if let view = navigationController?.view ?? view {
+        if let view = navigationController?.view ?? view, MBProgressHUD.forView(view) == nil {
             
             let hud = MBProgressHUD.showAdded(
                 to: view,

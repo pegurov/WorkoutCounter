@@ -154,7 +154,6 @@ final class WorkoutViewController: UIViewController {
                     self?.getTypes(ids: activitiesTypes + goalsTypes) {
                         self?.addActivitiesFromGoalsIfNeeded(userId: userId, workoutId: workoutId) { hasAddedNewActivities in
                             if hasAddedNewActivities {
-                                self?.unsubscribeFromEverything()
                                 self?.subscribeToUpdates()
                             } else {
                                 self?.unsubscribeFromUpdates(to: [.sets])
@@ -182,7 +181,6 @@ final class WorkoutViewController: UIViewController {
                         completion(existingWorkoutId, workout)
                     } else {
                         self?.makeWorkout(userId: userId) { _, _ in
-                            self?.unsubscribeFromEverything()
                             self?.subscribeToUpdates()
                         }
                     }
@@ -196,6 +194,7 @@ final class WorkoutViewController: UIViewController {
     }
     
     private func makeWorkout(userId: String, completion: @escaping (String, FirebaseData.Workout) -> ()) {
+        unsubscribeFromEverything()
         let newWorkout = FirebaseData.Workout(createdBy: userId, createdAt: Date())
         Firestore.firestore().upload(object: newWorkout) { result in
             switch result {
@@ -226,7 +225,7 @@ final class WorkoutViewController: UIViewController {
     
     private func getGoals(userId: String, completion: @escaping ([String]) -> ()) {
         goalsSubscription = Firestore.firestore().getObjects(
-            query: { $0.whereField("user", isEqualTo: userId) },
+            query: { $0.whereField("user", isEqualTo: userId).order(by: "createdAt") },
             onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Goal)], Error>) in
                 switch result {
                 case let .success(goals):
@@ -262,7 +261,7 @@ final class WorkoutViewController: UIViewController {
     }
     
     private func addActivitiesFromGoalsIfNeeded(userId: String, workoutId: String, completion: @escaping (Bool) -> ()) {
-        if goals.keys.isEmpty {  completion(false); return }
+        if goals.keys.isEmpty { completion(false); return }
         
         switch mode! {
         case .today:
@@ -272,8 +271,8 @@ final class WorkoutViewController: UIViewController {
                 if activities.first(where: { activity in
                     activity.1.type == goal.type
                 }) == nil {
+                    unsubscribeFromEverything()
                     hasAdded = true
-                    showProgressHUD()
                     counter.increment()
                     let newActivity = FirebaseData.Activity(
                         type: goal.type,
