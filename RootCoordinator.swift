@@ -57,36 +57,35 @@ final class RootCoordinator {
                 showApplication()
                 return
             }
-            
-            subscriptions.append(Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
-                switch result {
-                case .success:
-                    self?.showApplication(startWithProfile: true)
-                case let .failure(error):
-                    switch error {
-                    case FirebaseError.documentDoesNotExist:
-                        let newUser = FirebaseData.User(
-// This is still a problem
-                            name: self?.authProvider.firebaseUser?.displayName,
-                            createdAt: Date(),
-                            goals: []
-                        )
-                        Firestore.firestore().upload(object: newUser, underId: userId) { storingResult in
-                            switch storingResult {
-                            case .success:
-                                self?.showApplication(startWithProfile: true)
-                            case .failure:
-                                break
-// TODO: handle unknown error
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.subscriptions.append(Firestore.firestore().getObject(id: userId) { (result: Result<(String, FirebaseData.User), Error>) in
+                    switch result {
+                    case .success:
+                        self?.showApplication(startWithProfile: true)
+                    case let .failure(error):
+                        switch error {
+                        case FirebaseError.documentDoesNotExist:
+                            let newUser = FirebaseData.User(
+                                name: self?.authProvider.firebaseUser?.displayName,
+                                createdAt: Date(),
+                                goals: []
+                            )
+                            Firestore.firestore().upload(object: newUser, underId: userId) { storingResult in
+                                switch storingResult {
+                                case .success:
+                                    self?.showApplication(startWithProfile: true)
+                                case .failure:
+                                    break
+    // TODO: handle unknown error
+                                }
                             }
+                        default:
+                            break
+    // TODO: handle unknown error
                         }
-                    default:
-                        break
-// TODO: handle unknown error
                     }
-                }
-            })
-            
+                })
+            }
         } else {
             hasNeverBeenDeauthorized = false
             subscriptions.forEach { $0.remove() }

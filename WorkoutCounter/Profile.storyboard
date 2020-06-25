@@ -38,34 +38,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zf3-od-ehP">
-                                <rect key="frame" x="0.0" y="109" width="320" height="459"/>
-                                <connections>
-                                    <segue destination="PLZ-OG-7Jn" kind="embed" identifier="embed" id="qcS-NS-d2X"/>
-                                </connections>
-                            </containerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4yI-QP-NRn">
-                                <rect key="frame" x="16" y="60" width="288" height="0.0"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ежедневные цели" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e5h-rZ-SM2">
-                                <rect key="frame" x="16" y="80" width="166" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xIA-Ia-kfV">
-                                <rect key="frame" x="182" y="65.5" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="wbK-ME-Cp8"/>
-                                    <constraint firstAttribute="width" constant="50" id="xBX-en-icG"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="addGoalTap:" destination="7tA-T3-mvc" eventType="touchUpInside" id="hAu-cI-4Cx"/>
-                                </connections>
-                            </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZB-Dd-Yob">
                                 <rect key="frame" x="23" y="259" width="274.5" height="50.5"/>
                                 <string key="text">Добавь цели, чтобы 
@@ -75,21 +47,51 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Имя" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="irk-d2-50T">
+                                <rect key="frame" x="16" y="60" width="288" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="7tA-T3-mvc" id="g2h-Y3-cmE"/>
+                                </connections>
+                            </textField>
+                            <containerView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zf3-od-ehP">
+                                <rect key="frame" x="0.0" y="143" width="320" height="425"/>
+                                <connections>
+                                    <segue destination="PLZ-OG-7Jn" kind="embed" identifier="embed" id="qcS-NS-d2X"/>
+                                </connections>
+                            </containerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ежедневные цели" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e5h-rZ-SM2">
+                                <rect key="frame" x="16" y="114" width="166" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xIA-Ia-kfV">
+                                <rect key="frame" x="182" y="99.5" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="wbK-ME-Cp8"/>
+                                    <constraint firstAttribute="width" constant="50" id="xBX-en-icG"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="addGoalTap:" destination="7tA-T3-mvc" eventType="touchUpInside" id="hAu-cI-4Cx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="xIA-Ia-kfV" firstAttribute="centerY" secondItem="e5h-rZ-SM2" secondAttribute="centerY" id="3Xl-Wc-f1Y"/>
                             <constraint firstItem="YZB-Dd-Yob" firstAttribute="centerX" secondItem="IjU-TS-hAp" secondAttribute="centerX" id="40U-Q9-d16"/>
-                            <constraint firstItem="4yI-QP-NRn" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leadingMargin" id="5S0-ql-aOf"/>
+                            <constraint firstItem="irk-d2-50T" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leadingMargin" id="Dcb-sU-QU7"/>
                             <constraint firstItem="Zf3-od-ehP" firstAttribute="top" secondItem="e5h-rZ-SM2" secondAttribute="bottom" constant="8" id="HsP-zE-sdJ"/>
                             <constraint firstItem="xIA-Ia-kfV" firstAttribute="leading" secondItem="e5h-rZ-SM2" secondAttribute="trailing" id="JI4-cu-ZXw"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="4yI-QP-NRn" secondAttribute="trailing" id="KF7-o2-tH6"/>
                             <constraint firstItem="Zf3-od-ehP" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leading" id="L7y-RM-YNc"/>
-                            <constraint firstItem="e5h-rZ-SM2" firstAttribute="top" secondItem="4yI-QP-NRn" secondAttribute="bottom" constant="20" id="PKV-AW-J9T"/>
-                            <constraint firstItem="4yI-QP-NRn" firstAttribute="top" secondItem="UcD-QI-HCd" secondAttribute="bottom" constant="16" id="UH1-yY-sQ5"/>
+                            <constraint firstItem="e5h-rZ-SM2" firstAttribute="top" secondItem="irk-d2-50T" secondAttribute="bottom" constant="20" id="RHO-JI-oMz"/>
                             <constraint firstAttribute="trailing" secondItem="Zf3-od-ehP" secondAttribute="trailing" id="eqH-Tz-Hat"/>
                             <constraint firstItem="8h6-5Z-pFx" firstAttribute="top" secondItem="Zf3-od-ehP" secondAttribute="bottom" id="gmi-WQ-cLc"/>
                             <constraint firstItem="YZB-Dd-Yob" firstAttribute="centerY" secondItem="IjU-TS-hAp" secondAttribute="centerY" id="poz-zR-Rug"/>
+                            <constraint firstItem="irk-d2-50T" firstAttribute="trailing" secondItem="IjU-TS-hAp" secondAttribute="trailingMargin" id="qTc-6b-ynq"/>
+                            <constraint firstItem="irk-d2-50T" firstAttribute="top" secondItem="UcD-QI-HCd" secondAttribute="bottom" constant="16" id="ros-Pw-ZIa"/>
                             <constraint firstItem="e5h-rZ-SM2" firstAttribute="leading" secondItem="IjU-TS-hAp" secondAttribute="leading" constant="16" id="zoR-9p-SEo"/>
                         </constraints>
                     </view>
@@ -104,13 +106,13 @@
                         <outlet property="addGoalButton" destination="xIA-Ia-kfV" id="deH-Uq-4hS"/>
                         <outlet property="containerView" destination="Zf3-od-ehP" id="J9e-se-xmJ"/>
                         <outlet property="emptyState" destination="YZB-Dd-Yob" id="jfB-qY-vQa"/>
-                        <outlet property="nameLabel" destination="4yI-QP-NRn" id="zbt-cn-kYM"/>
+                        <outlet property="nameTextField" destination="irk-d2-50T" id="cAs-9a-LCI"/>
                         <segue destination="mLK-JV-SwZ" kind="show" identifier="detail" id="c0l-92-2iM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E95-Fh-pUs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-330.39999999999998" y="99.400299850074973"/>
+            <point key="canvasLocation" x="-331.875" y="99.295774647887328"/>
         </scene>
         <!--Цель-->
         <scene sceneID="Q2v-3I-bl5">
@@ -195,7 +197,7 @@
             <objects>
                 <tableViewController id="PLZ-OG-7Jn" customClass="GoalsListViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mgh-Dz-A2y">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="459"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="425"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <connections>

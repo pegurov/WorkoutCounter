@@ -1,9 +1,9 @@
 import UIKit
 import Firebase
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var addGoalButton: UIButton!
     @IBOutlet weak var emptyState: UILabel!
     @IBOutlet weak var containerView: UIView!
@@ -79,9 +79,10 @@ final class ProfileViewController: UIViewController {
             switch result {
             case let .success(id, data):
                 self?.user = User(firebaseData: data, remoteId: id)
-                self?.nameLabel.text = data.name
+                self?.nameTextField.text = data.name
             case .failure:
-                self?.nameLabel.text = "Ошибка загрузки пользователя"
+                break
+// TODO: - Handle error
             }
         }
     }
@@ -89,5 +90,24 @@ final class ProfileViewController: UIViewController {
     private func killUserSubscription() {
         userSubscription?.remove()
         userSubscription = nil
+    }
+    
+    // MARK: - UITextFieldDelegate
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let userRemoteId = user?.remoteId else { return }
+        guard let user = user?.firebaseData else { return }
+        
+        
+        let updatedUser = FirebaseData.User(
+            name: textField.text,
+            createdAt: user.createdAt,
+            goals: user.goals
+        )
+        Firestore.firestore().upload(object: updatedUser, underId: userRemoteId) { _ in }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
     }
 }
