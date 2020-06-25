@@ -67,7 +67,9 @@ final class WorkoutViewController: UIViewController {
     
     private func showAddSetToActivity(activity: Activity) {
         let alertController = UIAlertController(
-            title: "Добавить подход", message: nil, preferredStyle: .alert
+            title: activity.type?.title ?? "",
+            message: "Добавить подход",
+            preferredStyle: .alert
         )
         
         let saveAction = UIAlertAction(

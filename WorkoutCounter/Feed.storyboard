@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,7 +19,7 @@
                         <userDefinedRuntimeAttribute type="image" keyPath="tabBarItem.image" value="feed"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <segue destination="9kY-Mf-Zw0" kind="relationship" relationship="rootViewController" id="WDT-cx-ZdY"/>
+                        <segue destination="zjv-W6-BlS" kind="relationship" relationship="rootViewController" id="bnZ-0E-bjF"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p5B-zy-w0I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -28,20 +27,42 @@
             <point key="canvasLocation" x="-1243" y="60"/>
         </scene>
         <!--Лента-->
-        <scene sceneID="QfV-aq-avj">
+        <scene sceneID="RFV-Wg-m7O">
             <objects>
-                <viewController id="9kY-Mf-Zw0" customClass="FeedViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Qbc-2X-xE2">
+                <tableViewController id="zjv-W6-BlS" customClass="FeedViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="fEG-hc-nrp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="Uf9-VD-wNX"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Лента" id="VIx-WX-MzL"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x7G-Yt-s1U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WorkoutCell" textLabel="Zw7-8u-s4o" style="IBUITableViewCellStyleDefault" id="Mkx-co-seG" customClass="WorkoutCell" customModule="WorkoutCounter" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Mkx-co-seG" id="kPT-2U-YRY">
+                                    <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zw7-8u-s4o">
+                                            <rect key="frame" x="20" y="0.0" width="355" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="zjv-W6-BlS" id="jdO-L3-chD"/>
+                            <outlet property="delegate" destination="zjv-W6-BlS" id="TYW-hg-GNO"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Лента" id="GTf-ca-gzV"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sW5-gb-aKC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-352" y="60"/>
+            <point key="canvasLocation" x="-310" y="60"/>
         </scene>
     </scenes>
     <resources>
