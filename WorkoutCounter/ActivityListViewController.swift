@@ -13,15 +13,6 @@ final class ActivityCell: UITableViewCell, ConfigurableCell {
 
 final class ActivityListViewController: FirebaseListViewController<Activity, ActivityCell> {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        tableView.register(
-            ActivityCell.self,
-            forCellReuseIdentifier: ActivityCell.identifier
-        )
-    }
-    
     override func signupForUpdates() {
         signupForGoalsUpdates()
     }

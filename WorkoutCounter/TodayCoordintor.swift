@@ -19,14 +19,14 @@ final class TodayCoordinator: StoryboardCoordinator<WorkoutViewController> {
     override func configureRootViewController(_ controller: WorkoutViewController) {
         controller.mode = .today(userId)
         controller.onAddSession = { [weak self, weak controller] in
-            self?.chooseActivityType { activity in
+            self?.chooseActivity { activity in
                 self?.navigationController?.popToRootViewController(animated: true)
                 controller?.addSession(activity: activity)
             }
         }
     }
     
-    private func chooseActivityType(completion: @escaping (Activity) -> ()) {
+    private func chooseActivity(completion: @escaping (Activity) -> ()) {
         activitiesCoordinator = ActivitiesCoordinator(storyboard: .activities, startInNavigation: false)
         activitiesCoordinator?.onFinish = { [weak self] in
             completion($0)

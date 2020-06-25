@@ -24,17 +24,17 @@ final class ActivitiesCoordinator: StoryboardCoordinator<ActivityListViewControl
             if let title = title, !title.isEmpty {
                 
                 controller?.showProgressHUD()
-                let newWorkoutType = FirebaseData.Activity(
+                let newActivity = FirebaseData.Activity(
                     title: title,
                     createdAt: Date(),
                     createdBy: Auth.auth().currentUser?.uid ?? ""
                 )
-                Firestore.firestore().upload(object: newWorkoutType) { result in
+                Firestore.firestore().upload(object: newActivity) { result in
                     controller?.hideProgressHUD()
                     
                     switch result {
-                    case let .success(createdType):
-                        self?.onFinish?(Activity(firebaseData: createdType.1, remoteId: createdType.0))
+                    case let .success(data):
+                        self?.onFinish?(Activity(firebaseData: data.1, remoteId: data.0))
                     case .failure:
                         break
 // TODO: -

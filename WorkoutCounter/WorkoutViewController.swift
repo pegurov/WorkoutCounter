@@ -11,26 +11,25 @@ final class WorkoutViewController: UIViewController {
     // MARK: - Input
     var mode: Mode!
     func addSession(activity: Activity) {
-// TODO: -
-//        guard !existingTypes.contains(where: { $0 == type.remoteId }) else { return }
-//
-//        let newActivity = FirebaseData.Activity(
-//            type: type.remoteId,
-//            user: userId,
-//            createdAt: Date(),
-//            workout: workoutId
-//        )
-//        self?.navigationController?.showProgressHUD()
-//        Firestore.firestore().upload(object: newActivity) { result in
-//            switch result {
-//            case .success: break
-//            case .failure:
-//                break
-//// TODO: - Handle errors
-//            }
-//            self?.navigationController?.hideProgressHUD()
-//            self?.activityTypeCoordinator = nil
-//        }
+        guard let workout = workout else { return }
+        guard !((workout.1.sessions ?? []).map({ $0.activity }).contains(where: { $0 == activity.remoteId })) else { return }
+
+        var sessions = workout.1.sessions ?? []
+        sessions.append(.init(
+            activity: activity.remoteId,
+            createdAt: Date(),
+            sets: []
+        ))
+        let updatedWorkout = FirebaseData.Workout(
+            createdBy: workout.1.createdBy,
+            createdAt: workout.1.createdAt,
+            sessions: sessions
+        )
+        showProgressHUD()
+        Firestore.firestore().upload(object: updatedWorkout, underId: workout.0) { [weak self] result in
+            self?.hideProgressHUD()
+// TODO: - Handle errors
+        }
     }
     
     // MARK: - Output
@@ -117,18 +116,26 @@ final class WorkoutViewController: UIViewController {
     }
     
     private func addSetTo(session: Workout.Session, count: Int) {
-// TODO: -
-        
-//        let newSet = FirebaseData.Workout.Session.Set(count: count, createdAt: Date())
-//        Firestore.firestore().upload(object: newSet) { result in
-//            switch result {
-//            case .success:
-//                break
-//            case .failure:
-//                break
-//// TODO: - handle error
-//            }
-//        }
+        guard let workout = workout else { return }
+        let updatedSessions: [FirebaseData.Workout.Session] = (workout.1.sessions ?? []).map {
+            if session.firebaseData.activity == $0.activity {
+                var newSets = $0.sets ?? []
+                newSets.append(.init(count: count, createdAt: Date()))
+                return .init(activity: $0.activity, createdAt: $0.createdAt, sets: newSets)
+            } else {
+                return $0
+            }
+        }
+        let updatedWorkout = FirebaseData.Workout(
+            createdBy: workout.1.createdBy,
+            createdAt: workout.1.createdAt,
+            sessions: updatedSessions
+        )
+        showProgressHUD()
+        Firestore.firestore().upload(object: updatedWorkout, underId: workout.0) { [weak self] _ in
+            self?.hideProgressHUD()
+// TODO: - Handle error
+        }
     }
     
     // MARK: - Getting all the data
@@ -137,217 +144,169 @@ final class WorkoutViewController: UIViewController {
     private var user: (String, FirebaseData.User)?
     
     private func subscribeToUpdates() {
-//        guard workoutSubscription == nil else { return }
-//
-//        let userId: String
-//        let date: Date
-//
-//        switch mode! {
-//        case let .today(currentUserId):
-//            userId = currentUserId
-//            date = Date()
-//        case let .other(workout):
-//            userId = workout.createdBy
-//            date = workout.createdAt
-//        }
-//
-//// TODO: - Можно вырубать сеть и пытаться сразу показать из кеша
-//
-//        // 1. Получаем workout
-//        // 2. Получаем goals
-//        // 3. Получаем активности
-//        // 4. Получаем все типы для (активностей + goals)
-//        // 5. (only if mode = current) Добавляем автоматически все активности которые есть в goals, но нет в активностях.
-//            // если мы досоздали активности - гораздо проще просто заново переподписаться на весь стек сверху
-//        // 6. Получаем все sets по всем активностям
-//        // 7. Строим data source, форвардим его в activities list, там делаем reloadData на получение, все
-//
-//        unsubscribeFromEverything()
-//        workout = nil
-//        getOrCreateWorkoutWith(userId: userId, date: date) { [weak self] workoutId, workout in
-//            self?.workout = (workoutId, workout)
-//            self?.unsubscribeFromUpdates(to: [.activities, .goals, .types, .sets])
-//            self?.activities = []
-//            self?.getActivities(workoutId: workoutId) { activitiesTypes in
-//                self?.unsubscribeFromUpdates(to: [.goals, .types, .sets])
-//                self?.goals = [:]
-//                self?.getGoals(userId: userId) { goalsTypes in
-//                    self?.unsubscribeFromUpdates(to: [.types, .sets])
-//                    self?.types = [:]
-//                    self?.getTypes(ids: activitiesTypes + goalsTypes) {
-//                        self?.addActivitiesFromGoalsIfNeeded(userId: userId, workoutId: workoutId) { hasAddedNewActivities in
-//                            if hasAddedNewActivities {
-//                                self?.subscribeToUpdates()
-//                            } else {
-//                                self?.unsubscribeFromUpdates(to: [.sets])
-//                                self?.sets = [:]
-//                                self?.getSets(activitiesIds: (self?.activities.map{ $0.0 }) ?? []) {
-//                                    self?.buildDataSource()
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        guard workoutSubscription == nil else { return }
+
+        let userId: String
+        let date: Date
+
+        switch mode! {
+        case let .today(currentUserId):
+            userId = currentUserId
+            date = Date()
+        case let .other(workout):
+            userId = workout.createdBy
+            date = workout.createdAt
+        }
+
+// TODO: - Можно вырубать сеть и пытаться сразу показать из кеша
+
+        // 1. Получаем workout
+        // 2. Получаем user
+        // 3. (only if mode = current) Добавляем автоматически все sessions по активностям которые есть в goals
+        // если мы досоздали активности - гораздо проще просто заново переподписаться на весь стек сверху
+        // 4. Получаем все типы для workout.sessions
+        
+        // 7. Строим data source, форвардим его в activities list, там делаем reloadData на получение, все
+
+        unsubscribeFromEverything()
+        workout = nil
+        getOrCreateWorkoutWith(userId: userId, date: date) { [weak self] workoutId, workout in
+            self?.workout = (workoutId, workout)
+            self?.unsubscribeFromUpdates(to: [.user, .activities])
+            self?.user = nil
+            self?.getUser(userId: userId) { userId, user in
+                self?.user = (userId, user)
+                self?.addSessionsFromGoalsIfNeeded { hasAdded in
+                    if hasAdded {
+                        self?.unsubscribeFromEverything()
+                        self?.subscribeToUpdates()
+                    } else {
+                        self?.unsubscribeFromUpdates(to: [.activities])
+                        self?.getAllNeededActivities {
+                            self?.buildDataSource()
+                        }
+                    }
+                }
+            }
+        }
     }
     
-//    // MARK: - Private
-//    private func getOrCreateWorkoutWith(userId: String, date: Date, completion: @escaping (String, FirebaseData.Workout) -> ()) {
-//// TODO: - кажется что если уже есть workoutId, то надо получать по нему прям а не по дате + user id
-//        workoutSubscription = Firestore.firestore().getObjects(
-//            query: { $0.whereField("createdBy", isEqualTo: userId).whereField("createdAt", isTheSameDayAs: date) },
-//            onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Workout)], Error>) in
-//                switch result {
-//                case let .success(workouts):
-//                    if let (existingWorkoutId, workout) = workouts.first {
-//                        completion(existingWorkoutId, workout)
-//                    } else {
-//                        self?.makeWorkout(userId: userId) { _, _ in
-//                            self?.subscribeToUpdates()
-//                        }
-//                    }
-//                case .failure:
-//                    break
-//// TODO: - handle error
-//                }
-//            }
-//        )
-//
-//    }
-//
-//    private func makeWorkout(userId: String, completion: @escaping (String, FirebaseData.Workout) -> ()) {
-//        unsubscribeFromEverything()
-//        let newWorkout = FirebaseData.Workout(createdBy: userId, createdAt: Date())
-//        Firestore.firestore().upload(object: newWorkout) { result in
-//            switch result {
-//            case let .success(id, workout):
-//                completion(id, workout)
-//            case .failure:
-//                break
-//// TODO: - handle error
-//            }
-//        }
-//    }
-//
-//    private func getActivities(workoutId: String, completion: @escaping ([String]) -> ()) {
-//        activitiesSubscription = Firestore.firestore().getObjects(
-//            query: { $0.whereField("workout", isEqualTo: workoutId).order(by: "createdAt", descending: true) },
-//            onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Activity)], Error>) in
-//                switch result {
-//                case let .success(activities):
-//                    self?.activities = activities
-//                    completion(activities.map { $1.type })
-//                case .failure:
-//                    break
-//// TODO: - handle error
-//                }
-//            }
-//        )
-//    }
-//
-//    private func getGoals(userId: String, completion: @escaping ([String]) -> ()) {
-//        goalsSubscription = Firestore.firestore().getObjects(
-//            query: { $0.whereField("user", isEqualTo: userId).order(by: "createdAt") },
-//            onUpdate: { [weak self] (result: Result<[(String, FirebaseData.User.Goal)], Error>) in
-//                switch result {
-//                case let .success(goals):
-//                    goals.forEach { self?.goals[$0.0] = $0.1 }
-//                    completion(goals.map { $1.type })
-//                case .failure:
-//                    break
-//// TODO: - handle error
-//                }
-//            }
-//        )
-//    }
-//
-//    private func getTypes(ids: [String], completion: @escaping () -> ()) {
-//        if ids.isEmpty { completion(); return }
-//
-//        let counter = Counter()
-//        ids.forEach { id in
-//            counter.increment()
-//            typesSubscriptions.append(Firestore.firestore().getObject(id: id) { [weak self] (result: Result<(String, FirebaseData.Activity), Error>) in
-//                switch result {
-//                case let .success(id, type):
-//                    self?.types[id] = type
-//                case .failure:
-//// TODO: - Handle error
-//                    break
-//                }
-//                counter.decrement {
-//                    completion()
-//                }
-//            })
-//        }
-//    }
-//
-//    private func addActivitiesFromGoalsIfNeeded(userId: String, workoutId: String, completion: @escaping (Bool) -> ()) {
-//        if goals.keys.isEmpty { completion(false); return }
-//
-//        switch mode! {
-//        case .today:
-//            var hasAdded: Bool = false
-//            let counter = Counter()
-//            goals.values.forEach { goal in
-//                if activities.first(where: { activity in
-//                    activity.1.type == goal.type
-//                }) == nil {
-//                    unsubscribeFromEverything()
-//                    hasAdded = true
-//                    counter.increment()
-//                    let newActivity = FirebaseData.Activity(
-//                        type: goal.type,
-//                        user: userId,
-//                        createdAt: Date(),
-//                        workout: workoutId
-//                    )
-//                    Firestore.firestore().upload(object: newActivity) { result in
-//                        switch result {
-//                        case .success:
-//                            hasAdded = true
-//                        case .failure:
-//// TODO: - Handle error
-//                            break
-//                        }
-//                        counter.decrement {
-//                            completion(hasAdded)
-//                        }
-//                    }
-//                }
-//            }
-//            if !hasAdded {
-//                completion(false)
-//            }
-//        case .other:
-//            completion(false)
-//        }
-//    }
-//
-//    private func getSets(activitiesIds: [String], completion: @escaping () -> ()) {
-//        guard !activitiesIds.isEmpty else { completion(); return }
-//
-//        let counter = Counter()
-//        activitiesIds.forEach { activityId in
-//            counter.increment()
-//            setsSubscriptions.append(Firestore.firestore().getObjects(
-//                query: { $0.whereField("activity", isEqualTo: activityId).order(by: "createdAt") },
-//                onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Set)], Error>) in
-//                    switch result {
-//                    case let .success(incomingSets):
-//                        self?.sets[activityId] = incomingSets
-//                    case .failure:
-//                        break
-//// TODO: - handle error
-//                    }
-//                    counter.decrement {
-//                        completion()
-//                    }
-//                }
-//            ))
-//        }
-//    }
+    // MARK: - Private
+    private func getOrCreateWorkoutWith(userId: String, date: Date, completion: @escaping (String, FirebaseData.Workout) -> ()) {
+// TODO: - кажется что если уже есть workoutId, то надо получать по нему прям а не по дате + user id
+        workoutSubscription = Firestore.firestore().getObjects(
+            query: { $0.whereField("createdBy", isEqualTo: userId).whereField("createdAt", isTheSameDayAs: date) },
+            onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Workout)], Error>) in
+                switch result {
+                case let .success(workouts):
+                    if let (existingWorkoutId, workout) = workouts.first {
+                        completion(existingWorkoutId, workout)
+                    } else {
+                        self?.makeWorkout(userId: userId) { _, _ in
+                            self?.subscribeToUpdates()
+                        }
+                    }
+                case .failure:
+                    break
+// TODO: - handle error
+                }
+            }
+        )
+
+    }
+
+    private func makeWorkout(userId: String, completion: @escaping (String, FirebaseData.Workout) -> ()) {
+        unsubscribeFromEverything()
+        let newWorkout = FirebaseData.Workout(createdBy: userId, createdAt: Date(), sessions: [])
+        Firestore.firestore().upload(object: newWorkout) { result in
+            switch result {
+            case let .success(id, workout):
+                completion(id, workout)
+            case .failure:
+                break
+// TODO: - handle error
+            }
+        }
+    }
+    
+    private func getUser(userId: String, completion: @escaping (String, FirebaseData.User) -> ()) {
+        userSubscription = Firestore.firestore().getObject(id: userId) { (result: Result<(String, FirebaseData.User), Error>) in
+            switch result {
+            case let .success(data):
+                completion(data.0, data.1)
+            case .failure:
+                break
+// TODO: - handle error
+            }
+        }
+    }
+    
+    private func getAllNeededActivities(completion: @escaping () -> ()) {
+        guard let workout = workout?.1 else { completion(); assertionFailure(); return }
+        let idsToGet: [String] = (workout.sessions?.map{ $0.activity }) ?? []
+        guard !idsToGet.isEmpty else { completion(); return }
+
+        let counter = Counter()
+        idsToGet.forEach { id in
+            counter.increment()
+            activitiesSubscriptions.append(Firestore.firestore().getObject(id: id) { [weak self] (result: Result<(String, FirebaseData.Activity), Error>) in
+                switch result {
+                case let .success(id, type):
+                    self?.activities[id] = type
+                case .failure:
+// TODO: - Handle error
+                    break
+                }
+                counter.decrement {
+                    completion()
+                }
+            })
+        }
+    }
+
+    private func addSessionsFromGoalsIfNeeded(completion: @escaping (Bool) -> ()) {
+        guard let user = user?.1 else { completion(false); assertionFailure(); return }
+        guard let goals = user.goals else { completion(false); assertionFailure(); return }
+        guard let workout = workout?.1 else { completion(false); assertionFailure(); return }
+        guard let workoutRemoteId = self.workout?.0 else { completion(false); assertionFailure(); return }
+        
+        switch mode! {
+        case .today:
+            var sessionsToAdd: [FirebaseData.Workout.Session] = []
+            goals.forEach { goal in
+                if workout.sessions?.first(where: { session in
+                    session.activity == goal.activity
+                }) == nil
+                {
+                    unsubscribeFromEverything()
+                    sessionsToAdd.append(
+                        FirebaseData.Workout.Session(
+                            activity: goal.activity,
+                            createdAt: Date(),
+                            sets: []
+                        )
+                    )
+                }
+            }
+            if sessionsToAdd.count > 0 {
+                var updatedSessions = workout.sessions ?? []
+                updatedSessions.append(contentsOf: sessionsToAdd)
+                let updatedWorkout = FirebaseData.Workout(
+                    createdBy: workout.createdBy,
+                    createdAt: workout.createdAt,
+                    sessions: updatedSessions
+                )
+                Firestore.firestore().upload(object: updatedWorkout, underId: workoutRemoteId) { _ in
+                    completion(true)
+// TODO: - Handle error
+                }
+            } else {
+                completion(false)
+            }
+        case .other:
+            completion(false)
+        }
+    }
     
     // MARK: - Managing subscriptions
     enum Subscription: Hashable {

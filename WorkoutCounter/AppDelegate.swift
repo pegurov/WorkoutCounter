@@ -13,7 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool
     {   
         FirebaseApp.configure()
-        startGenericControllers()
         
         window = UIWindow()
         rootCoordinator = RootCoordinator(

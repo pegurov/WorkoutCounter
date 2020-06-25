@@ -15,7 +15,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkoutTypeCell" textLabel="lgr-mz-DBN" style="IBUITableViewCellStyleDefault" id="ufJ-7r-NeB" customClass="WorkoutTypeCell" customModule="WorkoutCounter" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActivityCell" textLabel="lgr-mz-DBN" style="IBUITableViewCellStyleDefault" id="ufJ-7r-NeB" customClass="ActivityCell" customModule="WorkoutCounter" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ufJ-7r-NeB" id="93N-mZ-aBY">
