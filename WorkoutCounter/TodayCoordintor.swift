@@ -4,7 +4,7 @@ import Firebase
 final class TodayCoordinator: StoryboardCoordinator<WorkoutViewController> {
 
     private let userId: String
-    private var activityTypeCoordinator: WorkoutTypeCoordinator?
+    private var activitiesCoordinator: ActivitiesCoordinator?
     
     init(
         storyboard: UIStoryboard,
@@ -18,37 +18,22 @@ final class TodayCoordinator: StoryboardCoordinator<WorkoutViewController> {
     // MARK: - StoryboardCoordinator -
     override func configureRootViewController(_ controller: WorkoutViewController) {
         controller.mode = .today(userId)
-        controller.onAddActivity = { [weak self, userId] workoutId, existingTypes in
-            self?.chooseActivityType { type in
+        controller.onAddSession = { [weak self, weak controller] in
+            self?.chooseActivityType { activity in
                 self?.navigationController?.popToRootViewController(animated: true)
-                guard !existingTypes.contains(where: { $0 == type.remoteId }) else { return }
-                
-                let newActivity = FirebaseData.Activity(
-                    type: type.remoteId,
-                    user: userId,
-                    createdAt: Date(),
-                    workout: workoutId
-                )
-                self?.navigationController?.showProgressHUD()
-                Firestore.firestore().upload(object: newActivity) { result in
-                    switch result {
-                    case .success: break
-                    case .failure:
-                        break
-// TODO: - Handle errors
-                    }
-                    self?.navigationController?.hideProgressHUD()
-                    self?.activityTypeCoordinator = nil
-                }
+                controller?.addSession(activity: activity)
             }
         }
     }
     
-    private func chooseActivityType(completion: @escaping (ActivityType) -> ()) {
-        activityTypeCoordinator = WorkoutTypeCoordinator(storyboard: .workoutType, startInNavigation: false)
-        activityTypeCoordinator?.onFinish = completion
+    private func chooseActivityType(completion: @escaping (Activity) -> ()) {
+        activitiesCoordinator = ActivitiesCoordinator(storyboard: .activities, startInNavigation: false)
+        activitiesCoordinator?.onFinish = { [weak self] in
+            completion($0)
+            self?.activitiesCoordinator = nil
+        }
         
-        guard let root = activityTypeCoordinator?.rootViewController else { assertionFailure(); return }
+        guard let root = activitiesCoordinator?.rootViewController else { assertionFailure(); return }
         navigationController?.pushViewController(root, animated: true)
     }
 }

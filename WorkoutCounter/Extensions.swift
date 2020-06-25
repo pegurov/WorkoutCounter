@@ -4,7 +4,7 @@ import MBProgressHUD
 extension UIStoryboard {
 
     static let today = UIStoryboard(name: "Today", bundle: Bundle.main)
-    static let workoutType = UIStoryboard(name: "WorkoutType", bundle: Bundle.main)
+    static let activities = UIStoryboard(name: "Activities", bundle: Bundle.main)
     static let profile = UIStoryboard(name: "Profile", bundle: Bundle.main)
     static let unsupportedVersion = UIStoryboard(name: "UnsupportedVersion", bundle: Bundle.main)
     static let feed = UIStoryboard(name: "Feed", bundle: Bundle.main)
@@ -58,7 +58,7 @@ extension Date {
     }
 }
 
-extension Activity {
+extension Workout.Session {
     
     var setsDescription: String {
         var description: String = ""

@@ -140,7 +140,7 @@
                                 <rect key="frame" x="242" y="55.5" width="62" height="30"/>
                                 <state key="normal" title="Выбрать"/>
                                 <connections>
-                                    <action selector="onSelectTypeTap:" destination="mLK-JV-SwZ" eventType="touchUpInside" id="ewB-tR-wDG"/>
+                                    <action selector="onSelectActivityTap:" destination="mLK-JV-SwZ" eventType="touchUpInside" id="yoe-3c-t7a"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WU1-U6-z1L">
@@ -155,7 +155,7 @@
                                 <rect key="frame" x="121.5" y="141.5" width="77" height="30"/>
                                 <state key="normal" title="Сохранить"/>
                                 <connections>
-                                    <action selector="onAddTap:" destination="mLK-JV-SwZ" eventType="touchUpInside" id="khr-NF-xed"/>
+                                    <action selector="onSaveTap:" destination="mLK-JV-SwZ" eventType="touchUpInside" id="C4i-X5-h8d"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -182,8 +182,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityLabel" destination="oTu-x9-8OV" id="VN4-cK-h50"/>
                         <outlet property="countTextField" destination="WU1-U6-z1L" id="qyF-7e-rAs"/>
-                        <outlet property="typeLabel" destination="oTu-x9-8OV" id="TuT-CY-brY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wac-qK-HFt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

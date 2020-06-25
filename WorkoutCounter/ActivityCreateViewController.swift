@@ -1,6 +1,6 @@
 import UIKit
 
-final class WorkoutTypeCreateViewController: UIViewController {
+final class ActivityCreateViewController: UIViewController {
     
     @IBOutlet weak var textField: UITextField!
     var onFinish: ((_ typeName: String?) -> Void)?

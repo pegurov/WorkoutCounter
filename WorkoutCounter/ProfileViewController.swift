@@ -15,7 +15,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Output
     var onLogout: (() -> Void)?
     var onAddGoal: ((User) -> Void)?
-    var onGoalSelected: ((Goal, User) -> ())?
+    var onGoalSelected: ((User.Goal, User) -> ())?
     var goalsList: GoalsListViewController?
     
     @IBAction func logoutTap(_ sender: UIBarButtonItem) {

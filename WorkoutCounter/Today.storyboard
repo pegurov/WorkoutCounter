@@ -42,7 +42,7 @@
                                     <constraint firstAttribute="height" constant="50" id="msz-lo-MlP"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="addActivityTap:" destination="lra-xS-AZh" eventType="touchUpInside" id="fpT-RE-v9l"/>
+                                    <action selector="addSessionTap:" destination="lra-xS-AZh" eventType="touchUpInside" id="GH5-X8-23O"/>
                                 </connections>
                             </button>
                             <containerView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CE0-hV-77n">
@@ -91,16 +91,16 @@
             </objects>
             <point key="canvasLocation" x="1806" y="1746"/>
         </scene>
-        <!--Activities List View Controller-->
+        <!--Session List View Controller-->
         <scene sceneID="Pn2-YL-vuB">
             <objects>
-                <tableViewController id="dI0-eT-TOp" customClass="ActivitiesListViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="dI0-eT-TOp" customClass="SessionListViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5xd-R9-NAW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ActicityCell" textLabel="xn9-be-qsi" detailTextLabel="eUG-U4-6Ng" style="IBUITableViewCellStyleSubtitle" id="Kma-al-iZz" customClass="ActicityCell" customModule="WorkoutCounter" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SessionCell" textLabel="xn9-be-qsi" detailTextLabel="eUG-U4-6Ng" style="IBUITableViewCellStyleSubtitle" id="Kma-al-iZz" customClass="SessionCell" customModule="WorkoutCounter" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="55.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kma-al-iZz" id="U4x-AM-Ram">

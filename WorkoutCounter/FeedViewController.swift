@@ -80,7 +80,7 @@ final class FeedViewController: UITableViewController {
 //                firebaseData: activityData,
 //                remoteId: activityId,
 //                user: nil,
-//                type: makeActivityType(id: activityData.type),
+//                type: makeActivity(id: activityData.type),
 //                workout: makeWorkout(),
 //                sets: makeSets(activityId: activityId),
 //                goal: makeGoal(activityTypeId: activityData.type)

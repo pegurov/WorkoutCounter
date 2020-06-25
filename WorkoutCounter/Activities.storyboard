@@ -9,7 +9,7 @@
         <!--Тип-->
         <scene sceneID="TPk-R7-QGs">
             <objects>
-                <tableViewController storyboardIdentifier="WorkoutTypeListViewController" title="Тип" id="37l-MW-XaB" customClass="WorkoutTypeListViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ActivityListViewController" title="Тип" id="37l-MW-XaB" customClass="ActivityListViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" id="gIt-dx-I15">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -70,7 +70,7 @@
         <!--Новый-->
         <scene sceneID="EVn-kq-WyH">
             <objects>
-                <viewController id="eke-nG-sFA" customClass="WorkoutTypeCreateViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="eke-nG-sFA" customClass="ActivityCreateViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JG8-Wr-aHj"/>
                         <viewControllerLayoutGuide type="bottom" id="IsP-N2-g04"/>

@@ -14,32 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     {   
         FirebaseApp.configure()
         startGenericControllers()
-//        FirebaseManager.startWith(coreDataStack: coreDataStack)
         
         window = UIWindow()
         rootCoordinator = RootCoordinator(
             authProvider: FirebaseAuthProvider(),
-//            coreDataStack: coreDataStack,
-//            firebaseManager: FirebaseManager.sharedInstance,
             window: window!
         )
         window?.makeKeyAndVisible()
-//        rootCoordinator.start()
         return true
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-//        coreDataStack.saveContext()
-    }
-    
-    private func startGenericControllers() {
-        
-        // this is needed so that these controllers can
-        // be used via storyboard
-//        _ = AllUsersViewController()
-        _ = GoalsListViewController()
-        _ = ActivitiesListViewController()
-//        _ = WorkoutsViewController()
-//        _ = SessionsViewController()
     }
 }

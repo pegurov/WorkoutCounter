@@ -3,20 +3,20 @@ import UIKit
 
 final class GoalCell: UITableViewCell, ConfigurableCell {
     
-    typealias T = Goal
+    typealias T = User.Goal
     static let identifier = "GoalCell"
 
-    func configure(with object: Goal) {
-        textLabel?.text = object.type!.title
+    func configure(with object: User.Goal) {
+        textLabel?.text = object.activity?.title
         detailTextLabel?.text = "Количество повторений: \(object.count)"
     }
 }
 
-final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> {
+final class GoalsListViewController: FirebaseListViewController<User.Goal, GoalCell> {
     
     var userId: String!
     var user: FirebaseData.User?
-    var types: [String: FirebaseData.ActivityType] = [:]
+    var activities: [String: FirebaseData.Activity] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +40,7 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
             switch result {
             case .success(let user):
                 self?.user = user.1
-                self?.signupForWorkoutTypesUpdates(ids: user.1.goals.map { $0.type })
+                self?.signupForActivitiesUpdates(ids: user.1.goals?.map { $0.activity } ?? [])
             case .failure:
 // TODO: - Handle error
                 break
@@ -48,8 +48,8 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
         })
     }
     
-    func signupForWorkoutTypesUpdates(ids: [String]) {
-        types = [:]
+    func signupForActivitiesUpdates(ids: [String]) {
+        activities = [:]
         guard !ids.isEmpty else {
             makeDataSource()
             return
@@ -58,10 +58,10 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
         
         ids.forEach { id in
             counter.increment()
-            listeners.append(Firestore.firestore().getObject(id: id) { [weak self] (result: Result<(String, FirebaseData.ActivityType), Error>) in
+            listeners.append(Firestore.firestore().getObject(id: id) { [weak self] (result: Result<(String, FirebaseData.Activity), Error>) in
                 switch result {
-                case let .success(id, type):
-                    self?.types[id] = type
+                case let .success(id, activty):
+                    self?.activities[id] = activty
                 case .failure:
 // TODO: - Handle error
                     break
@@ -74,16 +74,16 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
     }
     
     private func makeDataSource() {
-        dataSource = user!.goals.map { goal in
-            return Goal(
+        dataSource = (user!.goals ?? []).map { goal in
+            return User.Goal(
                 firebaseData: goal,
-                type: makeActivityType(id: goal.type)
+                activity: makeActivity(id: goal.activity)
             )
         }
     }
     
-    private func makeActivityType(id: String) -> ActivityType? {
-        guard let data = types[id] else { return nil }
-        return ActivityType(firebaseData: data, remoteId: id)
+    private func makeActivity(id: String) -> Activity? {
+        guard let data = activities[id] else { return nil }
+        return Activity(firebaseData: data, remoteId: id)
     }
 }

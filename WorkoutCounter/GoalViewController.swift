@@ -5,30 +5,30 @@ final class GoalViewController: UIViewController {
     
     // MARK: - Input
     var user: User!
-    var goal: Goal? { didSet { updateLabelWithGoal() } }
-    var type: ActivityType? { didSet { updateWithActivityType(type: type) } }
+    var goal: User.Goal? { didSet { updateLabelWithGoal() } }
+    var activity: Activity? { didSet { updateWith(activity: activity) } }
     
     // MARK: - Output
-    var onSelectTypeTap: (() -> ())?
+    var onSelectActivityTap: (() -> ())?
     var onFinish: (() -> ())?
     
     // MARK: - IBOutlets + actions
-    @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var activityLabel: UILabel!
     @IBOutlet weak var countTextField: UITextField!
     
-    @IBAction func onSelectTypeTap(_ sender: Any) {
-        onSelectTypeTap?()
+    @IBAction func onSelectActivityTap(_ sender: Any) {
+        onSelectActivityTap?()
     }
     
-    @IBAction func onAddTap(_ sender: Any) {
+    @IBAction func onSaveTap(_ sender: Any) {
         guard let textCount = countTextField.text, let count = Int(textCount), count > 0 else {
             return
         }
         
         if let goal = goal {
             save(goal: goal, updatedCount: count)
-        } else if let type = type {
-            createGoal(type: type, count: count)
+        } else if let activity = activity {
+            createGoal(activity: activity, count: count)
         }
     }
     
@@ -50,17 +50,17 @@ final class GoalViewController: UIViewController {
         guard let goal = goal else { return }
         
         countTextField?.text = "\(goal.count)"
-        typeLabel?.text = goal.type?.title
+        activityLabel?.text = goal.activity?.title
     }
     
-    private func save(goal: Goal, updatedCount: Int) {
+    private func save(goal: User.Goal, updatedCount: Int) {
         showProgressHUD()
         
-        let updatedGoals: [FirebaseData.User.Goal] = user.firebaseData.goals.map { oldGoal in
-            if oldGoal.type == goal.firebaseData.type {
+        let updatedGoals: [FirebaseData.User.Goal] = (user.firebaseData.goals ?? []).map { oldGoal in
+            if oldGoal.activity == goal.firebaseData.activity {
                 return FirebaseData.User.Goal(
                     count: updatedCount,
-                    type: oldGoal.type,
+                    activity: oldGoal.activity,
                     createdAt: oldGoal.createdAt
                 )
             } else {
@@ -82,13 +82,13 @@ final class GoalViewController: UIViewController {
         }
     }
     
-    private func createGoal(type: ActivityType, count: Int) {
+    private func createGoal(activity: Activity, count: Int) {
         showProgressHUD()
 
-        var updatedGoals = user.firebaseData.goals
+        var updatedGoals = (user.firebaseData.goals ?? [])
         updatedGoals.append(FirebaseData.User.Goal(
             count: count,
-            type: type.remoteId,
+            activity: activity.remoteId,
             createdAt: Date())
         )
         let updatedUser = FirebaseData.User(
@@ -106,11 +106,11 @@ final class GoalViewController: UIViewController {
         }
     }
     
-    private func delegeGoal(goal: Goal) {
+    private func delegeGoal(goal: User.Goal) {
         showProgressHUD()
         
-        let updatedGoals: [FirebaseData.User.Goal] = user.firebaseData.goals.compactMap { oldGoal in
-            return (oldGoal.type == goal.firebaseData.type) ? nil : oldGoal
+        let updatedGoals: [FirebaseData.User.Goal] = (user.firebaseData.goals ?? []).compactMap { oldGoal in
+            return (oldGoal.activity == goal.firebaseData.activity) ? nil : oldGoal
         }
         let updatedUser = FirebaseData.User(
             name: user.name,
@@ -127,16 +127,16 @@ final class GoalViewController: UIViewController {
         }
     }
     
-    private func updateWithActivityType(type: ActivityType?) {
-        guard let type = type else { return }
+    private func updateWith(activity: Activity?) {
+        guard let activity = activity else { return }
         
-        if let existingGoal = user.goals.first(where: { $0.firebaseData.type == type.remoteId }) {
-            goal = Goal(
+        if let existingGoal = user.goals.first(where: { $0.firebaseData.activity == activity.remoteId }) {
+            goal = User.Goal(
                 firebaseData: existingGoal.firebaseData,
-                type: type
+                activity: activity
             )
         } else {
-            typeLabel?.text = type.title
+            activityLabel?.text = activity.title
             countTextField?.text = nil
         }
     }
