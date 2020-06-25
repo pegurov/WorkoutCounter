@@ -10,18 +10,20 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Input
     var userId: String!
+    var user: User?
     
     // MARK: - Output
     var onLogout: (() -> Void)?
-    var onAddGoal: (() -> Void)?
-    var onGoalSelected: ((Goal) -> ())?
+    var onAddGoal: ((User) -> Void)?
+    var onGoalSelected: ((Goal, User) -> ())?
     var goalsList: GoalsListViewController?
     
     @IBAction func logoutTap(_ sender: UIBarButtonItem) {
         onLogout?()
     }
     @IBAction func addGoalTap(_ sender: UIButton) {
-        onAddGoal?()
+        guard let user = user else { return }
+        onAddGoal?(user)
     }
     
     deinit {
@@ -54,8 +56,9 @@ final class ProfileViewController: UIViewController {
             let destination = segue.destination as? GoalsListViewController
         {
             destination.userId = userId
-            destination.onObjectSelected = { [weak self] in
-                self?.onGoalSelected?($0)
+            destination.onObjectSelected = { [weak self] goal in
+                guard let user = self?.user else { return }
+                self?.onGoalSelected?(goal, user)
             }
             destination.onUpdateEmptyState = { [weak self] isEmpty in
                 self?.containerView.isHidden = isEmpty
@@ -71,10 +74,12 @@ final class ProfileViewController: UIViewController {
     private func createUserSubscription() {
         guard userSubscription == nil else { return }
         
+        killUserSubscription()
         userSubscription = Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
             switch result {
-            case let .success(_, user):
-                self?.nameLabel.text = user.name
+            case let .success(id, data):
+                self?.user = User(firebaseData: data, remoteId: id)
+                self?.nameLabel.text = data.name
             case .failure:
                 self?.nameLabel.text = "Ошибка загрузки пользователя"
             }

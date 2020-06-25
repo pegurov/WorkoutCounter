@@ -92,7 +92,7 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
     func signupForUpdates() {    
     }
     
-    private func resignFromUpdates() {
+    func resignFromUpdates() {
         listeners.forEach { $0.remove() }
         listeners = []
     }

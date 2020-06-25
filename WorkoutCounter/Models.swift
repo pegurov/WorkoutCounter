@@ -3,10 +3,17 @@ import Foundation
 struct FirebaseData {
     
     struct User: Codable {
-        let name: String
         
+        struct Goal: Codable {
+            let count: Int
+            let type: String // ActivityType
+            let createdAt: Date
+        }
+        
+        let name: String?
         let createdAt: Date
-        let createdBy: String
+        
+        let goals: [Goal]
     }
     
     struct ActivityType: Codable {
@@ -16,15 +23,6 @@ struct FirebaseData {
         let createdBy: String // User
     }
 
-    struct Goal: Codable {
-        let count: Int
-        let type: String // ActivityType
-        let user: String // User
-        
-        let createdAt: Date
-        let createdBy: String // User
-    }
-    
     struct Workout: Codable {
         let createdBy: String // User
         let createdAt: Date
@@ -48,50 +46,38 @@ struct FirebaseData {
 
 final class User {
     
-    private let firebaseData: FirebaseData.User
     init(
         firebaseData: FirebaseData.User,
-        createdBy: User? = nil)
+        remoteId: String)
     {
         self.firebaseData = firebaseData
-        self.createdBy = createdBy
+        self.remoteId = remoteId
+        self.goals = firebaseData.goals.map { Goal(firebaseData: $0) }
     }
     
-    // Proxies
-    var name: String { firebaseData.name }
-    var createdAt: Date { firebaseData.createdAt }
+    let firebaseData: FirebaseData.User
+    let remoteId: String
+    let goals: [Goal]
     
-    // Dependencies
-    let createdBy: User?
+    // Proxies
+    var name: String? { firebaseData.name }
+    var createdAt: Date { firebaseData.createdAt }
 }
 
 final class Goal {
     
-    init(
-        firebaseData: FirebaseData.Goal,
-        remoteId: String,
-        type: ActivityType? = nil,
-        user: User? = nil,
-        createdBy: User? = nil)
-    {
+    init(firebaseData: FirebaseData.User.Goal, type: ActivityType? = nil) {
         self.firebaseData = firebaseData
-        self.remoteId = remoteId
         self.type = type
-        self.user = user
-        self.createdBy = createdBy
     }
     
-    let firebaseData: FirebaseData.Goal
-    let remoteId: String
+    let firebaseData: FirebaseData.User.Goal
     
     // Proxies
     var count: Int { firebaseData.count }
-    var createdAt: Date { firebaseData.createdAt }
     
     // Dependencies
     let type: ActivityType?
-    let user: User?
-    let createdBy: User?
 }
 
 final class ActivityType {

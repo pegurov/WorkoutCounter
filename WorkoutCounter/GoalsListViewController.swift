@@ -15,8 +15,8 @@ final class GoalCell: UITableViewCell, ConfigurableCell {
 final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> {
     
     var userId: String!
-    var mainData: [(String, FirebaseData.Goal)] = []
-    var dependenciesContainer: [String: [String: Any]] = [:]
+    var user: FirebaseData.User?
+    var types: [String: FirebaseData.ActivityType] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,29 +28,28 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
     }
     
     override func signupForUpdates() {
-        signupForGoalsUpdates()
+        guard listeners.isEmpty else { return }
+        
+        resignFromUpdates()
+        signupForUserUpdates()
     }
     
-    func signupForGoalsUpdates() {
-        listeners.append(Firestore.firestore().getObjects(
-            query: { [userId] collection in
-                collection.whereField("user", isEqualTo: userId!).order(by: "createdAt")
-            },
-            onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Goal)], Error>) in
-                switch result {
-                case .success(let value):
-                    self?.mainData = value.map { ($0.0, $0.1) }
-                    self?.signupForWorkoutTypesUpdates(ids: value.map { $0.1.type })
-                    
-                case .failure:
+    func signupForUserUpdates() {
+        user = nil
+        listeners.append(Firestore.firestore().getObject(id: userId) { [weak self] (result: Result<(String, FirebaseData.User), Error>) in
+            switch result {
+            case .success(let user):
+                self?.user = user.1
+                self?.signupForWorkoutTypesUpdates(ids: user.1.goals.map { $0.type })
+            case .failure:
 // TODO: - Handle error
-                    break
-                }
+                break
             }
-        ))
+        })
     }
     
     func signupForWorkoutTypesUpdates(ids: [String]) {
+        types = [:]
         guard !ids.isEmpty else {
             makeDataSource()
             return
@@ -62,9 +61,7 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
             listeners.append(Firestore.firestore().getObject(id: id) { [weak self] (result: Result<(String, FirebaseData.ActivityType), Error>) in
                 switch result {
                 case let .success(id, type):
-                    var types: [String: Any] = self?.dependenciesContainer["types"] ?? [:]
-                    types[id] = type
-                    self?.dependenciesContainer["types"] = types
+                    self?.types[id] = type
                 case .failure:
 // TODO: - Handle error
                     break
@@ -77,30 +74,16 @@ final class GoalsListViewController: FirebaseListViewController<Goal, GoalCell> 
     }
     
     private func makeDataSource() {
-        guard let types = dependenciesContainer["types"] as? [String: FirebaseData.ActivityType] else {
-            dataSource = []
-            return
-        }
-        
-        dataSource = mainData.map { (id, goal) in
-            
-            let workoutType: ActivityType?
-            if let firebaseData = types[goal.type] {
-                workoutType = ActivityType(
-                    firebaseData: firebaseData,
-                    remoteId: goal.type,
-                    createdBy: nil
-                )
-            } else {
-                workoutType = nil
-            }
+        dataSource = user!.goals.map { goal in
             return Goal(
                 firebaseData: goal,
-                remoteId: id,
-                type: workoutType,
-                user: nil,
-                createdBy: nil
+                type: makeActivityType(id: goal.type)
             )
         }
+    }
+    
+    private func makeActivityType(id: String) -> ActivityType? {
+        guard let data = types[id] else { return nil }
+        return ActivityType(firebaseData: data, remoteId: id)
     }
 }

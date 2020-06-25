@@ -64,7 +64,6 @@
                                 </constraints>
                                 <connections>
                                     <action selector="addGoalTap:" destination="7tA-T3-mvc" eventType="touchUpInside" id="hAu-cI-4Cx"/>
-                                    <segue destination="mLK-JV-SwZ" kind="show" identifier="create" id="C2V-ly-c8u"/>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZB-Dd-Yob">
@@ -106,6 +105,7 @@
                         <outlet property="containerView" destination="Zf3-od-ehP" id="J9e-se-xmJ"/>
                         <outlet property="emptyState" destination="YZB-Dd-Yob" id="jfB-qY-vQa"/>
                         <outlet property="nameLabel" destination="4yI-QP-NRn" id="zbt-cn-kYM"/>
+                        <segue destination="mLK-JV-SwZ" kind="show" identifier="detail" id="c0l-92-2iM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E95-Fh-pUs" userLabel="First Responder" sceneMemberID="firstResponder"/>

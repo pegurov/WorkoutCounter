@@ -112,7 +112,7 @@ final class WorkoutViewController: UIViewController {
     private var activities: [(String, FirebaseData.Activity)] = []
     private var workout: (String, FirebaseData.Workout)?
     private var types: [String: FirebaseData.ActivityType] = [:] // [typeId: ActivityType]
-    private var goals: [String: FirebaseData.Goal] = [:] // [goalId: Goal]
+    private var goals: [String: FirebaseData.User.Goal] = [:] // [goalId: Goal]
     private var sets: [String: [(String, FirebaseData.Set)]] = [:] // [activityId: [(setId, Set)]]
     
     private func subscribeToUpdates() {
@@ -228,7 +228,7 @@ final class WorkoutViewController: UIViewController {
     private func getGoals(userId: String, completion: @escaping ([String]) -> ()) {
         goalsSubscription = Firestore.firestore().getObjects(
             query: { $0.whereField("user", isEqualTo: userId).order(by: "createdAt") },
-            onUpdate: { [weak self] (result: Result<[(String, FirebaseData.Goal)], Error>) in
+            onUpdate: { [weak self] (result: Result<[(String, FirebaseData.User.Goal)], Error>) in
                 switch result {
                 case let .success(goals):
                     goals.forEach { self?.goals[$0.0] = $0.1 }
@@ -403,14 +403,15 @@ final class WorkoutViewController: UIViewController {
     }
     
     private func makeGoal(activityTypeId: String) -> Goal? {
-        guard let goal = goals.first(where: { $1.type == activityTypeId }) else { return nil }
-        return Goal(
-            firebaseData: goal.value,
-            remoteId: goal.key,
-            type: makeActivityType(id: activityTypeId),
-            user: nil,
-            createdBy: nil
-        )
+        return nil
+//        guard let goal = goals.first(where: { $1.type == activityTypeId }) else { return nil }
+//        return Goal(
+//            firebaseData: goal.value,
+//            remoteId: goal.key,
+//            type: makeActivityType(id: activityTypeId),
+//            user: nil,
+//            createdBy: nil
+//        )
     }
 }
 

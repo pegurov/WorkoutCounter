@@ -66,9 +66,10 @@ final class RootCoordinator {
                     switch error {
                     case FirebaseError.documentDoesNotExist:
                         let newUser = FirebaseData.User(
-                            name: self?.authProvider.firebaseUser?.displayName ?? userId,
+// This is still a problem
+                            name: self?.authProvider.firebaseUser?.displayName,
                             createdAt: Date(),
-                            createdBy: userId
+                            goals: []
                         )
                         Firestore.firestore().upload(object: newUser, underId: userId) { storingResult in
                             switch storingResult {
