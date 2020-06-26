@@ -247,7 +247,7 @@ extension Workout {
                 goalEnding = ""
             }
             
-            return partialResult + "\(session.activity?.title ?? "") : \(session.setsDescription)\n"
+            return partialResult + "\(session.activity?.title ?? "") : \(session.shortSetsDescription)\n"
         }
         _ = result.popLast()
         return result

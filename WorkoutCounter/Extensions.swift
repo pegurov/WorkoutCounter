@@ -60,6 +60,14 @@ extension Date {
 
 extension Workout.Session {
     
+    var shortSetsDescription: String {
+        var description = "\(sets.reduce(0){ $0 + $1.count })"
+        if let goal = goal {
+            description += " из \(goal.count)"
+        }
+        return description
+    }
+    
     var setsDescription: String {
         var description: String = ""
         if sets.isEmpty {
