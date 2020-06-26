@@ -42,10 +42,13 @@
                     <navigationItem key="navigationItem" title="Тип активности" id="mKf-sB-cIg">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Ru-1M-AXm">
                             <connections>
-                                <segue destination="eke-nG-sFA" kind="show" id="scg-Np-Dut"/>
+                                <action selector="addTap:" destination="37l-MW-XaB" id="mpK-0S-v6j"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="eke-nG-sFA" kind="show" identifier="add" id="WB5-NR-KaK"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jkW-jf-zl7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

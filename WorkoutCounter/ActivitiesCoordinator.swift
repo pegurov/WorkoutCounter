@@ -10,7 +10,22 @@ final class ActivitiesCoordinator: StoryboardCoordinator<ActivityListViewControl
 
     // MARK: - StoryboardCoordinator -
     override func configureRootViewController(_ controller: ActivityListViewController) {
-        
+        controller.onAddTap = { [weak controller] in
+            if Auth.auth().currentUser?.uid == "WG2gAa0V9lTxkjPYtqkJ6it0K1D2" {
+                controller?.performSegue(withIdentifier: SegueId.add.rawValue, sender: nil)
+            } else {
+                let alert = UIAlertController(
+                    title: "Добавление активности",
+                    message: "Для добавления активности напишите на почту\npashaisthebest@gmail.com\nлибо в Telegram @pegurov",
+                    preferredStyle: .alert
+                )
+                alert.addAction(.init(title: "Telegram", style: .default, handler: { action in
+                    UIApplication.shared.open(URL(string: "https://t.me/pegurov")!, options: [:], completionHandler: nil)
+                }))
+                alert.addAction(.init(title: "Ok", style: .cancel, handler: nil))
+                controller?.present(alert, animated: true, completion: nil)
+            }
+        }
         controller.onPrepareForSegue = { [weak self] segue, _ in
             if let createVC = segue.destination as? ActivityCreateViewController {
                 self?.configureCreateViewController(createVC)

@@ -13,6 +13,13 @@ final class ActivityCell: UITableViewCell, ConfigurableCell {
 
 final class ActivityListViewController: FirebaseListViewController<Activity, ActivityCell> {
     
+    // MARK: - Output
+    var onAddTap: (() -> ())?
+
+    @IBAction func addTap(_ sender: UIBarButtonItem) {
+        onAddTap?()
+    }
+    
     override func signupForUpdates() {
         signupForGoalsUpdates()
     }
