@@ -5,7 +5,7 @@ struct FirebaseData {
     struct User: Codable {
         
         struct Goal: Codable {
-            let count: Int
+            let count: Double
             let activity: String // Activity
             let createdAt: Date
         }
@@ -18,6 +18,7 @@ struct FirebaseData {
     
     struct Activity: Codable {
         let title: String
+        let maxCount: Double?
         
         let createdAt: Date
         let createdBy: String // User
@@ -28,7 +29,7 @@ struct FirebaseData {
         struct Session: Codable {
             
             struct Set: Codable {
-                let count: Int
+                let count: Double
                 let createdAt: Date
             }
             
@@ -55,7 +56,7 @@ final class User {
         let firebaseData: FirebaseData.User.Goal
         
         // Proxies
-        var count: Int { firebaseData.count }
+        var count: Double { firebaseData.count }
         
         // Dependencies
         let activity: Activity?
@@ -97,6 +98,7 @@ final class Activity {
     // Proxies
     var title: String { firebaseData.title }
     var createdAt: Date { firebaseData.createdAt }
+    var maxCount: Double { firebaseData.maxCount ?? Double.greatestFiniteMagnitude }
     
     // Dependencies
     let createdBy: User?
@@ -163,7 +165,7 @@ extension Workout.Session {
         let firebaseData: FirebaseData.Workout.Session.Set
         
         // Proxies
-        var count: Int { firebaseData.count }
+        var count: Double { firebaseData.count }
         var createdAt: Date { firebaseData.createdAt }
     }
 }

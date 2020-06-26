@@ -8,7 +8,7 @@ final class GoalCell: UITableViewCell, ConfigurableCell {
 
     func configure(with object: User.Goal) {
         textLabel?.text = object.activity?.title
-        detailTextLabel?.text = "Количество повторений: \(object.count)"
+        detailTextLabel?.text = "Количество повторений: \(object.count.clean)"
     }
 }
 

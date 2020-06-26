@@ -239,14 +239,6 @@ extension Workout {
     
     var feedDescription: String {
         var result = sessions.reduce(""){ partialResult, session in
-            let totalCount = session.sets.reduce(0, { $0 + $1.count })
-            let goalEnding: String
-            if let goal = session.goal {
-                goalEnding = "/\(goal.count)"
-            } else {
-                goalEnding = ""
-            }
-            
             return partialResult + "\(session.activity?.title ?? "") : \(session.shortSetsDescription)\n"
         }
         _ = result.popLast()

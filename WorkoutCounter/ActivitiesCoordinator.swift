@@ -41,6 +41,7 @@ final class ActivitiesCoordinator: StoryboardCoordinator<ActivityListViewControl
                 controller?.showProgressHUD()
                 let newActivity = FirebaseData.Activity(
                     title: title,
+                    maxCount: Double.greatestFiniteMagnitude,
                     createdAt: Date(),
                     createdBy: Auth.auth().currentUser?.uid ?? ""
                 )

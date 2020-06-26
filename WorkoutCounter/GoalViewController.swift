@@ -21,13 +21,14 @@ final class GoalViewController: UIViewController {
     }
     
     @IBAction func onSaveTap(_ sender: Any) {
-        guard let textCount = countTextField.text, let count = Int(textCount), count > 0 else {
+        guard let activity = goal?.activity ?? activity else { return }
+        guard let textCount = countTextField.text, let count = Double(textCount), count > 0, count < activity.maxCount else {
             return
         }
         
         if let goal = goal {
             save(goal: goal, updatedCount: count)
-        } else if let activity = activity {
+        } else if let activity = self.activity {
             createGoal(activity: activity, count: count)
         }
     }
@@ -49,11 +50,11 @@ final class GoalViewController: UIViewController {
         navigationItem.rightBarButtonItem?.isEnabled = (goal != nil)
         guard let goal = goal else { return }
         
-        countTextField?.text = "\(goal.count)"
+        countTextField?.text = goal.count.clean
         activityLabel?.text = goal.activity?.title
     }
     
-    private func save(goal: User.Goal, updatedCount: Int) {
+    private func save(goal: User.Goal, updatedCount: Double) {
         showProgressHUD()
         
         let updatedGoals: [FirebaseData.User.Goal] = (user.firebaseData.goals ?? []).map { oldGoal in
@@ -82,7 +83,7 @@ final class GoalViewController: UIViewController {
         }
     }
     
-    private func createGoal(activity: Activity, count: Int) {
+    private func createGoal(activity: Activity, count: Double) {
         showProgressHUD()
 
         var updatedGoals = (user.firebaseData.goals ?? [])

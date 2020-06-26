@@ -96,8 +96,14 @@ final class WorkoutViewController: UIViewController {
             title: "Сохранить", style: .default, handler: { [weak self] alert -> Void in
             
             let textField = alertController.textFields![0] as UITextField
-            if let text = textField.text, !text.isEmpty, let intValue = Int(text) {
-                self?.addSetTo(session: session, count: intValue)
+            if
+                let text = textField.text,
+                !text.isEmpty,
+                let numberValue = Double(text),
+                let max = session.activity?.maxCount,
+                numberValue < max, numberValue > 0
+            {
+                self?.addSetTo(session: session, count: numberValue)
             }
         })
         
@@ -107,7 +113,7 @@ final class WorkoutViewController: UIViewController {
         
         alertController.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Повторений"
-            textField.keyboardType = .numberPad
+            textField.keyboardType = .decimalPad
         }
         
         alertController.addAction(saveAction)
@@ -115,7 +121,7 @@ final class WorkoutViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    private func addSetTo(session: Workout.Session, count: Int) {
+    private func addSetTo(session: Workout.Session, count: Double) {
         guard let workout = workout else { return }
         let updatedSessions: [FirebaseData.Workout.Session] = (workout.1.sessions ?? []).map {
             if session.firebaseData.activity == $0.activity {

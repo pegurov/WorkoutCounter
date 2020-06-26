@@ -61,9 +61,9 @@ extension Date {
 extension Workout.Session {
     
     var shortSetsDescription: String {
-        var description = "\(sets.reduce(0){ $0 + $1.count })"
+        var description = "\(sets.reduce(0){ $0 + $1.count }.clean)"
         if let goal = goal {
-            description += " из \(goal.count)"
+            description += " из \(goal.count.clean)"
         }
         return description
     }
@@ -73,18 +73,28 @@ extension Workout.Session {
         if sets.isEmpty {
             description = "0"
         } else if sets.count == 1 {
-            description = "\(sets[0].count)"
+            description = "\(sets[0].count.clean)"
         } else {
-            var totalCount = 0
+            var totalCount = 0.0
             sets.enumerated().forEach { index, set in
-                description += (index == 0 ? "" : "+") + "\(set.count)"
+                description += (index == 0 ? "" : "+") + "\(set.count.clean)"
                 totalCount += set.count
             }
-            description += " = \(totalCount)"
+            description += " = \(totalCount.clean)"
         }
         if let goal = goal {
-            description += " из \(goal.count)"
+            description += " из \(goal.count.clean)"
         }
         return description
+    }
+}
+
+extension Double {
+    var clean: String  {
+        if self - Double(Int(self)) == 0 {
+            return "\(Int(self))"
+        } else {
+            return "\(self)"
+        }
     }
 }
