@@ -162,7 +162,7 @@ final class WorkoutViewController: UIViewController {
     private var activities: [String: FirebaseData.Activity] = [:] // [activityId: Activity]
     private var user: (String, FirebaseData.User)?
     
-    @objc private func subscribeToUpdates() {
+    @objc private func subscribeToUpdates(workutWasCreated: Bool = false) {
         guard workoutSubscription == nil else { return }
 
         let userId: String
@@ -195,7 +195,7 @@ final class WorkoutViewController: UIViewController {
             self?.user = nil
             self?.getUser(userId: userId) { userId, user in
                 self?.user = (userId, user)
-                self?.addSessionsFromGoalsIfNeeded { hasAdded in
+                self?.addSessionsFromGoalsIfNeeded(workoutWasCreated: workutWasCreated) { hasAdded in
                     if hasAdded {
                         self?.unsubscribeFromEverything()
                         self?.subscribeToUpdates()
@@ -222,7 +222,7 @@ final class WorkoutViewController: UIViewController {
                         completion(existingWorkoutId, workout)
                     } else {
                         self?.makeWorkout(userId: userId) { _, _ in
-                            self?.subscribeToUpdates()
+                            self?.subscribeToUpdates(workutWasCreated: true)
                         }
                     }
                 case .failure:
@@ -283,7 +283,8 @@ final class WorkoutViewController: UIViewController {
         }
     }
 
-    private func addSessionsFromGoalsIfNeeded(completion: @escaping (Bool) -> ()) {
+    private func addSessionsFromGoalsIfNeeded(workoutWasCreated: Bool, completion: @escaping (Bool) -> ()) {
+        guard workoutWasCreated else { completion(false); return }
         guard let user = user?.1 else { completion(false); assertionFailure(); return }
         guard let goals = user.goals else { completion(false); assertionFailure(); return }
         guard let workout = workout?.1 else { completion(false); assertionFailure(); return }
