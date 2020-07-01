@@ -13,6 +13,19 @@ final class FeedViewController: UITableViewController {
 
         showProgressHUD()
         subscribeToUpdates()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(unsubscribeFromEverything),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(subscribeToUpdates),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -39,7 +52,7 @@ final class FeedViewController: UITableViewController {
     private var users: [String: FirebaseData.User] = [:]
     private var activities: [String: FirebaseData.Activity] = [:]
     
-    private func subscribeToUpdates() {
+    @objc private func subscribeToUpdates() {
         guard workoutsSubscription == nil else { return }
         
         unsubscribeFromEverything()
@@ -134,7 +147,7 @@ final class FeedViewController: UITableViewController {
     private var usersSubscriptions: [ListenerRegistration] = []
     private var activitiesSubscriptions: [ListenerRegistration] = []
     
-    private func unsubscribeFromEverything() {
+    @objc private func unsubscribeFromEverything() {
         unsubscribeFromUpdates(to: [.workouts, .users, .activities])
     }
     

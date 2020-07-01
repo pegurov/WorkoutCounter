@@ -53,6 +53,19 @@ final class WorkoutViewController: UIViewController {
 
         showProgressHUD()
         subscribeToUpdates()
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(unsubscribeFromEverything),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(subscribeToUpdates),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )   
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -149,7 +162,7 @@ final class WorkoutViewController: UIViewController {
     private var activities: [String: FirebaseData.Activity] = [:] // [activityId: Activity]
     private var user: (String, FirebaseData.User)?
     
-    private func subscribeToUpdates() {
+    @objc private func subscribeToUpdates() {
         guard workoutSubscription == nil else { return }
 
         let userId: String
@@ -325,7 +338,7 @@ final class WorkoutViewController: UIViewController {
     private var userSubscription: ListenerRegistration?
     private var activitiesSubscriptions: [ListenerRegistration] = []
     
-    private func unsubscribeFromEverything() {
+    @objc private func unsubscribeFromEverything() {
         unsubscribeFromUpdates(to: [.workout, .user, .activities])
     }
     

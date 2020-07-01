@@ -35,6 +35,18 @@ final class ProfileViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         createUserSubscription()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(killUserSubscription),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(createUserSubscription),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +83,7 @@ final class ProfileViewController: UIViewController, UITextFieldDelegate {
     }
     
     private var userSubscription: ListenerRegistration?
-    private func createUserSubscription() {
+    @objc private func createUserSubscription() {
         guard userSubscription == nil else { return }
         
         killUserSubscription()
@@ -87,7 +99,7 @@ final class ProfileViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func killUserSubscription() {
+    @objc private func killUserSubscription() {
         userSubscription?.remove()
         userSubscription = nil
     }
