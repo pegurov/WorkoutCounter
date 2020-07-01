@@ -94,7 +94,7 @@ extension Double {
         if self - Double(Int(self)) == 0 {
             return "\(Int(self))"
         } else {
-            return "\(self)"
+            return String(format: "%.2f", self)
         }
     }
 }
