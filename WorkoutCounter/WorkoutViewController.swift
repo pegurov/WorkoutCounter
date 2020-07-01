@@ -145,7 +145,7 @@ final class WorkoutViewController: UIViewController {
     }
     
     // MARK: - Getting all the data
-    private var workout: (String, FirebaseData.Workout)?
+    private var workout: (String, FirebaseData.Workout)? { didSet { updateTitle() } }
     private var activities: [String: FirebaseData.Activity] = [:] // [activityId: Activity]
     private var user: (String, FirebaseData.User)?
     
@@ -373,6 +373,15 @@ final class WorkoutViewController: UIViewController {
             firebaseData: goal,
             activity: makeActivity(id: activityId)
         )
+    }
+    
+    private func updateTitle() {
+        guard let workout = workout?.1 else { return }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d"
+        title = formatter.string(from: workout.createdAt)
+        navigationController?.tabBarItem.title = "Сегодня"
     }
 }
 
