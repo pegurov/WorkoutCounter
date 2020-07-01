@@ -14,4 +14,23 @@ final class SessionCell: UITableViewCell, ConfigurableCell {
 
 final class SessionListViewController: FirebaseListViewController<Workout.Session, SessionCell> {
     
+    // MARK: - Output
+    var onDeleteSession: ((Int) -> ())?
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete:
+            onDeleteSession?(indexPath.row)
+        default:
+            assertionFailure(); break
+        }
+    }
 }

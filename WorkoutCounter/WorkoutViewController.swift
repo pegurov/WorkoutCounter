@@ -53,7 +53,8 @@ final class WorkoutViewController: UIViewController {
 
         showProgressHUD()
         subscribeToUpdates()
-
+        setupEditing()
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(unsubscribeFromEverything),
@@ -65,7 +66,7 @@ final class WorkoutViewController: UIViewController {
             selector: #selector(subscribeToUpdates),
             name: UIApplication.didBecomeActiveNotification,
             object: nil
-        )   
+        )
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,6 +81,26 @@ final class WorkoutViewController: UIViewController {
         unsubscribeFromEverything()
     }
     
+    // MARK: - Editing
+    private func setupEditing() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .edit,
+            target: self,
+            action: #selector(toggleEditingMode)
+        )
+    }
+    
+    @objc private func toggleEditingMode() {
+        guard let tableView = sessionList?.tableView else { return }
+        
+        tableView.setEditing(!tableView.isEditing, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: tableView.isEditing ? .done : .edit,
+            target: self,
+            action: #selector(toggleEditingMode)
+        )
+    }
+    
     // MARK: - NAVIGATION
     var onPrepareForSegue: ((_ segue: UIStoryboardSegue, _ sender: Any?) -> Void)?
     
@@ -92,9 +113,25 @@ final class WorkoutViewController: UIViewController {
                 self?.containerView.isHidden = isEmpty
                 self?.emptyState.isHidden = !isEmpty
             }
+            destination.onDeleteSession = { [weak self] sessionIndex in
+                self?.deleteSession(at: sessionIndex)
+            }
             sessionList = destination
         } else {
             onPrepareForSegue?(segue, sender)
+        }
+    }
+    
+    private func deleteSession(at index: Int) {
+        guard let workout = workout else { return }
+        let updatedSessions = (workout.1.sessions ?? []).enumerated().filter{ $0.offset != index }.map{ $0.element }
+        let updatedWorkout = FirebaseData.Workout(
+            createdBy: workout.1.createdBy,
+            createdAt: workout.1.createdAt,
+            sessions: updatedSessions
+        )
+        Firestore.firestore().upload(object: updatedWorkout, underId: workout.0) { _ in
+// TODO: - Handle error
         }
     }
     
