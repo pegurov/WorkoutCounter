@@ -68,7 +68,7 @@ final class ProfileViewController: UIViewController, UITextFieldDelegate {
             let destination = segue.destination as? GoalsListViewController
         {
             destination.userId = userId
-            destination.onObjectSelected = { [weak self] goal in
+            destination.onObjectSelected = { [weak self] goal, _ in
                 guard let user = self?.user else { return }
                 self?.onGoalSelected?(goal, user)
             }

@@ -85,11 +85,50 @@
                     <connections>
                         <outlet property="containerView" destination="CE0-hV-77n" id="aDq-Si-cDs"/>
                         <outlet property="emptyState" destination="hEW-uK-lfU" id="nRv-n8-Bdm"/>
+                        <segue destination="CXg-nA-a5U" kind="show" identifier="detail" id="jcb-Et-ifR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzz-uJ-x80" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1806" y="1746"/>
+        </scene>
+        <!--Set List View Controller-->
+        <scene sceneID="cz0-f9-ljd">
+            <objects>
+                <tableViewController id="CXg-nA-a5U" customClass="SetListViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="e96-H4-5XT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SetCell" textLabel="dJ1-sd-d4w" style="IBUITableViewCellStyleDefault" id="ETN-Ke-Klw" customClass="SetCell" customModule="WorkoutCounter" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ETN-Ke-Klw" id="b5A-Kt-bcj">
+                                    <rect key="frame" x="0.0" y="0.0" width="293" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dJ1-sd-d4w">
+                                            <rect key="frame" x="16" y="0.0" width="269" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="CXg-nA-a5U" id="cbM-Su-nG3"/>
+                            <outlet property="delegate" destination="CXg-nA-a5U" id="I2V-TI-JEZ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="4ct-Ks-5Qd"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KSO-U2-LGg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2614" y="1745"/>
         </scene>
         <!--Session List View Controller-->
         <scene sceneID="Pn2-YL-vuB">

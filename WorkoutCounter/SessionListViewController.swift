@@ -17,6 +17,12 @@ final class SessionListViewController: FirebaseListViewController<Workout.Sessio
     // MARK: - Output
     var onDeleteSession: ((Int) -> ())?
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.allowsSelectionDuringEditing = true
+    }
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }

@@ -83,7 +83,7 @@ final class WorkoutViewController: UIViewController {
     
     // MARK: - Editing
     private func setupEditing() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .edit,
             target: self,
             action: #selector(toggleEditingMode)
@@ -94,7 +94,7 @@ final class WorkoutViewController: UIViewController {
         guard let tableView = sessionList?.tableView else { return }
         
         tableView.setEditing(!tableView.isEditing, animated: true)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: tableView.isEditing ? .done : .edit,
             target: self,
             action: #selector(toggleEditingMode)
@@ -106,8 +106,8 @@ final class WorkoutViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? SessionListViewController {
-            destination.onObjectSelected = { [weak self] session in
-                self?.showAddSetToSession(session: session)
+            destination.onObjectSelected = { [weak self] session, index in
+                self?.handleSessionSelected(session: session, index: index)
             }
             destination.onUpdateEmptyState = { [weak self] isEmpty in
                 self?.containerView.isHidden = isEmpty
@@ -122,6 +122,31 @@ final class WorkoutViewController: UIViewController {
         }
     }
     
+    private func handleSessionSelected(session: Workout.Session, index: Int) {
+        guard let tableView = sessionList?.tableView else { return }
+        guard let workoutData = workout else { return }
+        
+        let workout = Workout(
+            firebaseData: workoutData.1, remoteId: workoutData.0,
+            createdBy: nil,
+            sessions: (workoutData.1.sessions ?? []).map {
+                Workout.Session(
+                    firebaseData: $0,
+                    activity: makeActivity(id: $0.activity),
+                    goal: makeGoal(activityId: $0.activity)
+                )
+            }
+        )
+        
+        if tableView.isEditing {
+            performSegue(withIdentifier: SegueId.detail.rawValue, sender: (workout, index))
+        } else {
+            showEditSet(activityTitle: session.activity?.title ?? "", maxCount: session.activity?.maxCount) { [weak self] count in
+                self?.addSetTo(session: session, count: count)
+            }
+        }
+    }
+    
     private func deleteSession(at index: Int) {
         guard let workout = workout else { return }
         let updatedSessions = (workout.1.sessions ?? []).enumerated().filter{ $0.offset != index }.map{ $0.element }
@@ -133,42 +158,6 @@ final class WorkoutViewController: UIViewController {
         Firestore.firestore().upload(object: updatedWorkout, underId: workout.0) { _ in
 // TODO: - Handle error
         }
-    }
-    
-    private func showAddSetToSession(session: Workout.Session) {
-        let alertController = UIAlertController(
-            title: session.activity?.title ?? "",
-            message: "Добавить подход",
-            preferredStyle: .alert
-        )
-        
-        let saveAction = UIAlertAction(
-            title: "Сохранить", style: .default, handler: { [weak self] alert -> Void in
-            
-            let textField = alertController.textFields![0] as UITextField
-            if
-                let text = textField.text,
-                !text.isEmpty,
-                let numberValue = Double(text.replacingOccurrences(of: ",", with: ".")),
-                let max = session.activity?.maxCount,
-                numberValue < max, numberValue > 0
-            {
-                self?.addSetTo(session: session, count: numberValue)
-            }
-        })
-        
-        let cancelAction = UIAlertAction(
-            title: "Отмена", style: .cancel, handler: { action -> Void in
-        })
-        
-        alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "Повторений"
-            textField.keyboardType = .decimalPad
-        }
-        
-        alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true, completion: nil)
     }
     
     private func addSetTo(session: Workout.Session, count: Double) {

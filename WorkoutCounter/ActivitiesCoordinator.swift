@@ -5,7 +5,7 @@ final class ActivitiesCoordinator: StoryboardCoordinator<ActivityListViewControl
 
     // MARK: - Output -
     var onFinish: ((_ object: Activity) -> Void)? {
-        didSet { rootViewController.onObjectSelected = onFinish }
+        didSet { rootViewController.onObjectSelected = { [weak self] activity, _ in self?.onFinish?(activity) } }
     }
 
     // MARK: - StoryboardCoordinator -

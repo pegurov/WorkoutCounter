@@ -24,16 +24,31 @@ final class TodayCoordinator: StoryboardCoordinator<WorkoutViewController> {
                 controller?.addSession(activity: activity)
             }
         }
+        controller.onPrepareForSegue = { [weak self] segue, sender in
+            if
+                let detail = segue.destination as? SetListViewController,
+                let (workout, sessionIndex) = sender as? (Workout, Int)
+            {
+                self?.configureSetList(controller: detail, workout: workout, sessionIndex: sessionIndex)
+            } else {
+                assertionFailure()
+            }
+        }
     }
     
     private func chooseActivity(completion: @escaping (Activity) -> ()) {
         activitiesCoordinator = ActivitiesCoordinator(storyboard: .activities, startInNavigation: false)
-        activitiesCoordinator?.onFinish = { [weak self] in
-            completion($0)
+        activitiesCoordinator?.onFinish = { [weak self] activity in
+            completion(activity)
             self?.activitiesCoordinator = nil
         }
         
         guard let root = activitiesCoordinator?.rootViewController else { assertionFailure(); return }
         navigationController?.pushViewController(root, animated: true)
+    }
+    
+    private func configureSetList(controller: SetListViewController, workout: Workout, sessionIndex: Int) {
+        controller.workout = workout
+        controller.sessionIndex = sessionIndex
     }
 }

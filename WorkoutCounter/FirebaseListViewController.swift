@@ -24,7 +24,7 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
 {
     
     // MARK: - Output
-    var onObjectSelected: ((_ object: T) -> Void)?
+    var onObjectSelected: ((_ object: T, _ index: Int) -> Void)?
     var onUpdateEmptyState: ((_ isEmpty: Bool) -> ())?
     var dataSource: [T] = [] { didSet {
         onUpdateEmptyState?(dataSource.count == 0)
@@ -85,7 +85,7 @@ class FirebaseListViewController<T, C: ConfigurableCell>:
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        onObjectSelected?(dataSource[indexPath.row])
+        onObjectSelected?(dataSource[indexPath.row], indexPath.row)
     }
     
     // MARK: - Listening to updates

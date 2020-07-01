@@ -47,6 +47,7 @@
 		C44EDBD51EA7DE3100751707 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBD41EA7DE3100751707 /* ProfileViewController.swift */; };
 		C44EDBDB1EA7DF8800751707 /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBDA1EA7DF8800751707 /* ApplicationCoordinator.swift */; };
 		C44EDBDF1EA7E12200751707 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44EDBDE1EA7E12200751707 /* AuthCoordinator.swift */; };
+		C469CEB524AC8ED800ABB47C /* SetListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C469CEB424AC8ED800ABB47C /* SetListViewController.swift */; };
 		CCB56C0AE0847CACF61BB51E /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88261B3D6EF7EA32A14119C1 /* AssetsLibrary.framework */; };
 		D5566D9F1E9BB34E00503C91 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5566D9E1E9BB34E00503C91 /* AppDelegate.swift */; };
 		D5566DAB1E9BB34E00503C91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5566DAA1E9BB34E00503C91 /* Assets.xcassets */; };
@@ -98,6 +99,7 @@
 		C462F92B1EAA94DE0094962C /* ActivityListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityListViewController.swift; sourceTree = "<group>"; };
 		C462F9341EAA9E280094962C /* StoryboardCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardCoordinator.swift; sourceTree = "<group>"; };
 		C462F9361EAA9E540094962C /* SegueId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueId.swift; sourceTree = "<group>"; };
+		C469CEB424AC8ED800ABB47C /* SetListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetListViewController.swift; sourceTree = "<group>"; };
 		C47D37491EA29FB30047C95F /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		C47D37601EA3366B0047C95F /* UserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCell.xib; sourceTree = "<group>"; };
 		D5566D9B1E9BB34E00503C91 /* WorkoutCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +146,7 @@
 				C40A976224A1D889000CA9C6 /* Today.storyboard */,
 				C40A976424A1D8D9000CA9C6 /* WorkoutViewController.swift */,
 				C40A976824A1D934000CA9C6 /* SessionListViewController.swift */,
+				C469CEB424AC8ED800ABB47C /* SetListViewController.swift */,
 				C40A976624A1D8E5000CA9C6 /* TodayCoordintor.swift */,
 			);
 			name = Today;
@@ -494,6 +497,7 @@
 				C40A976924A1D934000CA9C6 /* SessionListViewController.swift in Sources */,
 				C44EDBDB1EA7DF8800751707 /* ApplicationCoordinator.swift in Sources */,
 				C431500924A1172900DC443A /* ActivitiesCoordinator.swift in Sources */,
+				C469CEB524AC8ED800ABB47C /* SetListViewController.swift in Sources */,
 				C4314FF6249FF01F00DC443A /* Models.swift in Sources */,
 				C4314FEE249FED8700DC443A /* StoryboardCoordinator.swift in Sources */,
 				C40A977424A39E8A000CA9C6 /* FeedViewController.swift in Sources */,

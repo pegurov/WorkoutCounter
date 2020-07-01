@@ -98,3 +98,48 @@ extension Double {
         }
     }
 }
+
+extension UIViewController {
+    
+    func showEditSet(existingCount: Double? = nil, activityTitle: String, maxCount: Double?, completion: @escaping (Double) -> ()) {
+        let alertController = UIAlertController(
+            title: activityTitle,
+            message: "Добавить подход",
+            preferredStyle: .alert
+        )
+        
+        let saveAction = UIAlertAction(
+            title: "Сохранить", style: .default, handler: { alert -> Void in
+            
+            let textField = alertController.textFields![0] as UITextField
+            if
+                let text = textField.text,
+                !text.isEmpty,
+                let numberValue = Double(text.replacingOccurrences(of: ",", with: ".")),
+                numberValue > 0
+            {
+                if let max = maxCount {
+                    if (numberValue < max) { completion(numberValue) }
+                } else {
+                    completion(numberValue)
+                }
+            }
+        })
+        
+        let cancelAction = UIAlertAction(
+            title: "Отмена", style: .cancel, handler: { action -> Void in
+        })
+        
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Повторений"
+            textField.keyboardType = .decimalPad
+            if let existingCount = existingCount {
+                textField.text = existingCount.clean
+            }
+        }
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+}
