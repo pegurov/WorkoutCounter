@@ -149,7 +149,7 @@ final class WorkoutViewController: UIViewController {
             if
                 let text = textField.text,
                 !text.isEmpty,
-                let numberValue = Double(text),
+                let numberValue = Double(text.replacingOccurrences(of: ",", with: ".")),
                 let max = session.activity?.maxCount,
                 numberValue < max, numberValue > 0
             {
