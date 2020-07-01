@@ -12,7 +12,7 @@
             <objects>
                 <navigationController id="I1I-LE-DUM" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mQ0-LC-K57">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <userDefinedRuntimeAttributes>
@@ -27,10 +27,10 @@
             </objects>
             <point key="canvasLocation" x="1028" y="1747"/>
         </scene>
-        <!--Сегодня-->
+        <!--Workout View Controller-->
         <scene sceneID="ApQ-2l-1LT">
             <objects>
-                <viewController id="lra-xS-AZh" customClass="WorkoutViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WorkoutViewController" id="lra-xS-AZh" customClass="WorkoutViewController" customModule="WorkoutCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HNc-8H-FV2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -81,10 +81,12 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="EtE-TR-hhm"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Сегодня" id="vcj-xQ-65h"/>
+                    <navigationItem key="navigationItem" id="vcj-xQ-65h"/>
                     <connections>
+                        <outlet property="addButton" destination="eg1-h3-kd3" id="NHB-YZ-JUX"/>
                         <outlet property="containerView" destination="CE0-hV-77n" id="aDq-Si-cDs"/>
                         <outlet property="emptyState" destination="hEW-uK-lfU" id="nRv-n8-Bdm"/>
+                        <outlet property="labelTitle" destination="r5V-gX-8XO" id="b8N-C8-Yhf"/>
                         <segue destination="CXg-nA-a5U" kind="show" identifier="detail" id="jcb-Et-ifR"/>
                     </connections>
                 </viewController>

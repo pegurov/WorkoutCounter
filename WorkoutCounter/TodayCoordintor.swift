@@ -52,3 +52,22 @@ final class TodayCoordinator: StoryboardCoordinator<WorkoutViewController> {
         controller.sessionIndex = sessionIndex
     }
 }
+
+final class WorkoutCoordinator: StoryboardCoordinator<WorkoutViewController> {
+
+    private let workout: Workout
+    
+    init(
+        storyboard: UIStoryboard,
+        startInNavigation: Bool = true,
+        workout: Workout)
+    {
+        self.workout = workout
+        super.init(storyboard: storyboard, startInNavigation: startInNavigation)
+    }
+    
+    // MARK: - StoryboardCoordinator -
+    override func configureRootViewController(_ controller: WorkoutViewController) {
+        controller.mode = .other(workout.firebaseData)
+    }
+}

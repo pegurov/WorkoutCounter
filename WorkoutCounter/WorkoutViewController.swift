@@ -38,6 +38,8 @@ final class WorkoutViewController: UIViewController {
     // MARK: - User actions
     @IBOutlet weak var emptyState: UILabel!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var labelTitle: UILabel!
     
     @IBAction func addSessionTap(_ sender: UIButton) {
         onAddSession?()
@@ -54,6 +56,7 @@ final class WorkoutViewController: UIViewController {
         showProgressHUD()
         subscribeToUpdates()
         setupEditing()
+        setupView()
         
         NotificationCenter.default.addObserver(
             self,
@@ -83,11 +86,24 @@ final class WorkoutViewController: UIViewController {
     
     // MARK: - Editing
     private func setupEditing() {
+        guard case .today = mode else { return }
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .edit,
             target: self,
             action: #selector(toggleEditingMode)
         )
+    }
+    
+    private func setupView() {
+        switch mode! {
+        case .other:
+            addButton.isHidden = true
+            labelTitle.text = user?.1.name
+        case .today:
+            addButton.isHidden = false
+            labelTitle.text = "Активности"
+        }
     }
     
     @objc private func toggleEditingMode() {
@@ -122,6 +138,12 @@ final class WorkoutViewController: UIViewController {
             }
             destination.onDeleteSession = { [weak self] sessionIndex in
                 self?.deleteSession(at: sessionIndex)
+            }
+            switch mode! {
+            case .other:
+                destination.tableView.allowsSelection = false
+            case .today:
+                destination.tableView.allowsSelection = true
             }
             sessionList = destination
         } else {
@@ -228,6 +250,7 @@ final class WorkoutViewController: UIViewController {
             self?.user = nil
             self?.getUser(userId: userId) { userId, user in
                 self?.user = (userId, user)
+                self?.setupView()
                 self?.addSessionsFromGoalsIfNeeded(workoutWasCreated: workutWasCreated) { hasAdded in
                     if hasAdded {
                         self?.unsubscribeFromEverything()

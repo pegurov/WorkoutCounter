@@ -3,6 +3,9 @@ import Firebase
 
 final class FeedViewController: UITableViewController {
     
+    // MARK: - Output
+    var onWorkoutSelected: ((Workout) -> ())?
+    
     // MARK: - Private impl
     private var sections: [(String, [Workout])] = []
     
@@ -242,7 +245,16 @@ final class FeedViewController: UITableViewController {
         let workout = sections[indexPath.section].1[indexPath.row]
         cell.textLabel?.text = workout.createdBy?.name ?? workout.createdBy?.remoteId
         cell.detailTextLabel?.text = workout.feedDescription
+        cell.accessoryType = (workout.sessions.count > 0) ? .disclosureIndicator : .none
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let workout = sections[indexPath.section].1[indexPath.row]
+        guard workout.sessions.count > 0 else { return }
+        
+        onWorkoutSelected?(sections[indexPath.section].1[indexPath.row])
     }
 }
 

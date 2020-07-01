@@ -24,8 +24,15 @@ final class SessionListViewController: FirebaseListViewController<Workout.Sessio
         tableView.tableFooterView = UIView()
     }
     
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        cell.accessoryType = tableView.allowsSelection ? .disclosureIndicator : .none
+        cell.selectionStyle = tableView.allowsSelection ? .default : .none
+        return cell
+    }
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return tableView.allowsSelection
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
