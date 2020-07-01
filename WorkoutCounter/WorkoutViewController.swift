@@ -99,6 +99,13 @@ final class WorkoutViewController: UIViewController {
             target: self,
             action: #selector(toggleEditingMode)
         )
+        tableView.tableFooterView = tableView.isEditing
+            ? makeEditingHintView()
+            : UIView()
+    }
+    
+    private func makeEditingHintView() -> UIView {
+        return Bundle.main.loadNibNamed("WorkoutEditingHintView", owner: self, options: nil)?.first as! UIView
     }
     
     // MARK: - NAVIGATION

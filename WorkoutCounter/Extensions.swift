@@ -104,7 +104,7 @@ extension UIViewController {
     func showEditSet(existingCount: Double? = nil, activityTitle: String, maxCount: Double?, completion: @escaping (Double) -> ()) {
         let alertController = UIAlertController(
             title: activityTitle,
-            message: "Добавить подход",
+            message: "\(existingCount == nil ? "Добавить" : "Изменить") подход",
             preferredStyle: .alert
         )
         

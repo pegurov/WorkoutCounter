@@ -25,6 +25,7 @@ final class GoalsListViewController: FirebaseListViewController<User.Goal, GoalC
             UINib(nibName: "GoalCell", bundle: .main),
             forCellReuseIdentifier: GoalCell.identifier
         )
+        tableView.tableFooterView = UIView()
     }
     
     override func signupForUpdates() {

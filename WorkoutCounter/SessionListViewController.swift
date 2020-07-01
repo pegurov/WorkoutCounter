@@ -21,6 +21,7 @@ final class SessionListViewController: FirebaseListViewController<Workout.Sessio
         super.viewDidLoad()
         
         tableView.allowsSelectionDuringEditing = true
+        tableView.tableFooterView = UIView()
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
